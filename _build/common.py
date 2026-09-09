@@ -58,12 +58,12 @@ def head(title, desc, here, depth, og="og.jpg", extra=""):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{BASE}/assets/img/{og}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#080d0e">
+<meta name="theme-color" content="#1a6969">
 <link rel="icon" href="{r}assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="{r}assets/img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Noto+Serif+JP:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="{r}assets/css/style.css?v={CSS_V}">
 {extra}</head>
 <body>

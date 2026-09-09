@@ -12,13 +12,13 @@
 <meta property="og:description" content="郡山市を拠点に、業務用エアコンの販売・設置工事、LED照明、防犯カメラ、複合機の導入までを一貫して承ります。見積りは無料。株式会社パーソンライト。">
 <meta property="og:image" content="https://nextrayjp.github.io/personright-demo/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#080d0e">
+<meta name="theme-color" content="#1a6969">
 <link rel="icon" href="assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Noto+Serif+JP:wght@400;600&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=a6b8623b">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css?v=88c2321d">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Organization", "name": "株式会社パーソンライト", "alternateName": "Person right", "url": "https://nextrayjp.github.io/personright-demo/", "logo": "https://nextrayjp.github.io/personright-demo/assets/img/logo.svg", "telephone": "+81-24-983-0294", "faxNumber": "+81-24-983-0295", "foundingDate": "2022-12-28", "address": {"@type": "PostalAddress", "addressCountry": "JP", "addressRegion": "福島県", "addressLocality": "郡山市", "streetAddress": "安積町日出山2-43", "postalCode": "963-0101"}, "sameAs": ["https://www.instagram.com/personright501/"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "株式会社パーソンライト", "url": "https://nextrayjp.github.io/personright-demo/"}]</script>
 </head>
 <body>
@@ -55,10 +55,16 @@
 
 <!-- ============================================================ 静 -->
 <section class="still">
+  <div class="still__ph" aria-hidden="true">
+    <picture>
+      <source media="(max-width:720px)" srcset="./assets/img/hero-sp.jpg">
+      <img src="./assets/img/hero.jpg" alt="" width="1600" height="771" fetchpriority="high">
+    </picture>
+  </div>
   <canvas class="still__field" id="air" aria-hidden="true"></canvas>
   <div class="still__vig" aria-hidden="true"></div>
   <div class="wrap still__in">
-    <span class="still__lab">Service &amp; Contribution — Koriyama, Fukushima</span>
+    <span class="still__lab">SERVICE &amp; CONTRIBUTION — KORIYAMA, FUKUSHIMA</span>
     <h1 class="still__h">
       <i>空気は、目に見えない。</i>
       <i>だから、最後まで見る。</i>
@@ -185,7 +191,7 @@
 </section>
 
 <!-- ============================================ 仕組み（断面図） -->
-<section class="sec dark" id="how" style="background:var(--sumi-2)">
+<section class="sec dark" id="how">
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">How it works</span>
@@ -200,82 +206,82 @@
   <desc id="roomD">天井カセット形の室内機から冷たい空気が四方に降り、室内で暖まった空気が中央を上がって室内機へ戻る。熱は天井裏の冷媒配管を通って屋外の室外機から捨てられる。</desc>
 
   <!-- 建物 -->
-  <g stroke="#3f5354" stroke-width="1">
+  <g stroke="#1a6969" stroke-width="1">
     <path d="M40 44 H470 V376 H40 Z"/>
     <path d="M40 92 H470" stroke-dasharray="3 4" opacity=".75"/>
     <path d="M40 376 H620"/>
     <path d="M470 44 V376"/>
   </g>
-  <text x="52" y="72" fill="#6f7d7d" font-size="10.5" letter-spacing="2.4">天井裏</text>
-  <text x="486" y="72" fill="#6f7d7d" font-size="10.5" letter-spacing="2.4">屋外</text>
+  <text x="52" y="72" fill="#4e625f" font-size="10.5" letter-spacing="2.4">天井裏</text>
+  <text x="486" y="72" fill="#4e625f" font-size="10.5" letter-spacing="2.4">屋外</text>
 
   <!-- 室内機（天井カセット形） -->
-  <g stroke="#d9975f" stroke-width="1.4">
+  <g stroke="#f0a933" stroke-width="1.4">
     <path d="M212 92 H298 V116 H212 Z"/>
     <path d="M226 116 V124 M255 116 V126 M284 116 V124"/>
   </g>
-  <circle cx="255" cy="104" r="2.2" fill="#d9975f"/>
+  <circle cx="255" cy="104" r="2.2" fill="#f0a933"/>
 
   <!-- 冷たい空気：室内機から四方へ降りる -->
-  <g stroke="#79b1ae" stroke-width="1.2" stroke-linecap="round">
+  <g stroke="#2ea294" stroke-width="1.2" stroke-linecap="round">
     <path d="M212 118 C170 138 140 190 136 262" opacity=".9"/>
     <path d="M212 118 C182 148 162 200 160 268" opacity=".55"/>
     <path d="M298 118 C340 138 370 190 374 262" opacity=".9"/>
     <path d="M298 118 C328 148 348 200 350 268" opacity=".55"/>
   </g>
-  <g fill="#79b1ae">
+  <g fill="#2ea294">
     <path d="M136 268 l4.6 -9 h-9.2 Z"/>
     <path d="M374 268 l4.6 -9 h-9.2 Z"/>
   </g>
 
   <!-- 暖かい空気：中央を上がって戻る -->
-  <g stroke="#d9975f" stroke-width="1.2" stroke-linecap="round">
+  <g stroke="#f0a933" stroke-width="1.2" stroke-linecap="round">
     <path d="M232 330 C238 268 244 200 248 130" opacity=".85"/>
     <path d="M278 330 C274 268 268 200 262 130" opacity=".85"/>
     <path d="M255 336 C255 300 255 280 255 258" opacity=".4"/>
   </g>
-  <g fill="#d9975f">
+  <g fill="#f0a933">
     <path d="M248 130 l-4.6 9 h9.2 Z" transform="rotate(180 248 134)"/>
     <path d="M262 130 l-4.6 9 h9.2 Z" transform="rotate(180 262 134)"/>
   </g>
 
   <!-- 人がいる高さ -->
-  <g stroke="#3f5354" stroke-width="1" stroke-dasharray="2 5">
+  <g stroke="#1a6969" stroke-width="1" stroke-dasharray="2 5">
     <path d="M60 300 H450"/>
   </g>
-  <text x="60" y="292" fill="#6f7d7d" font-size="10" letter-spacing="2">人のいる高さ</text>
+  <text x="60" y="292" fill="#4e625f" font-size="10" letter-spacing="2">人のいる高さ</text>
 
   <!-- 冷媒配管：天井裏 → 壁 → 室外機 -->
-  <g stroke="#79b1ae" stroke-width="1.6">
+  <g stroke="#2ea294" stroke-width="1.6">
     <path d="M298 100 H438 C452 100 458 106 458 120 V244"/>
   </g>
-  <g stroke="#d9975f" stroke-width="1.6">
+  <g stroke="#f0a933" stroke-width="1.6">
     <path d="M458 244 H520"/>
   </g>
 
   <!-- ドレン -->
-  <g stroke="#5f8f8f" stroke-width="1.1" stroke-dasharray="4 3">
+  <g stroke="#5ec4b0" stroke-width="1.1" stroke-dasharray="4 3">
     <path d="M212 104 H120 C108 104 104 110 104 122 V352 H470"/>
   </g>
 
   <!-- 室外機 -->
-  <g stroke="#d9975f" stroke-width="1.4">
+  <g stroke="#f0a933" stroke-width="1.4">
     <path d="M520 224 H612 V320 H520 Z"/>
     <path d="M520 300 H612"/>
   </g>
-  <g stroke="#d9975f" stroke-width="1.1" opacity=".9">
+  <g stroke="#f0a933" stroke-width="1.1" opacity=".9">
     <circle cx="566" cy="262" r="24"/>
     <path d="M566 238 A24 24 0 0 1 585 274"/>
     <path d="M566 286 A24 24 0 0 1 547 250"/>
   </g>
   <!-- 捨てられる熱 -->
-  <g stroke="#d9975f" stroke-width="1.1" stroke-linecap="round" opacity=".7">
+  <g stroke="#f0a933" stroke-width="1.1" stroke-linecap="round" opacity=".7">
     <path d="M622 250 C636 246 640 240 636 232"/>
     <path d="M622 266 C640 262 646 254 640 244"/>
   </g>
 
   <!-- 番号 -->
-  <g font-size="10.5" letter-spacing="1.6" fill="#d9975f" font-family="Jost, sans-serif">
+  <g font-size="10.5" letter-spacing="1.6" fill="#f0a933" font-family="Jost, sans-serif">
     <text x="304" y="88">01</text>
     <text x="400" y="116">02</text>
     <text x="524" y="216">03</text>
@@ -461,6 +467,6 @@
   <button class="btn" type="button" popovertarget="demoNote" popovertargetaction="hide">閉じる</button>
 </div>
 
-<script src="./assets/js/main.js?v=967c4480" defer></script>
+<script src="./assets/js/main.js?v=c5109f54" defer></script>
 </body>
 </html>

@@ -100,7 +100,7 @@
 
     /* 冷 #2f7275 → 温 #b8663a。値をそのまま色にする */
     function tint(v, a) {
-      var c1 = [58, 122, 124], c2 = [216, 152, 96];
+      var c1 = [94, 196, 176], c2 = [255, 213, 74];
       var k = Math.pow(Math.min(Math.max(v, 0), 1), 0.85);
       return 'rgba(' +
         Math.round(c1[0] + (c2[0] - c1[0]) * k) + ',' +
@@ -224,10 +224,11 @@
         t = t < 0 ? 0 : (t > 1 ? 1 : t);
         /* 1.35乗 … 暖かい色は芯だけに残る。面のほとんどは冷たい側でいい */
         var k = Math.pow(t, 1.35);
-        d[i * 4]     = Math.round( 20 + (198 -  20) * k);
-        d[i * 4 + 1] = Math.round( 76 + (124 -  76) * k);
-        d[i * 4 + 2] = Math.round( 82 + ( 72 -  82) * k);
-        d[i * 4 + 3] = Math.round((0.045 + k * 0.26) * 255);
+        d[i * 4]     = Math.round( 46 + (240 -  46) * k);
+        d[i * 4 + 1] = Math.round(162 + (169 - 162) * k);
+        d[i * 4 + 2] = Math.round(148 + ( 51 - 148) * k);
+        /* ⚠️ 下に写真がある。面を濃くすると写真が消えるので、ごく薄く */
+        d[i * 4 + 3] = Math.round((0.02 + k * 0.13) * 255);
       }
       ox.putImageData(buf, 0, 0);
       cx.save();
@@ -249,7 +250,7 @@
         var v = n / (LEVELS.length - 1);
         /* 内側（温かい側）ほど濃く、太く */
         cx.lineWidth = 0.62 + v * 0.86;
-        cx.strokeStyle = tint(v, 0.16 + v * 0.40);
+        cx.strokeStyle = tint(v, 0.15 + v * 0.40);
         contour(lv);
       }
     }
