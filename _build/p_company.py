@@ -168,7 +168,7 @@ def build():
       <span class="lead__en">Staff</span>
       <h2 class="lead__ja">スタッフ紹介</h2>
       <div class="rule"></div>
-      <p class="lead__note">環境部・通信機器部・工事部・総務。それぞれの持ち場で、同じ看板を背負っています。</p>
+      <p class="lead__note">環境部・通信機器部・工事部・総務の4部門です。</p>
     </div>
     <div class="stfs">
 {staff}

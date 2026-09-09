@@ -2,8 +2,8 @@
 """採用情報 /recruit/ と求人4本"""
 from common import head, header, phero, cta, footer, jsonld, TEL, TEL_RAW
 
-COMMON_OTHER_NEW = "創業したばかりの新しい会社ではありますが、急成長・事業拡大を目指しています。一緒に頑張ってくれる人材を募集します。"
-COMMON_OTHER_R4 = "令和4年12月に法人設立したばかりの会社です。急成長・事業拡大を目指しています。一緒に頑張ってくれる人材を募集します。"
+COMMON_OTHER_NEW = "2022年12月に法人化したばかりの会社です。営業も工事も、これから形を作る人を探しています。"
+COMMON_OTHER_R4 = "令和4年12月に法人化したばかりの会社です。営業も工事も、これから形を作る人を探しています。"
 
 SALES_WORK = """<p>空調設備機器、LED照明等の環境商材の販売を行っていただきます。</p>
 <ul class="dots">
@@ -136,7 +136,7 @@ def build_index():
       <span class="lead__en">Openings</span>
       <h2 class="lead__ja">募集中の職種</h2>
       <div class="rule"></div>
-      <p class="lead__note">環境商材の販売、エアコンの取付工事、テレフォンアポイント。4つの持ち場で仲間を探しています。</p>
+      <p class="lead__note">営業・エアコン設備工事・テレフォンアポインター・管理職責任者。4つの職種で募集しています。</p>
     </div>
     <div class="jobs">
 {cards}

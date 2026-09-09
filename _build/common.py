@@ -139,7 +139,7 @@ def cta(depth, bg="office-front.jpg"):
     <div class="cta__l">
       <span class="cta__en">CONTACT</span>
       <h2 class="cta__t">まずは、いまの一台を<br>見せてください</h2>
-      <p class="cta__d">機種の選定から設置工事、その後のメンテナンスまで、当社のスタッフが一貫して伺います。見積りは無料です。電気代が気になる、古い機種を入れ替えたい、防犯カメラを検討している ── どれでも構いません。</p>
+      <p class="cta__d">いまお使いの機種の型番と、部屋の広さが分かれば見積りが出ます。無料です。電気代が気になる、古い機種を入れ替えたい、防犯カメラを検討している ── どれでも構いません。</p>
     </div>
     <div class="cta__r">
       <div class="cta__way">

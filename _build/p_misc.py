@@ -32,7 +32,7 @@ def contact():
     return head(title, desc, "contact", 1, extra=jsonld(1)) + header("contact", 1) + f"""
 <main id="main">
 """ + phero("Contact Us", "お問い合わせ",
-            "ご質問や資料請求等ございましたら、下記メールフォームよりご連絡ください。後日、担当よりご連絡させていただきます。",
+            "ご質問・資料請求は下のフォームからお送りください。後日、担当より連絡します。",
             "office-front.jpg", "福島県郡山市安積町日出山にある本社の外観", [("お問い合わせ", "")], 1) + f"""
 
 <section class="sec--tight">

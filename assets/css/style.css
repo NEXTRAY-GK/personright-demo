@@ -54,7 +54,7 @@
   --narrow:760px;
 
   --en-xl:clamp(38px,7.2vw,106px);   /* 節の欧文 ── 主役。15文字（AIR CONDITIONER）が1行に収まる幅 */
-  --h1:clamp(28px,4.6vw,62px);
+  --h1:clamp(30px,5.2vw,70px);
   --h2:clamp(19px,2.2vw,28px);
   --h3:clamp(17px,1.7vw,20px);
 }
@@ -161,6 +161,7 @@ b,strong{font-weight:700}
 .lead__note{
   grid-column:2;grid-row:2;align-self:start;
   color:var(--ink-2);font-size:14.5px;line-height:2.1;margin:.9em 0 0;
+  text-wrap:pretty;
 }
 .on-dark .lead__note{color:var(--snow-2)}
 .lead--l{grid-template-columns:1fr}
@@ -221,8 +222,8 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   background:transparent;transition:background .4s ease,padding .4s ease;
 }
 .head.is-min{
-  background:rgba(7,48,46,.9);
-  -webkit-backdrop-filter:saturate(150%) blur(14px);backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(7,48,46,.82);
+  -webkit-backdrop-filter:saturate(160%) blur(20px);backdrop-filter:saturate(160%) blur(20px);
   padding-block:11px;
 }
 .head__logo{flex:none;line-height:0;padding-block:8px}
@@ -304,10 +305,11 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   font-size:12px;letter-spacing:.3em;color:var(--gold);
   padding-bottom:10px;border-bottom:1px solid rgba(204,187,137,.5);margin-bottom:clamp(26px,4vh,44px);
 }
-.hero__h{font-weight:700;font-size:var(--h1);line-height:1.36;letter-spacing:.02em;margin:0}
+.hero__h{font-weight:700;font-size:var(--h1);line-height:1.3;letter-spacing:.01em;margin:0}
 .hero__h i{display:block;font-style:normal}
-.hero__h i:nth-child(3){color:var(--gold);margin-top:.12em}
-.hero__sub{margin-top:clamp(26px,3.6vh,42px);font-size:15.5px;line-height:2.1;color:rgba(255,255,255,.86);max-width:31em}
+.hero__h i:last-child{color:var(--gold);margin-top:.1em}
+.hero__sub{margin-top:clamp(26px,3.6vh,42px);font-size:15.5px;line-height:2.1;color:rgba(255,255,255,.86);
+  max-width:29em;text-wrap:pretty}
 .hero__acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(30px,4.2vh,48px)}
 .hero__foot{
   position:absolute;left:0;right:0;bottom:0;z-index:2;
@@ -367,7 +369,7 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
 .biz__t small{font-family:var(--en);font-weight:700;font-size:10.5px;letter-spacing:.2em;color:var(--gold)}
 .biz__l{display:flex;flex-wrap:wrap;margin-top:var(--gut);gap:2px 0;max-width:34em}
 .biz__l li{font-size:13px;color:var(--snow-2);line-height:1.95;position:relative;padding-right:14px;margin-right:4px}
-.biz__l li::after{content:"／";position:absolute;right:-1px;color:var(--gold);opacity:.55}
+.biz__l li::after{content:"／";position:absolute;right:-1px;color:var(--gold);opacity:.34}
 .biz__l li:last-child{padding-right:0;margin-right:0}
 .biz__l li:last-child::after{display:none}
 .biz__d{margin-top:16px;color:var(--snow-2);font-size:14px;line-height:1.95;max-width:34em}
@@ -390,7 +392,7 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
 /* 数字 ── 主と従をつける。70% だけ極端に大きく */
 .figs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
   gap:clamp(28px,4.4vw,72px);align-items:end;margin-top:clamp(40px,5vw,80px)}
-.figs__hero .figs__v{font-size:clamp(88px,15vw,220px);line-height:.8;letter-spacing:-.035em;color:#fff;margin:0}
+.figs__hero .figs__v{font-size:clamp(88px,15vw,220px);line-height:.78;letter-spacing:-.045em;color:#fff;margin:0}
 .figs__hero .figs__v small{font-size:.22em;letter-spacing:.02em;margin-left:.1em;color:var(--gold);vertical-align:top;line-height:1}
 .figs__hero .figs__l{display:block;font-size:12.5px;letter-spacing:.14em;color:var(--gold);margin-bottom:14px}
 .figs__hero .figs__d{display:block;margin-top:14px;font-size:14px;line-height:1.9;color:var(--snow-2)}
