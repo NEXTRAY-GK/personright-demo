@@ -287,7 +287,6 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
     linear-gradient(90deg,rgba(8,49,49,.72) 0%,rgba(8,49,49,.34) 52%,rgba(8,49,49,.16) 100%),
     linear-gradient(180deg,rgba(8,49,49,.5) 0%,transparent 26%,transparent 66%,rgba(8,49,49,.44) 100%);
 }
-.still__scroll{display:none}
 .still__in{position:relative;z-index:2}
 .still__lab{
   display:block;font-family:var(--en);font-weight:700;

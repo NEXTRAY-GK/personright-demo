@@ -200,7 +200,6 @@ def build():
       <a class="btn btn--onDark" href="./contact/">無料で見積りを頼む</a>
     </div>
   </div>
-  <span class="still__scroll" aria-hidden="true">SCROLL</span>
 </section>
 
 <!-- ============================================== 取り扱いメーカー -->
