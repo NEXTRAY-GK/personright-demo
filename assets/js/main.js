@@ -88,6 +88,12 @@
     var cx = cv.getContext('2d');
     var W = 0, H = 0, cols = 0, rows = 0, cw = 0, ch = 0;
     var grid = null, srcs = [], raf = 0, t0 = 0, lastDraw = 0;
+    /* カーソルの下は、少しだけ暖かい（手をかざしたときの感じ） */
+    var hand = { x: .5, y: .5, tx: .5, ty: .5, w: 0, on: 0 };
+    /* 温度そのものを面で置くための、粗い1枚（格子と同じ寸法。拡大してにじませる） */
+    var off = document.createElement('canvas');
+    var ox = off.getContext('2d');
+    var buf = null;
 
     /* 等温線の高さ。細かく刻んで、地形図のように読ませる */
     var LEVELS = [0.10, 0.16, 0.22, 0.28, 0.35, 0.42, 0.49, 0.57, 0.65, 0.73, 0.82, 0.91, 1.00];
@@ -121,7 +127,7 @@
       /* 熱源。1つは冷たい吹き出し（負）にして、流れの向きを作る */
       srcs = [
         { x: .22, y: .40, r: .40, w:  1.00, ax: .085, ay: .050, sx: .000041, sy: .000063, px: 0.0, py: 1.9 },
-        { x: .68, y: .30, r: .34, w:  0.78, ax: .105, ay: .075, sx: .000029, sy: .000047, px: 2.1, py: 0.4 },
+        { x: .72, y: .38, r: .30, w:  0.66, ax: .105, ay: .075, sx: .000029, sy: .000047, px: 2.1, py: 0.4 },
         { x: .50, y: .78, r: .46, w:  0.62, ax: .130, ay: .045, sx: .000023, sy: .000071, px: 4.0, py: 3.1 },
         { x: .88, y: .66, r: .30, w: -0.52, ax: .070, ay: .090, sx: .000037, sy: .000031, px: 1.2, py: 5.2 }
       ];
@@ -139,6 +145,20 @@
         sr.push(s.r * s.r);
         sw.push(s.w);
       }
+      /* カーソル ── 目標へゆっくり寄る。離れたら静かに消える */
+      hand.x += (hand.tx - hand.x) * 0.055;
+      hand.y += (hand.ty - hand.y) * 0.055;
+      hand.w += ((hand.on ? 0.58 : 0) - hand.w) * 0.045;
+      if (hand.w > 0.004) {
+        sx.push(hand.x); sy.push(hand.y); sr.push(0.046); sw.push(hand.w);
+      }
+
+      /* 下ほど暖かい ── ⚠️ 縦長の画面では効きすぎて、下半分が銅一色になる */
+      var warm = H > W * 1.2 ? 0.13 : 0.24;
+
+      /* 呼吸 ── 場ぜんぶが、ごくゆっくり上下する。線が湧いて、消える */
+      var breath = Math.sin(now * 0.000115) * 0.021 + Math.sin(now * 0.000047 + 1.7) * 0.013;
+
       for (j = 0; j <= rows; j++) {
         var v = j / rows;
         for (i = 0; i <= cols; i++) {
@@ -148,7 +168,7 @@
             sum += sw[m] * Math.exp(-(dx * dx + dy * dy) / sr[m]);
           }
           /* 下ほど暖かい（暖気は上へ、という当たり前を絵にする） */
-          grid[k++] = sum + v * 0.30;
+          grid[k++] = sum + v * warm + breath;
         }
       }
     }
@@ -188,17 +208,48 @@
       cx.stroke();
     }
 
+    /* 温度の面 ── 格子の値をそのまま色にして、引き伸ばしてにじませる。
+       サーモグラフィと同じ絵。線だけより、空気の在り処がはっきりする。 */
+    function heat() {
+      var bw = cols + 1, bh = rows + 1, n = bw * bh, i;
+      if (!buf || buf.width !== bw || buf.height !== bh) {
+        off.width = bw; off.height = bh;
+        buf = ox.createImageData(bw, bh);
+      }
+      var d = buf.data;
+      /* ⚠️ 縦長では横の距離が縮み、熱源が画面いっぱいに広がる。面の濃さで釣り合いを取る */
+      var narrow = H > W * 1.2 ? 0.60 : 0.80;
+      for (i = 0; i < n; i++) {
+        var t = grid[i] * narrow;
+        t = t < 0 ? 0 : (t > 1 ? 1 : t);
+        /* 1.35乗 … 暖かい色は芯だけに残る。面のほとんどは冷たい側でいい */
+        var k = Math.pow(t, 1.35);
+        d[i * 4]     = Math.round( 20 + (198 -  20) * k);
+        d[i * 4 + 1] = Math.round( 76 + (124 -  76) * k);
+        d[i * 4 + 2] = Math.round( 82 + ( 72 -  82) * k);
+        d[i * 4 + 3] = Math.round((0.045 + k * 0.26) * 255);
+      }
+      ox.putImageData(buf, 0, 0);
+      cx.save();
+      cx.imageSmoothingEnabled = true;
+      cx.imageSmoothingQuality = 'high';
+      cx.filter = 'blur(' + Math.max(6, W / 150) + 'px)';
+      cx.drawImage(off, 0, 0, W, H);
+      cx.restore();
+    }
+
     function draw(now) {
       if (!grid) return;
       field(now);
       cx.clearRect(0, 0, W, H);
+      heat();
       cx.lineCap = 'round';
       for (var n = 0; n < LEVELS.length; n++) {
         var lv = LEVELS[n];
         var v = n / (LEVELS.length - 1);
         /* 内側（温かい側）ほど濃く、太く */
-        cx.lineWidth = 0.6 + v * 0.7;
-        cx.strokeStyle = tint(v, 0.10 + v * 0.26);
+        cx.lineWidth = 0.62 + v * 0.86;
+        cx.strokeStyle = tint(v, 0.16 + v * 0.40);
         contour(lv);
       }
     }
@@ -210,10 +261,28 @@
       draw(t0 + now);
     }
 
+    var tries = 0;
     function start() {
-      if (!build()) return;
+      if (!build()) {
+        /* ⚠️ 幅が 0 のまま呼ばれることがある（隠れた枠の中で開いたときなど）。
+           そこで諦めると線が1本も出ない。寸法が出るまで待つ。 */
+        if (tries++ < 180) requestAnimationFrame(start);
+        return;
+      }
       if (still) { draw(9000); }         /* 止める設定 … 良い一枚を描いて終わり */
       else if (!raf) { raf = requestAnimationFrame(loop); }
+    }
+
+    /* 触れる端末では効かせない（指だと、線が指の下に隠れて意味が無い） */
+    if (!still && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      window.addEventListener('pointermove', function (e) {
+        var r = cv.getBoundingClientRect();
+        if (e.clientY < r.top || e.clientY > r.bottom) { hand.on = 0; return; }
+        hand.tx = (e.clientX - r.left) / (r.width  || 1);
+        hand.ty = (e.clientY - r.top)  / (r.height || 1);
+        hand.on = 1;
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () { hand.on = 0; }, { passive: true });
     }
 
     t0 = 9000;                            /* 最初から絵になっている位相から始める */
@@ -222,7 +291,11 @@
     var rt;
     function rebuild() {
       clearTimeout(rt);
-      rt = setTimeout(function () { if (build() && still) draw(9000); }, 180);
+      rt = setTimeout(function () {
+        if (!build()) return;
+        if (still) draw(9000);
+        else if (!raf) raf = requestAnimationFrame(loop);
+      }, 180);
     }
     window.addEventListener('resize', rebuild);
     window.addEventListener('load', rebuild);

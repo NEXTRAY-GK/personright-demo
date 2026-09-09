@@ -182,17 +182,17 @@ def build():
     <div class="figs rise">
       <div class="figs__i">
         <span class="figs__l">省エネ最新エアコンに交換すると</span>
-        <p class="figs__v num">70<small>%</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:70"><i>70</i></span><small>%</small></p>
         <span class="figs__d">消費電力を最大で削減</span>
       </div>
       <div class="figs__i">
         <span class="figs__l">15年前の機種より</span>
-        <p class="figs__v num">65<small>%</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:65"><i>65</i></span><small>%</small></p>
         <span class="figs__d">消費電力を削減</span>
       </div>
       <div class="figs__i">
         <span class="figs__l">18年前の機種より</span>
-        <p class="figs__v num">80<small>%</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:80"><i>80</i></span><small>%</small></p>
         <span class="figs__d">消費電力を削減</span>
       </div>
     </div>

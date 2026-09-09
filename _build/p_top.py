@@ -187,7 +187,7 @@ def build():
           <p class="card__more"><a class="tlink" href="./reviews/{i}/">この声を読む</a></p>
         </article>""" for t, who, i, d in VOICE)
 
-    ticks = "".join("<i></i>" for _ in range(13))
+    ticks = "".join(f'<i style="--i:{k}"></i>' for k in range(13))
 
     return head(TITLE, DESC, "", 0, extra=jsonld(0, [{
         "@context": "https://schema.org", "@type": "WebSite",
@@ -253,22 +253,22 @@ def build():
     <div class="figs rise">
       <div class="figs__i">
         <span class="figs__l">最新の省エネ機種に替えると</span>
-        <p class="figs__v num">70<small>%</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:70"><i>70</i></span><small>%</small></p>
         <span class="figs__d">消費電力を最大で削減できます</span>
       </div>
       <div class="figs__i">
         <span class="figs__l">取り扱いメーカー</span>
-        <p class="figs__v num">5<small>社</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:5"><i>5</i></span><small>社</small></p>
         <span class="figs__d">ダイキン・三菱電機・日立<br>東芝・パナソニック</span>
       </div>
       <div class="figs__i">
         <span class="figs__l">業務用エアコン</span>
-        <p class="figs__v num">7<small>年</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:7"><i>7</i></span><small>年</small></p>
         <span class="figs__d">保証サービス。<br>年間メンテナンスも承ります</span>
       </div>
       <div class="figs__i">
         <span class="figs__l">初期費用</span>
-        <p class="figs__v num">0<small>円</small></p>
+        <p class="figs__v num"><span class="tick" style="--to:0"><i>0</i></span><small>円</small></p>
         <span class="figs__d">リースなら、まとまった資金を<br>用意せずに導入できます</span>
       </div>
     </div>
