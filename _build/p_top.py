@@ -146,14 +146,12 @@ def room_svg():
 
 
 def build():
-    biz = "\n".join(f"""      <div class="biz__i rise">
-        <span class="biz__n">{n}</span>
-        <h3 class="biz__t">{ja}<small>{en}</small></h3>
-        <div>
-          <ul class="biz__l">{''.join(f'<li>{x}</li>' for x in items)}</ul>
-          <p class="biz__d">{d}</p>
-        </div>
-      </div>""" for n, ja, en, items, d in BIZ)
+    biz = "\n".join(f"""      <article class="biz__i rise">
+        <span class="biz__n" aria-hidden="true">{n}</span>
+        <h3 class="biz__t"><small>{en}</small>{ja}</h3>
+        <ul class="biz__l">{''.join(f'<li>{x}</li>' for x in items)}</ul>
+        <p class="biz__d">{d}</p>
+      </article>""" for n, ja, en, items, d in BIZ)
 
     steps = "\n".join(f"""        <div class="room__s">
           <b>{n}</b>
@@ -165,13 +163,14 @@ def build():
           <figcaption class="tile__n">{c}</figcaption>
         </figure>""" for f, a, c in WORKS)
 
-    voice = "\n".join(f"""        <article class="voice rise">
-          <p class="voice__mark" aria-hidden="true">“</p>
+    voice = "\n".join(f"""      <article class="voice rise">
+        <p class="voice__mark" aria-hidden="true">&ldquo;</p>
+        <div class="voice__b">
           <h3 class="voice__t">{t}</h3>
           <p class="voice__d">{d}</p>
-          <p class="voice__who"><b>{who}</b></p>
-          <p class="card__more"><a class="tlink" href="./reviews/{i}/">この声を読む</a></p>
-        </article>""" for t, who, i, d in VOICE)
+          <p class="voice__who"><b>{who}</b><a class="tlink" href="./reviews/{i}/">この声を読む</a></p>
+        </div>
+      </article>""" for t, who, i, d in VOICE)
 
     return head(TITLE, DESC, "", 0, extra=jsonld(0, [{
         "@context": "https://schema.org", "@type": "WebSite",
@@ -179,31 +178,35 @@ def build():
     }])) + header("", 0) + f"""
 <main id="main">
 
-<!-- ============================================================ 静 -->
-<section class="still">
-  <div class="still__ph" aria-hidden="true">
+<!-- ======================================================== 冒頭 ── 冷 -->
+<section class="hero" style="--c1:#041f1e;--c2:#0a3835">
+  <div class="hero__ph" aria-hidden="true">
     <picture>
-      <source media="(max-width:720px)" srcset="./assets/img/hero-sp.jpg">
+      <source media="(max-width:860px)" srcset="./assets/img/hero-sp.jpg">
       <img src="./assets/img/hero.jpg" alt="" width="1600" height="771" fetchpriority="high">
     </picture>
   </div>
-  <div class="still__vig" aria-hidden="true"></div>
-  <div class="wrap still__in">
-    <span class="still__lab">SERVICE &amp; CONTRIBUTION — KORIYAMA, FUKUSHIMA</span>
-    <h1 class="still__h">
-      <i>空気は、目に見えない。</i>
+  <div class="hero__in">
+    <span class="hero__lab">Service &amp; Contribution</span>
+    <h1 class="hero__h">
+      <i>空気は、</i>
+      <i>目に見えない。</i>
       <i>だから、最後まで見る。</i>
     </h1>
-    <p class="still__sub">業務用エアコンから通信機器まで。福島県郡山市を拠点に、選ぶところから工事、その後の保守までを自社で受け持ちます。笑顔や喜びにあふれた顧客作りを目指して。</p>
-    <div class="still__acts">
-      <a class="btn btn--onDark" href="./ac/">業務用エアコンを見る</a>
-      <a class="btn btn--onDark" href="./contact/">無料で見積りを頼む</a>
+    <p class="hero__sub">業務用エアコンから通信機器まで。福島県郡山市を拠点に、選ぶところから工事、その後の保守までを自社で受け持ちます。</p>
+    <div class="hero__acts">
+      <a class="btn" href="./ac/">業務用エアコンを見る</a>
+      <a class="btn btn--ghost" href="./contact/">無料で見積りを頼む</a>
     </div>
+  </div>
+  <div class="hero__foot">
+    <span>KORIYAMA, FUKUSHIMA</span>
+    <a class="num" href="tel:{TEL_RAW}">{TEL}</a>
   </div>
 </section>
 
 <!-- ============================================== 取り扱いメーカー -->
-<section class="makers-band" aria-label="取り扱いメーカー">
+<section class="makers-band on-dark" aria-label="取り扱いメーカー" style="--c1:#0a3835;--c2:#0c3b38">
   <div class="wrap">
     <p class="makers-band__l">取り扱いメーカー</p>
     <img src="./assets/img/makers.png" alt="ダイキン、三菱電機、日立、東芝、パナソニック" width="634" height="29" loading="lazy">
@@ -211,12 +214,11 @@ def build():
 </section>
 
 <!-- ======================================================== 事業案内 -->
-<section class="sec" id="business">
+<section class="sec on-dark" id="business" style="--c1:#0c3b38;--c2:#134a46">
   <div class="wrap">
     <div class="lead rise">
-      <span class="lead__en">Business Information</span>
+      <span class="lead__en">Business</span>
       <h2 class="lead__ja">事業案内</h2>
-      <div class="rule"></div>
       <p class="lead__note">郡山市を拠点に、業務用エアコンから家庭用エアコン、ビル用マルチエアコン、業務用冷凍機・冷蔵庫、換気扇、全熱交換器、除湿器、暖房機、また通信機器などの販売や各種設置工事を行っております。</p>
     </div>
     <div class="biz">
@@ -226,48 +228,51 @@ def build():
 </section>
 
 <!-- ==================================================== 空調（数字） -->
-<section class="band sec" id="aircon">
-  <div class="band__bg"><img src="./assets/img/case-house.jpg" alt="" width="1200" height="801" loading="lazy"></div>
+<section class="band on-dark" id="aircon" style="--c1:#134a46;--c2:#1a6969">
+  <div class="band__ph"><img src="./assets/img/case-house.jpg" alt="" width="1200" height="801" loading="lazy"></div>
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">Air Conditioner</span>
       <h2 class="lead__ja">空調機器の各種販売、設置工事</h2>
-      <div class="rule"></div>
       <p class="lead__note">業務用エアコンの入れ替え・取り付け工事はパーソンライトにお任せください。ダイキン・三菱電機・日立・東芝・パナソニックの5メーカーから、お使いの場所に合う一台をお選びします。</p>
     </div>
     <div class="figs rise">
-      <div class="figs__i">
+      <div class="figs__hero">
         <span class="figs__l">最新の省エネ機種に替えると</span>
         <p class="figs__v num"><span class="tick" style="--to:70"><i>70</i></span><small>%</small></p>
         <span class="figs__d">消費電力を最大で削減できます</span>
       </div>
-      <div class="figs__i">
-        <span class="figs__l">取り扱いメーカー</span>
-        <p class="figs__v num"><span class="tick" style="--to:5"><i>5</i></span><small>社</small></p>
-        <span class="figs__d">ダイキン・三菱電機・日立<br>東芝・パナソニック</span>
-      </div>
-      <div class="figs__i">
-        <span class="figs__l">業務用エアコン</span>
-        <p class="figs__v num"><span class="tick" style="--to:7"><i>7</i></span><small>年</small></p>
-        <span class="figs__d">保証サービス。<br>年間メンテナンスも承ります</span>
-      </div>
-      <div class="figs__i">
-        <span class="figs__l">初期費用</span>
-        <p class="figs__v num"><span class="tick" style="--to:0"><i>0</i></span><small>円</small></p>
-        <span class="figs__d">リースなら、まとまった資金を<br>用意せずに導入できます</span>
+      <div class="figs__rest">
+        <div class="figs__i">
+          <p class="figs__v num"><span class="tick" style="--to:5"><i>5</i></span><small>社</small></p>
+          <span class="figs__l">取り扱いメーカー</span>
+          <span class="figs__d">ダイキン・三菱電機・日立・東芝・パナソニック</span>
+        </div>
+        <div class="figs__i">
+          <p class="figs__v num"><span class="tick" style="--to:7"><i>7</i></span><small>年</small></p>
+          <span class="figs__l">業務用エアコン</span>
+          <span class="figs__d">保証サービス。年間メンテナンスも承ります</span>
+        </div>
+        <div class="figs__i">
+          <p class="figs__v num"><span class="tick" style="--to:0"><i>0</i></span><small>円</small></p>
+          <span class="figs__l">初期費用</span>
+          <span class="figs__d">リースなら、まとまった資金を用意せずに導入できます</span>
+        </div>
       </div>
     </div>
-    <p style="margin-top:clamp(38px,4.6vw,60px);text-align:center"><a class="btn btn--onDark" href="./ac/">業務用エアコンのご案内</a></p>
+    <p class="c-act"><a class="btn btn--ghost" href="./ac/">業務用エアコンのご案内</a></p>
   </div>
 </section>
 
+<!-- 温度が上がる ── ここから地が明るくなる -->
+<div class="dawn" aria-hidden="true"></div>
+
 <!-- ============================================ 仕組み（断面図） -->
-<section class="sec sec--soft" id="how">
+<section class="sec" id="how" style="--c1:#eef6f2;--c2:#e8f3ee">
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">How it works</span>
-      <h2 class="lead__ja">一台のエアコンが、<br>部屋の空気を変えるまで</h2>
-      <div class="rule"></div>
+      <h2 class="lead__ja">一台のエアコンが、部屋の空気を変えるまで</h2>
       <p class="lead__note">写真には写らないところに、仕事の差が出ます。冷たい空気は下へ、暖まった空気は上へ。その循環を邪魔しない位置に室内機を置き、天井裏の配管とドレンの勾配を取る。そこまでが工事です。</p>
     </div>
     <div class="room rise">
@@ -283,39 +288,37 @@ def build():
 </section>
 
 <!-- ======================================================== 施工実例 -->
-<section class="sec" id="works">
+<section class="sec" id="works" style="--c1:#e8f3ee;--c2:#f1f7f3">
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">Works</span>
       <h2 class="lead__ja">施工実例</h2>
-      <div class="rule"></div>
       <p class="lead__note">事務所・店舗・工場・倉庫。天井カセット形の入れ替えから、外壁の室外機据付、天井裏の配管まで。現場の写真は Instagram でも随時ご紹介しています。</p>
     </div>
-    <div class="tiles tiles--w">
-{works}
-    </div>
-    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="tlink" href="{INSTA}" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p>
   </div>
+  <div class="tiles tiles--w">
+{works}
+  </div>
+  <div class="wrap"><p class="c-act"><a class="tlink" href="{INSTA}" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p></div>
 </section>
 
 <!-- ======================================================== お客様の声 -->
-<section class="sec dark" id="voice">
+<section class="sec" id="voice" style="--c1:#f1f7f3;--c2:#f7f4ea">
   <div class="wrap">
     <div class="lead rise">
-      <span class="lead__en">Customer Reviews</span>
+      <span class="lead__en">Reviews</span>
       <h2 class="lead__ja">お客様の声</h2>
-      <div class="rule"></div>
       <p class="lead__note">パーソンライトでは、設備機器の工事を終えた後からが本当のお付き合いの始まりであると考えております。皆様からのご意見をお伺いし、今後のアフターフォローに活かしていきます。</p>
     </div>
-    <div class="grid grid--2">
+    <div class="voices">
 {voice}
     </div>
-    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="btn btn--onDark" href="./reviews/">お客様の声の一覧</a></p>
+    <p class="c-act"><a class="btn" href="./reviews/">お客様の声の一覧</a></p>
   </div>
 </section>
 
 <!-- ========================================================== 採用 -->
-<section class="sec" id="recruit">
+<section class="sec" id="recruit" style="--c1:#f7f4ea;--c2:#f4efdf">
   <div class="wrap">
     <div class="duo">
       <figure class="duo__fig rise">
@@ -323,10 +326,9 @@ def build():
         <figcaption>RECRUIT</figcaption>
       </figure>
       <div class="rise">
-        <div class="lead">
+        <div class="lead lead--l">
           <span class="lead__en">Recruit</span>
-          <h2 class="lead__ja">一緒に働く人を<br>探しています</h2>
-          <div class="rule"></div>
+          <h2 class="lead__ja">一緒に働く人を探しています</h2>
         </div>
         <p>自ら行動する意欲や姿勢を持ち、常にチャレンジ精神旺盛な人物を求めています。営業職・工事スタッフ・テレフォンアポインター・管理職責任者の4職種で募集中です。</p>
         <p style="margin-top:30px"><a class="btn" href="./recruit/">採用情報を見る</a></p>

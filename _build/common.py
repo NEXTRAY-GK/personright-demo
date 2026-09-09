@@ -68,6 +68,7 @@ def head(title, desc, here, depth, og="og.jpg", extra=""):
 {extra}</head>
 <body>
 <a class="sr" href="#main">本文へ移動</a>
+<div class="gauge" aria-hidden="true"><i></i></div>
 """
 
 
@@ -116,27 +117,31 @@ def phero(en, ja, note, img, alt, crumbs, depth):
         c.append('<span aria-hidden="true">/</span>')
         c.append(f'<a href="{r}{href}">{name}</a>' if href else f"<span>{name}</span>")
     note_html = f'<p class="phero__note">{note}</p>' if note else ""
-    return f"""<div class="phero">
-  <div class="phero__bg"><img src="{r}assets/img/{img}" alt="{alt}" width="1600" height="900" fetchpriority="high"></div>
-  <div class="wrap phero__inner">
-    <span class="phero__en">{en}</span>
-    <h1>{ja}</h1>
-    {note_html}
+    return f"""<div class="phero" style="--c1:#041f1e;--c2:#0f423f">
+  <div class="phero__ph"><img src="{r}assets/img/{img}" alt="{alt}" width="1600" height="900" fetchpriority="high"></div>
+  <div class="wrap phero__in">
+    <div class="phero__t">
+      <span class="phero__en">{en}</span>
+      <h1>{ja}</h1>
+      {note_html}
+    </div>
+    <nav class="crumb" aria-label="現在地">{''.join(c)}</nav>
   </div>
-  <div class="wrap"><nav class="crumb" aria-label="現在地">{''.join(c)}</nav></div>
 </div>
 """
 
 
 def cta(depth, bg="office-front.jpg"):
     r = "../" * depth if depth else "./"
-    return f"""<section class="cta">
-  <div class="cta__bg"><img src="{r}assets/img/{bg}" alt="" width="1600" height="900" loading="lazy"></div>
+    return f"""<section class="cta" style="--c1:#f4efdf;--c2:#e6d5ab">
+  <div class="cta__ph"><img src="{r}assets/img/{bg}" alt="" width="1600" height="900" loading="lazy"></div>
   <div class="wrap cta__in">
-    <span class="cta__en">CONTACT US</span>
-    <h2 class="cta__t">まずは、いまの一台を見せてください</h2>
-    <p class="cta__d">機種の選定から設置工事、その後のメンテナンスまで、当社のスタッフが一貫して伺います。見積りは無料です。<br>電気代が気になる、古い機種を入れ替えたい、防犯カメラを検討している ── どれでも構いません。</p>
-    <div class="cta__ways">
+    <div class="cta__l">
+      <span class="cta__en">CONTACT</span>
+      <h2 class="cta__t">まずは、いまの一台を<br>見せてください</h2>
+      <p class="cta__d">機種の選定から設置工事、その後のメンテナンスまで、当社のスタッフが一貫して伺います。見積りは無料です。電気代が気になる、古い機種を入れ替えたい、防犯カメラを検討している ── どれでも構いません。</p>
+    </div>
+    <div class="cta__r">
       <div class="cta__way">
         <small>BY PHONE</small>
         <a class="tel num" href="tel:{TEL_RAW}">{TEL}</a>
@@ -144,8 +149,8 @@ def cta(depth, bg="office-front.jpg"):
       </div>
       <div class="cta__way">
         <small>BY FORM</small>
-        <p style="margin:0 0 18px">24時間受け付けています。<br>後日、担当よりご連絡します。</p>
-        <a class="btn btn--onDark" href="{r}contact/">お問い合わせフォーム</a>
+        <p>24時間受け付けています。後日、担当よりご連絡します。</p>
+        <a class="btn btn--dark" href="{r}contact/">お問い合わせフォーム</a>
       </div>
     </div>
   </div>
@@ -160,7 +165,8 @@ def footer(depth):
         h = r if href == "/" else (r + href[1:] if href.startswith("/#") else r + href.lstrip("/"))
         items.append(f'<a href="{h}"><span class="en">{en}</span><span>{ja}</span></a>')
     nav = "\n      ".join(items)
-    return f"""<footer class="foot">
+    return f"""<div class="dusk" aria-hidden="true"></div>
+<footer class="foot" style="--c1:#0a3a37;--c2:#04211f">
   <div class="wrap">
     <div class="foot__top">
       <div>
