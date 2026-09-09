@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=88c2321d">
+<link rel="stylesheet" href="assets/css/style.css?v=a3e43453">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Organization", "name": "株式会社パーソンライト", "alternateName": "Person right", "url": "https://nextrayjp.github.io/personright-demo/", "logo": "https://nextrayjp.github.io/personright-demo/assets/img/logo.svg", "telephone": "+81-24-983-0294", "faxNumber": "+81-24-983-0295", "foundingDate": "2022-12-28", "address": {"@type": "PostalAddress", "addressCountry": "JP", "addressRegion": "福島県", "addressLocality": "郡山市", "streetAddress": "安積町日出山2-43", "postalCode": "963-0101"}, "sameAs": ["https://www.instagram.com/personright501/"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "株式会社パーソンライト", "url": "https://nextrayjp.github.io/personright-demo/"}]</script>
 </head>
 <body>
@@ -61,7 +61,6 @@
       <img src="./assets/img/hero.jpg" alt="" width="1600" height="771" fetchpriority="high">
     </picture>
   </div>
-  <canvas class="still__field" id="air" aria-hidden="true"></canvas>
   <div class="still__vig" aria-hidden="true"></div>
   <div class="wrap still__in">
     <span class="still__lab">SERVICE &amp; CONTRIBUTION — KORIYAMA, FUKUSHIMA</span>
@@ -76,35 +75,13 @@
     </div>
   </div>
   <span class="still__scroll" aria-hidden="true">SCROLL</span>
-  <div class="still__scale" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div>
 </section>
 
-<!-- ==================================================== 温度帯（事業） -->
-<section class="scale" aria-label="事業の一覧">
-  <div class="scale__bar" aria-hidden="true"></div>
+<!-- ============================================== 取り扱いメーカー -->
+<section class="makers-band" aria-label="取り扱いメーカー">
   <div class="wrap">
-    <div class="scale__row">
-      <div class="scale__i">
-        <span class="scale__n">01</span>
-        <p class="scale__t">環境事業</p>
-        <p class="scale__d">空調・冷熱・照明</p>
-      </div>
-      <div class="scale__i">
-        <span class="scale__n">02</span>
-        <p class="scale__t">通信事業</p>
-        <p class="scale__d">電話・複合機・防犯</p>
-      </div>
-      <div class="scale__i">
-        <span class="scale__n">03</span>
-        <p class="scale__t">工事部</p>
-        <p class="scale__d">電気・水回り・各種</p>
-      </div>
-      <div class="scale__i">
-        <span class="scale__n">04</span>
-        <p class="scale__t">テレマーケティング事業</p>
-        <p class="scale__d">県内へのご案内</p>
-      </div>
-    </div>
+    <p class="makers-band__l">取り扱いメーカー</p>
+    <img src="./assets/img/makers.png" alt="ダイキン、三菱電機、日立、東芝、パナソニック" width="634" height="29" loading="lazy">
   </div>
 </section>
 
@@ -186,12 +163,12 @@
         <span class="figs__d">リースなら、まとまった資金を<br>用意せずに導入できます</span>
       </div>
     </div>
-    <p style="margin-top:clamp(38px,4.6vw,60px)"><a class="btn btn--onDark" href="./ac/">業務用エアコンのご案内</a></p>
+    <p style="margin-top:clamp(38px,4.6vw,60px);text-align:center"><a class="btn btn--onDark" href="./ac/">業務用エアコンのご案内</a></p>
   </div>
 </section>
 
 <!-- ============================================ 仕組み（断面図） -->
-<section class="sec dark" id="how">
+<section class="sec sec--soft" id="how">
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">How it works</span>
@@ -347,7 +324,7 @@
           <figcaption class="tile__n">天井裏の配管</figcaption>
         </figure>
     </div>
-    <p style="margin-top:clamp(32px,4vw,52px)"><a class="tlink" href="https://www.instagram.com/personright501/" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p>
+    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="tlink" href="https://www.instagram.com/personright501/" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p>
   </div>
 </section>
 
@@ -376,7 +353,7 @@
           <p class="card__more"><a class="tlink" href="./reviews/96/">この声を読む</a></p>
         </article>
     </div>
-    <p style="margin-top:clamp(32px,4vw,52px)"><a class="btn btn--onDark" href="./reviews/">お客様の声の一覧</a></p>
+    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="btn btn--onDark" href="./reviews/">お客様の声の一覧</a></p>
   </div>
 </section>
 
@@ -467,6 +444,6 @@
   <button class="btn" type="button" popovertarget="demoNote" popovertargetaction="hide">閉じる</button>
 </div>
 
-<script src="./assets/js/main.js?v=c5109f54" defer></script>
+<script src="./assets/js/main.js?v=6ba32c06" defer></script>
 </body>
 </html>

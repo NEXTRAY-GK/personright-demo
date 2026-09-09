@@ -12,14 +12,6 @@ from common import head, header, cta, footer, jsonld, TEL, TEL_RAW, INSTA
 TITLE = "株式会社パーソンライト｜業務用エアコン・環境商材・通信機器（福島県郡山市）"
 DESC = "郡山市を拠点に、業務用エアコンの販売・設置工事、LED照明、防犯カメラ、複合機の導入までを一貫して承ります。見積りは無料。株式会社パーソンライト。"
 
-# 温度の目盛りの上に、4つの事業を置く（冷 → 温）
-SCALE = [
-    ("01", "環境事業", "空調・冷熱・照明"),
-    ("02", "通信事業", "電話・複合機・防犯"),
-    ("03", "工事部", "電気・水回り・各種"),
-    ("04", "テレマーケティング事業", "県内へのご案内"),
-]
-
 BIZ = [
     ("01", "環境事業", "ENVIRONMENT",
      ["業務用エアコン", "家庭用エアコン", "空気清浄機", "LED照明", "分解・洗浄クリーニング",
@@ -154,12 +146,6 @@ def room_svg():
 
 
 def build():
-    scale = "\n".join(f"""      <div class="scale__i">
-        <span class="scale__n">{n}</span>
-        <p class="scale__t">{ja}</p>
-        <p class="scale__d">{d}</p>
-      </div>""" for n, ja, d in SCALE)
-
     biz = "\n".join(f"""      <div class="biz__i rise">
         <span class="biz__n">{n}</span>
         <h3 class="biz__t">{ja}<small>{en}</small></h3>
@@ -187,8 +173,6 @@ def build():
           <p class="card__more"><a class="tlink" href="./reviews/{i}/">この声を読む</a></p>
         </article>""" for t, who, i, d in VOICE)
 
-    ticks = "".join(f'<i style="--i:{k}"></i>' for k in range(13))
-
     return head(TITLE, DESC, "", 0, extra=jsonld(0, [{
         "@context": "https://schema.org", "@type": "WebSite",
         "name": "株式会社パーソンライト", "url": "https://nextrayjp.github.io/personright-demo/",
@@ -203,7 +187,6 @@ def build():
       <img src="./assets/img/hero.jpg" alt="" width="1600" height="771" fetchpriority="high">
     </picture>
   </div>
-  <canvas class="still__field" id="air" aria-hidden="true"></canvas>
   <div class="still__vig" aria-hidden="true"></div>
   <div class="wrap still__in">
     <span class="still__lab">SERVICE &amp; CONTRIBUTION — KORIYAMA, FUKUSHIMA</span>
@@ -218,16 +201,13 @@ def build():
     </div>
   </div>
   <span class="still__scroll" aria-hidden="true">SCROLL</span>
-  <div class="still__scale" aria-hidden="true">{ticks}</div>
 </section>
 
-<!-- ==================================================== 温度帯（事業） -->
-<section class="scale" aria-label="事業の一覧">
-  <div class="scale__bar" aria-hidden="true"></div>
+<!-- ============================================== 取り扱いメーカー -->
+<section class="makers-band" aria-label="取り扱いメーカー">
   <div class="wrap">
-    <div class="scale__row">
-{scale}
-    </div>
+    <p class="makers-band__l">取り扱いメーカー</p>
+    <img src="./assets/img/makers.png" alt="ダイキン、三菱電機、日立、東芝、パナソニック" width="634" height="29" loading="lazy">
   </div>
 </section>
 
@@ -278,12 +258,12 @@ def build():
         <span class="figs__d">リースなら、まとまった資金を<br>用意せずに導入できます</span>
       </div>
     </div>
-    <p style="margin-top:clamp(38px,4.6vw,60px)"><a class="btn btn--onDark" href="./ac/">業務用エアコンのご案内</a></p>
+    <p style="margin-top:clamp(38px,4.6vw,60px);text-align:center"><a class="btn btn--onDark" href="./ac/">業務用エアコンのご案内</a></p>
   </div>
 </section>
 
 <!-- ============================================ 仕組み（断面図） -->
-<section class="sec dark" id="how">
+<section class="sec sec--soft" id="how">
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">How it works</span>
@@ -315,7 +295,7 @@ def build():
     <div class="tiles tiles--w">
 {works}
     </div>
-    <p style="margin-top:clamp(32px,4vw,52px)"><a class="tlink" href="{INSTA}" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p>
+    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="tlink" href="{INSTA}" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p>
   </div>
 </section>
 
@@ -331,7 +311,7 @@ def build():
     <div class="grid grid--2">
 {voice}
     </div>
-    <p style="margin-top:clamp(32px,4vw,52px)"><a class="btn btn--onDark" href="./reviews/">お客様の声の一覧</a></p>
+    <p style="margin-top:clamp(32px,4vw,52px);text-align:center"><a class="btn btn--onDark" href="./reviews/">お客様の声の一覧</a></p>
   </div>
 </section>
 
