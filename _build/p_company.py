@@ -85,7 +85,6 @@ def build():
         <div class="lead">
           <span class="lead__en">Message</span>
           <h2 class="lead__ja">代表あいさつ</h2>
-          <div class="rule"></div>
         </div>
         <p class="msg">お客様はもちろん、当社の社員含め、パーソンライトに関わる全ての皆様と共に輝かしい未来へ。<br>創造と挑戦の歩みを止めず、日々成長してまいります。</p>
         <p class="sign">代表取締役社長　<b>増子　佑</b></p>
@@ -94,13 +93,12 @@ def build():
   </div>
 </section>
 
-<section class="band sec" id="philosophy">
-  <div class="band__bg"><img src="../assets/img/work-desk.jpg" alt="" width="1200" height="900" loading="lazy"></div>
+<section class="band band--sub sec on-dark" id="philosophy">
+  <div class="band__ph"><img src="../assets/img/work-desk.jpg" alt="" width="1200" height="900" loading="lazy"></div>
   <div class="narrow">
     <div class="lead lead--c rise">
       <span class="lead__en">Philosophy</span>
       <h2 class="lead__ja">企業理念</h2>
-      <div class="rule"></div>
     </div>
     <p class="creed rise">サービス＆貢献</p>
     <p class="rise" style="text-align:center;color:rgba(255,255,255,.86);max-width:56ch;margin-inline:auto">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
@@ -116,7 +114,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Outline</span>
       <h2 class="lead__ja">会社概要</h2>
-      <div class="rule"></div>
     </div>
     <dl class="deft rise">
 {outline}
@@ -129,7 +126,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">History</span>
       <h2 class="lead__ja">沿革</h2>
-      <div class="rule"></div>
     </div>
     <ol class="hist rise">
 {hist}
@@ -146,7 +142,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Access</span>
       <h2 class="lead__ja">アクセス</h2>
-      <div class="rule"></div>
     </div>
     <div class="duo">
       <figure class="duo__fig rise">
@@ -167,7 +162,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Staff</span>
       <h2 class="lead__ja">スタッフ紹介</h2>
-      <div class="rule"></div>
       <p class="lead__note">環境部・通信機器部・工事部・総務の4部門です。</p>
     </div>
     <div class="stfs">

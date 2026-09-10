@@ -79,23 +79,23 @@ def room_svg():
 
   <!-- 冷たい空気：室内機から四方へ降りる -->
   <g stroke="#2ea294" stroke-width="1.2" stroke-linecap="round">
-    <path d="M212 118 C170 138 140 190 136 262" opacity=".9"/>
-    <path d="M212 118 C182 148 162 200 160 268" opacity=".55"/>
-    <path d="M298 118 C340 138 370 190 374 262" opacity=".9"/>
-    <path d="M298 118 C328 148 348 200 350 268" opacity=".55"/>
+    <path class="air" pathLength="1" d="M212 118 C170 138 140 190 136 262" opacity=".9"/>
+    <path class="air d2" pathLength="1" d="M212 118 C182 148 162 200 160 268" opacity=".55"/>
+    <path class="air" pathLength="1" d="M298 118 C340 138 370 190 374 262" opacity=".9"/>
+    <path class="air d2" pathLength="1" d="M298 118 C328 148 348 200 350 268" opacity=".55"/>
   </g>
-  <g fill="#2ea294">
+  <g fill="#2ea294" class="tip">
     <path d="M136 268 l4.6 -9 h-9.2 Z"/>
     <path d="M374 268 l4.6 -9 h-9.2 Z"/>
   </g>
 
   <!-- 暖かい空気：中央を上がって戻る -->
   <g stroke="#f0a933" stroke-width="1.2" stroke-linecap="round">
-    <path d="M232 330 C238 268 244 200 248 130" opacity=".85"/>
-    <path d="M278 330 C274 268 268 200 262 130" opacity=".85"/>
-    <path d="M255 336 C255 300 255 280 255 258" opacity=".4"/>
+    <path class="air d2" pathLength="1" d="M232 330 C238 268 244 200 248 130" opacity=".85"/>
+    <path class="air d2" pathLength="1" d="M278 330 C274 268 268 200 262 130" opacity=".85"/>
+    <path class="air d3" pathLength="1" d="M255 336 C255 300 255 280 255 258" opacity=".4"/>
   </g>
-  <g fill="#f0a933">
+  <g fill="#f0a933" class="tip">
     <path d="M248 130 l-4.6 9 h9.2 Z" transform="rotate(180 248 134)"/>
     <path d="M262 130 l-4.6 9 h9.2 Z" transform="rotate(180 262 134)"/>
   </g>
@@ -108,15 +108,15 @@ def room_svg():
 
   <!-- 冷媒配管：天井裏 → 壁 → 室外機 -->
   <g stroke="#2ea294" stroke-width="1.6">
-    <path d="M298 100 H438 C452 100 458 106 458 120 V244"/>
+    <path class="air d3" pathLength="1" d="M298 100 H438 C452 100 458 106 458 120 V244"/>
   </g>
   <g stroke="#f0a933" stroke-width="1.6">
-    <path d="M458 244 H520"/>
+    <path class="air d3" pathLength="1" d="M458 244 H520"/>
   </g>
 
   <!-- ドレン -->
   <g stroke="#5ec4b0" stroke-width="1.1" stroke-dasharray="4 3">
-    <path d="M212 104 H120 C108 104 104 110 104 122 V352 H470"/>
+    <path class="drain" d="M212 104 H120 C108 104 104 110 104 122 V352 H470"/>
   </g>
 
   <!-- 室外機 -->
@@ -126,8 +126,11 @@ def room_svg():
   </g>
   <g stroke="#f0a933" stroke-width="1.1" opacity=".9">
     <circle cx="566" cy="262" r="24"/>
-    <path d="M566 238 A24 24 0 0 1 585 274"/>
-    <path d="M566 286 A24 24 0 0 1 547 250"/>
+    <g class="fan" stroke-linecap="round">
+      <path d="M566.0 262.0 C575.0 256.5 582.5 255.5 586.0 260.5"/>
+      <path d="M566.0 262.0 C566.3 272.5 563.4 279.5 557.3 280.1"/>
+      <path d="M566.0 262.0 C556.7 257.0 552.1 251.0 554.7 245.4"/>
+    </g>
   </g>
   <!-- 捨てられる熱 -->
   <g stroke="#f0a933" stroke-width="1.1" stroke-linecap="round" opacity=".7">

@@ -56,7 +56,6 @@ def contact():
     <div class="lead rise">
       <span class="lead__en">Mail Form</span>
       <h2 class="lead__ja">メールフォーム</h2>
-      <div class="rule"></div>
     </div>
     {FORM_NOTE}
     <form class="form rise" method="post" action="./thanks/" data-demo="1" aria-describedby="formDemo">

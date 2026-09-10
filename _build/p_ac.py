@@ -146,7 +146,6 @@ def build():
     <div class="lead lead--c rise">
       <span class="lead__en">Strength</span>
       <h2 class="lead__ja">当社の業務用エアコン<br>提供サービスの強み</h2>
-      <div class="rule"></div>
       <p class="lead__note">様々なニーズに応じてお選びいただけるよう、メーカー・製品ともに種類豊富に業務用エアコンを取り扱っています。お客様のご希望にあったエアコン選びと、当社の充実・安心サービスで、快適な省エネ空間をご提供いたします。</p>
     </div>
     <figure class="makers rise">
@@ -161,7 +160,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Line Up</span>
       <h2 class="lead__ja">種類豊富なパッケージエアコン</h2>
-      <div class="rule"></div>
       <p class="lead__note">天井カセット形から天井吊形、壁掛形、床置形、厨房用まで。設置する場所と広さ、天井の構造に合わせてお選びします。</p>
     </div>
     <div class="tiles tiles--t">
@@ -170,13 +168,12 @@ def build():
   </div>
 </section>
 
-<section class="band sec" id="eco">
-  <div class="band__bg"><img src="../assets/img/case-install01.jpg" alt="" width="1200" height="900" loading="lazy"></div>
+<section class="band band--sub sec on-dark" id="eco">
+  <div class="band__ph"><img src="../assets/img/case-install01.jpg" alt="" width="1200" height="900" loading="lazy"></div>
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">Energy Saving</span>
       <h2 class="lead__ja">今のエアコンを替えるだけで、<br>電気代は下がります</h2>
-      <div class="rule"></div>
       <p class="lead__note">2011年3月の東日本大震災以降、電気代の値上がり傾向が進むなかで、業務用エアコンの機能も「環境面」「省エネ面」「機能面」と進化してきました。現在では空調機の省電力化の技術が進み、従来の機種に比べ1/5の電気代を削減できるほどになっています。</p>
     </div>
     <div class="figs rise">
@@ -204,7 +201,6 @@ def build():
     <div class="lead lead--c rise">
       <span class="lead__en">Refrigerant</span>
       <h2 class="lead__ja">R22冷媒が入手困難になる前に</h2>
-      <div class="rule"></div>
       <p class="lead__note">2001年以前の機種に使われている R22（指定フロン）は、生産・輸入が終了しています。故障しても修理用のガスが手に入らなくなる前に、早めの更新をおすすめします。</p>
     </div>
 {GRAPH}
@@ -216,7 +212,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Case</span>
       <h2 class="lead__ja">実績多数。<br>様々なケースに最適なご提案を</h2>
-      <div class="rule"></div>
       <p class="lead__note">業務用エアコン・空調設備は利用場所により適した形があり、業態に合わせた商品をご提案させていただきます。</p>
     </div>
     <div class="tiles tiles--c">
@@ -230,7 +225,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Lease</span>
       <h2 class="lead__ja">リースには、<br>メリットがいっぱい</h2>
-      <div class="rule"></div>
       <p class="lead__note">まとまった資金を用意せずに、最新の省エネ機種を導入できます。月々の支払いは全額を経費として処理できます。</p>
     </div>
     <ul class="merit">
@@ -250,7 +244,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Flow</span>
       <h2 class="lead__ja">ご依頼から設置工事までの流れ</h2>
-      <div class="rule"></div>
       <p class="lead__note">当社スタッフがお見積りから工事完了まで一貫して対応します。リース審査・本契約につきましては、弊社とリース会社とで丁寧にサポートいたしますので、安心してご利用ください。</p>
     </div>
     <ol class="flow flow--5">
@@ -264,7 +257,6 @@ def build():
     <div class="lead lead--c rise">
       <span class="lead__en">Q &amp; A</span>
       <h2 class="lead__ja">よくあるご質問</h2>
-      <div class="rule"></div>
     </div>
     <div class="qa">
 {faq}

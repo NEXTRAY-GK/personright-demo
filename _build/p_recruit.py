@@ -135,7 +135,6 @@ def build_index():
     <div class="lead rise">
       <span class="lead__en">Openings</span>
       <h2 class="lead__ja">募集中の職種</h2>
-      <div class="rule"></div>
       <p class="lead__note">営業・エアコン設備工事・テレフォンアポインター・管理職責任者。4つの職種で募集しています。</p>
     </div>
     <div class="jobs">
@@ -194,7 +193,6 @@ def build_job(j):
     <div class="lead rise" style="margin-top:clamp(48px,6vw,80px)">
       <span class="lead__en">Details</span>
       <h2 class="lead__ja">募集要項</h2>
-      <div class="rule"></div>
     </div>
     <dl class="deft rise">
 {tbl}
@@ -203,7 +201,6 @@ def build_job(j):
     <div class="lead rise" style="margin-top:clamp(48px,6vw,80px)">
       <span class="lead__en">How to Apply</span>
       <h2 class="lead__ja">応募方法</h2>
-      <div class="rule"></div>
     </div>
     <div class="apply rise">
       <div class="apply__i">
@@ -222,14 +219,12 @@ def build_job(j):
     <div class="lead rise" id="applyForm" style="margin-top:clamp(48px,6vw,80px);scroll-margin-top:110px">
       <span class="lead__en">Application Form</span>
       <h2 class="lead__ja">応募フォーム</h2>
-      <div class="rule"></div>
     </div>
     {apply_form(j['id'])}
 
     <div class="lead rise" style="margin-top:clamp(48px,6vw,80px)">
       <span class="lead__en">Other Openings</span>
       <h2 class="lead__ja">ほかの募集職種</h2>
-      <div class="rule"></div>
     </div>
     <ul class="others rise">
 {others}

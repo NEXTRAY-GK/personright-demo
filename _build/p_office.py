@@ -51,7 +51,6 @@ def build():
     <div class="lead rise">
       <span class="lead__en">Security Camera</span>
       <h2 class="lead__ja">安心・安全な職場や店舗づくりを、<br>私たちがサポートします</h2>
-      <div class="rule"></div>
       <p class="lead__note">弊社では、夜間でもカラー撮影が可能な防犯カメラを取り扱っております。暗闇でも鮮明なカラー映像を提供し、犯罪の抑止や証拠収集に非常に効果的です。</p>
     </div>
     <div class="grid grid--3">
@@ -61,13 +60,12 @@ def build():
   </div>
 </section>
 
-<section class="band sec" id="compare">
-  <div class="band__bg"><img src="../assets/img/cam-color.jpg" alt="" width="1200" height="675" loading="lazy"></div>
+<section class="band band--sub sec on-dark" id="compare">
+  <div class="band__ph"><img src="../assets/img/cam-color.jpg" alt="" width="1200" height="675" loading="lazy"></div>
   <div class="wrap">
     <div class="lead rise">
       <span class="lead__en">Comparison</span>
       <h2 class="lead__ja">金額で見送った方こそ、<br>もう一度比べてください</h2>
-      <div class="rule"></div>
       <p class="lead__note">以前、防犯カメラを検討されていたお客様の中には、金額が高くて導入を見送った方もいらっしゃるかと思います。ぜひ一度、弊社の条件と比較してみてください。夜間のカラー撮影はもちろん、動体検知や遠隔操作など、最新の技術を搭載しています。これにより、より安心で効率的な監視が可能です。</p>
       <p class="lead__note">業種や設置環境、目的に応じて、最適な機種と設置方法をご提案いたします。設置工事からサポート体制まで、すべて弊社にお任せください。</p>
     </div>
@@ -85,7 +83,6 @@ def build():
         <div class="lead">
           <span class="lead__en">Multifunction Printer</span>
           <h2 class="lead__ja">富士フイルム複合機</h2>
-          <div class="rule"></div>
         </div>
         <p>導入コスト、印刷コストで<b class="num" style="font-size:1.5em;color:var(--teal)">地域No.1</b>を目指します。</p>
         <p>顧客満足度は、J.D.パワーの調査で9年連続1位。高品質な製品とサービスでお客様をサポートし、貴社の業務に貢献いたします。</p>
@@ -102,7 +99,6 @@ def build():
     <div class="lead lead--c rise">
       <span class="lead__en">Line Up</span>
       <h2 class="lead__ja">通信事業の取り扱い</h2>
-      <div class="rule"></div>
     </div>
     <ul class="chips rise">{items}</ul>
   </div>

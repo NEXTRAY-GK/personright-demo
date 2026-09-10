@@ -97,23 +97,39 @@ b,strong{font-weight:700}
 /* 日暮れ ── 金から夜のティールへ。⚠️ 足の本体を金にすると白い字が読めない */
 .dusk{height:clamp(88px,10vw,150px);background:linear-gradient(180deg,#e6d5ab,#a58d54 34%,#3d6b64 72%,#0a3a37)}
 
-/* 左端を貫く温度計 */
+/* 左端を貫く温度計 ── 読み進めた分だけ 下から水銀が満ちる。
+   ⚠️ 満ちる側は clip-path で「出す」。scaleY で伸ばすと グラデーションが潰れる。 */
 .gauge{
-  position:fixed;left:0;top:0;bottom:0;width:4px;z-index:70;pointer-events:none;
+  position:fixed;left:0;top:0;bottom:0;width:5px;z-index:70;pointer-events:none;
+  /* ⚠️ まだ読んでいない側の地。白の半透明にすると 明るい節で消える（2026-09-10 実測）。
+     温度の色を彩度だけ落とした不透明の帯にする。暗い地でも明るい地でも輪郭が残る。 */
+  background:linear-gradient(180deg,#44534f 0%,#5d706b 26%,#7d8d85 48%,#9aa79c 66%,#adb2a4 84%,#b9b199 100%);
+}
+.gauge::after{
+  content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,#0a3835 0%,#1a6969 26%,#4d968c 46%,#a9d3c7 60%,#eef6f2 72%,#f4efdf 86%,#ccbb89 100%);
 }
+/* 目盛り ── 温度計に見えるかどうかは、この刻みで決まる */
+.gauge::before{
+  content:"";position:absolute;inset:0;z-index:2;
+  /* 刻みは帯の上に落とす。地ではなく帯を切るので、どの節でも同じ濃さに見える */
+  background:repeating-linear-gradient(180deg,
+    transparent 0 43px,rgba(10,26,24,.30) 43px 44px);
+}
 .gauge i{
-  position:absolute;left:-4px;right:-4px;top:0;height:2px;background:#fff;
+  position:absolute;left:0;right:-7px;top:0;height:2px;z-index:3;background:#fff;
   box-shadow:0 0 10px rgba(255,255,255,.9);
 }
 @supports (animation-timeline:scroll()){
   @media (prefers-reduced-motion:no-preference){
-    .gauge i{animation:gmark linear;animation-timeline:scroll(root block)}
+    .gauge i{animation:gmark linear both;animation-timeline:scroll(root block)}
     @keyframes gmark{to{top:calc(100% - 2px)}}
+    .gauge::after{animation:gfill linear both;animation-timeline:scroll(root block)}
+    @keyframes gfill{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
   }
 }
 @media (prefers-reduced-motion:reduce){.gauge i{display:none}}
-@media (max-width:860px){.gauge{width:3px}.gauge i{display:none}}
+@media (max-width:860px){.gauge{width:3px}.gauge i{display:none}.gauge::before{opacity:.6}}
 
 /* --------------------------------------------------------------------------
    2. 器
@@ -378,7 +394,7 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
 /* --------------------------------------------------------------------------
    10. 帯 ── 写真を敷き、そのうえに数字を置く
    -------------------------------------------------------------------------- */
-.band{position:relative;overflow:hidden;padding-block:var(--sec)}
+.band{position:relative;overflow:clip;padding-block:var(--sec)}
 .band__ph{position:absolute;inset:0;z-index:0;isolation:isolate;
   -webkit-mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);
   mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent)}
@@ -428,7 +444,7 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
 .tiles{display:grid;gap:2px;margin-top:clamp(36px,4.4vw,64px)}
 .tiles--w,.tiles--c{grid-template-columns:repeat(3,1fr)}
 .tiles--t{grid-template-columns:repeat(4,1fr)}
-.tile{position:relative;overflow:hidden;background:rgba(18,48,46,.06)}
+.tile{position:relative;overflow:clip;background:rgba(18,48,46,.06)}
 .tile img{width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
 .tile:hover img{transform:scale(1.05)}
 .tile__n{
@@ -547,6 +563,22 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   .deft th,.deft td{display:block;width:auto;padding-block:0}
   .deft th{padding-top:18px;border-bottom:0}
   .deft td{padding-bottom:18px}
+}
+
+/* ⚠️ 中身は <dl class="deft"><div><dt><dd> で書いてある。
+   CSS は th/td にしか当たっておらず、会社概要と求人4本の 計5ページで
+   表が素のまま（罫も列も無し）で出ていた（2026-09-10 実測）。 */
+dl.deft>div{display:grid;grid-template-columns:clamp(96px,17%,190px) minmax(0,1fr);
+  gap:0 clamp(14px,2.4vw,32px);border-bottom:1px solid var(--line)}
+dl.deft>div>dt{padding:20px 4px 18px;font-weight:700;color:var(--tl);
+  font-size:13px;letter-spacing:.06em;line-height:1.95}
+dl.deft>div>dd{padding:18px 4px;margin:0;font-size:14.5px;line-height:1.95}
+.on-dark dl.deft>div{border-bottom-color:var(--line-ds)}
+.on-dark dl.deft>div>dt{color:var(--gold)}
+@media (max-width:600px){
+  dl.deft>div{grid-template-columns:1fr}
+  dl.deft>div>dt{padding:18px 4px 0}
+  dl.deft>div>dd{padding:5px 4px 18px}
 }
 
 .hist>div{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,3vw,48px);padding-block:20px;border-top:1px solid var(--line)}
@@ -716,7 +748,7 @@ summary::-webkit-details-marker{display:none}
 /* --------------------------------------------------------------------------
    18. 誘い ── ページで一番あたたかいところ。金の地で締める
    -------------------------------------------------------------------------- */
-.cta{position:relative;overflow:hidden;padding-block:clamp(78px,10vw,150px);color:var(--ink)}
+.cta{position:relative;overflow:clip;padding-block:clamp(78px,10vw,150px);color:var(--ink)}
 .cta__ph{position:absolute;right:0;top:0;bottom:0;width:48%;z-index:0;isolation:isolate;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
 .cta__ph img{width:100%;height:100%;object-fit:cover;opacity:.13;filter:contrast(1.05)}
@@ -801,3 +833,175 @@ summary::-webkit-details-marker{display:none}
 }
 
 @media (max-width:400px){body{font-size:15px;letter-spacing:.03em}}
+
+/* --------------------------------------------------------------------------
+   22. 読み進めると動く地 ── 温度の場
+
+   空調は 目に見えない空気を設計する仕事。
+   だから 節の地に「温度の場」（等温線）を敷き、読み進めるあいだ ゆっくり流す。
+   線は assets/img/field.svg の1枚。色は敷く節が持つので、暗い地も明るい地も同じ物で足りる。
+
+   ⚠️ 写真の上には重ねない。2026-09-09 の「冒頭の波が不自然」はそれで出た。
+   ⚠️ 面がクリックを食うので pointer-events:none を必ず付ける。
+   -------------------------------------------------------------------------- */
+/* ⚠️ 横は clip で止める。地の面は左右へ4%はみ出すので、
+   止めないと 幅375pxで横スクロールが15px出る（2026-09-10 実測）。
+   ⚠️ overflow:hidden ではなく clip。hidden はスクロール容器を作り、
+   中の animation-timeline:view() が当たらなくなる。
+   ⚠️ 子に position:relative を配ってはいけない。
+   .cta__ph / .band__ph は position:absolute で置いてある。上書きすると写真が流れ出す（2026-09-10 実測）。
+   節を isolation:isolate で1つの層にして、地は z-index:-1 に沈める。それだけで本文が上に来る。 */
+/* ⚠️ .sec--tight は下層で単独で使われている（.sec が付いていない）。
+   .sec だけを当て先にすると、エアコンのページの「LINE UP」など6節が地無しで抜ける（2026-09-10 実測）。 */
+.sec,.sec--tight,.foot{position:relative;isolation:isolate;overflow-x:clip}
+.cta{isolation:isolate}
+
+.sec::before,.sec--tight::before,.cta::before,.foot::before{
+  content:"";position:absolute;left:-4%;right:-4%;top:-9%;bottom:-9%;
+  z-index:-1;pointer-events:none;
+  background:var(--fieldc,#1a6969);opacity:var(--fieldo,.21);
+  -webkit-mask-image:url(../img/field.svg);mask-image:url(../img/field.svg);
+  -webkit-mask-size:cover;mask-size:cover;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:var(--fieldp,50% 50%);mask-position:var(--fieldp,50% 50%);
+}
+/* 節ごとに場の別の場所を切り出す。同じ絵が並ばないように */
+section:nth-of-type(2n)::before{--fieldp:8% 22%}
+section:nth-of-type(3n)::before{--fieldp:92% 68%}
+section:nth-of-type(4n)::before{--fieldp:34% 96%}
+section:nth-of-type(5n)::before{--fieldp:66% 8%}
+
+.on-dark::before{--fieldc:#9fe0cd;--fieldo:.20}
+.cta::before{--fieldc:#8a7133;--fieldo:.19;--fieldp:20% 74%}
+.foot::before{--fieldc:#a9d3c7;--fieldo:.13;--fieldp:78% 30%}
+
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .sec::before,.sec--tight::before,.cta::before,.foot::before{
+      animation:fieldDrift linear both;
+      animation-timeline:view();animation-range:cover 0% cover 100%;
+    }
+    /* 地は本文より遅れて動く。差が奥行きになる */
+    @keyframes fieldDrift{
+      from{transform:translate3d(-1.6%,-5.5%,0)}
+      to  {transform:translate3d(1.6%,5.5%,0)}
+    }
+  }
+}
+
+/* 下層の写真の帯 ── 明るい節のあいだに挟まる。
+   ⚠️ 濃い矩形をそのまま落とすと、そこだけ別のサイトに見える。上下を地の色へ沈めて戻す。
+   ⚠️ もとの `band__bg` は CSS に当て先が無く、写真が素のまま1200pxで出ていた（2026-09-10 実測）。 */
+.band--sub{background:linear-gradient(180deg,#eaf3ee 0%,#0f423f 15%,#1a6969 85%,#eaf3ee 100%)}
+.band--sub::after{background:linear-gradient(180deg,
+  rgba(7,48,46,0) 0%,rgba(7,48,46,.5) 15%,rgba(7,48,46,.34) 50%,rgba(7,48,46,.5) 85%,rgba(7,48,46,0) 100%)}
+.band--sub .band__ph{
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 24%,#000 76%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 24%,#000 76%,transparent)}
+
+/* 夜明け・日暮れ ── 帯を通るあいだに 日が昇る／沈む。
+   ⚠️ 地のグラデ本体は動かさない。動かすと 上下の節との継ぎ目が見える。 */
+.dawn,.dusk{position:relative;overflow:hidden}
+.dawn::after,.dusk::after{
+  content:"";position:absolute;left:-14%;right:-14%;top:-80%;height:260%;
+  pointer-events:none;
+  background:radial-gradient(46% 34% at 50% 50%,rgba(255,244,222,.44),rgba(255,244,222,0) 70%);
+}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .dawn::after{animation:sunUp linear both;animation-timeline:view()}
+    .dusk::after{animation:sunDown linear both;animation-timeline:view()}
+    @keyframes sunUp  {from{transform:translateY(34%)} to{transform:translateY(-34%)}}
+    @keyframes sunDown{from{transform:translateY(-34%)}to{transform:translateY(34%)}}
+  }
+}
+
+/* 節の入り ── 見出しの足元の罫が、読み始めと同時に左から伸びる */
+.lead::after{
+  content:"";position:absolute;left:0;right:0;bottom:calc(clamp(36px,4.2vw,64px) * -.42);
+  height:1px;background:var(--gold);opacity:.42;
+  transform:scaleX(1);transform-origin:left center;
+}
+.on-dark .lead::after{background:var(--snow);opacity:.24}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .lead::after{animation:ruleGrow cubic-bezier(.16,1,.3,1) both;
+      animation-timeline:view();animation-range:entry 8% cover 26%}
+    @keyframes ruleGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  }
+}
+
+/* 冒頭 ── 読み進めると 写真が沈み、言葉が先に去る */
+@supports (animation-timeline:scroll()){
+  @media (prefers-reduced-motion:no-preference){
+    .hero__ph img{animation:heroSink linear both;
+      animation-timeline:scroll(root block);animation-range:0 100svh}
+    @keyframes heroSink{from{transform:scale(1.09) translateY(-1.6%)}
+                        to  {transform:scale(1.09) translateY(3.4%)}}
+    .hero__in{animation:heroLeave linear both;
+      animation-timeline:scroll(root block);animation-range:0 100svh}
+    @keyframes heroLeave{from{transform:none;opacity:1}
+                         to  {transform:translateY(-46px);opacity:.36}}
+  }
+}
+
+/* 数字の帯 ── 写真がゆっくり寄る */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .band__ph img{animation:bandZoom linear both;animation-timeline:view()}
+    @keyframes bandZoom{from{transform:scale(1.13)}to{transform:scale(1)}}
+  }
+}
+
+/* 施工実例 ── 枠は動かさず、枠の中で写真が動く。
+   ⚠️ transform では書かない。:hover の拡大と食い合う。object-position なら両立する。 */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .tiles .tile img{animation:tilePan linear both;animation-timeline:view()}
+    @keyframes tilePan{from{object-position:50% 34%}to{object-position:50% 66%}}
+    .tiles .tile:nth-child(2n) img{animation-name:tilePanB}
+    @keyframes tilePanB{from{object-position:50% 64%}to{object-position:50% 38%}}
+  }
+}
+
+/* 仕組みの断面図 ── 空気の流れが引かれ、室外機が回り、ドレンが流れる。
+   このページで一番「見えないものが見える」ところ。 */
+.room__fig .air{stroke-dasharray:1;stroke-dashoffset:0}
+.room__fig .tip{opacity:1}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .room__fig .air{animation:draw cubic-bezier(.22,.61,.36,1) both;
+      animation-timeline:view();animation-range:entry 16% cover 46%}
+    @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+    .room__fig .air.d2{animation-range:entry 22% cover 52%}
+    .room__fig .air.d3{animation-range:entry 28% cover 58%}
+    .room__fig .tip{animation:tipIn ease-out both;
+      animation-timeline:view();animation-range:cover 34% cover 52%}
+    @keyframes tipIn{from{opacity:0}to{opacity:1}}
+    .room__fig .fan{transform-box:view-box;transform-origin:566px 262px;
+      animation:fanTurn linear both;animation-timeline:view()}
+    @keyframes fanTurn{from{rotate:0deg}to{rotate:300deg}}
+    .room__fig .drain{animation:drainRun linear both;animation-timeline:view()}
+    @keyframes drainRun{to{stroke-dashoffset:-126}}
+  }
+}
+
+/* 頭 ── 地の温度に合わせて、膜の色も冷から温へ。
+   ⚠️ 明るくはしない。白い字が読めなくなる。動かすのは色みだけ。 */
+@property --hd{syntax:"<color>";inherits:false;initial-value:rgba(7,48,46,.82)}
+.head.is-min{background:var(--hd)}
+@supports (animation-timeline:scroll()){
+  @media (prefers-reduced-motion:no-preference){
+    .head{animation:headWarm linear both;animation-timeline:scroll(root block)}
+    @keyframes headWarm{
+      0%  {--hd:rgba(7,48,46,.82)}
+      62% {--hd:rgba(20,54,50,.84)}
+      100%{--hd:rgba(56,40,17,.86)}
+    }
+  }
+}
+
+@media (max-width:640px){
+  /* 小さい画面では地を薄くする。文字の裏で線が騒ぐと読みにくい */
+  .sec::before,.sec--tight::before,.cta::before,.foot::before{opacity:calc(var(--fieldo,.21) * .62)}
+}
