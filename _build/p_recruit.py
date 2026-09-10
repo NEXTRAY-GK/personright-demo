@@ -121,7 +121,7 @@ def build_index():
     ld = [{
         "@context": "https://schema.org", "@type": "ItemList",
         "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": j["name"],
-                             "url": f"https://nextrayjp.github.io/personright-demo/recruit/{j['id']}/"}
+                             "url": f"https://nextray-gk.github.io/personright-demo/recruit/{j['id']}/"}
                             for i, j in enumerate(JOBS)],
     }]
     return head(title, desc, "recruit", 1, extra=jsonld(1, ld)) + header("recruit", 1) + f"""

@@ -26,7 +26,7 @@ FAX = "024-983-0295"
 ZIP = "〒963-0101"
 ADDR = "福島県郡山市安積町日出山2-43"
 INSTA = "https://www.instagram.com/personright501/"
-BASE = "https://nextrayjp.github.io/personright-demo"
+BASE = "https://nextray-gk.github.io/personright-demo"
 
 NAV = [
     ("",            "/",             "HOME",             "ホーム"),

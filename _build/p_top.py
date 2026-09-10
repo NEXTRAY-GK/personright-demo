@@ -174,7 +174,7 @@ def build():
 
     return head(TITLE, DESC, "", 0, extra=jsonld(0, [{
         "@context": "https://schema.org", "@type": "WebSite",
-        "name": "株式会社パーソンライト", "url": "https://nextrayjp.github.io/personright-demo/",
+        "name": "株式会社パーソンライト", "url": "https://nextray-gk.github.io/personright-demo/",
     }])) + header("", 0) + f"""
 <main id="main">
 
