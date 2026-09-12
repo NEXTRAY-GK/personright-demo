@@ -272,7 +272,8 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   .head{gap:12px}
   .head__tel,.head__cta{display:none}
   .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;
-    width:46px;height:46px;margin-left:auto;padding:0;background:none;border:0;cursor:pointer}
+    position:relative;z-index:2;width:46px;height:46px;margin-left:auto;padding:0;
+    background:none;border:0;cursor:pointer;touch-action:manipulation}
   .burger span{display:block;width:24px;height:2px;background:#fff;margin-inline:auto;transition:transform .35s,opacity .25s}
   .burger.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .burger.is-open span:nth-child(2){opacity:0}

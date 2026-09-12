@@ -28,6 +28,7 @@
       var open = nav.classList.toggle('is-open');
       burger.classList.toggle('is-open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
       document.body.style.overflow = open ? 'hidden' : '';
     });
     nav.addEventListener('click', function (e) {
@@ -35,6 +36,7 @@
         nav.classList.remove('is-open');
         burger.classList.remove('is-open');
         burger.setAttribute('aria-expanded', 'false');
+        burger.setAttribute('aria-label', 'メニューを開く');
         document.body.style.overflow = '';
       }
     });
