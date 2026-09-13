@@ -235,12 +235,20 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   position:fixed;inset:0 0 auto;z-index:60;
   display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);
   padding:18px var(--gut) 18px calc(var(--gut) + 10px);
-  background:transparent;transition:background .4s ease,padding .4s ease;
+  transition:padding .4s ease;
 }
-.head.is-min{
+/* 膜 ── 色とすりガラスは ::before に持たせる。頭の本体には置かない。
+   ⚠️ backdrop-filter は中の position:fixed の包含ブロックになる。本体に置くと、
+      スクロール後に開いたスマホの引き出しが 頭の箱（高さ68px）に閉じ込められ、
+      項目が地の無いまま本文の上へ溢れて読めなくなる（2026-09-13 実測）。 */
+.head::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:transparent;transition:background .4s ease;
+}
+.head.is-min{padding-block:11px}
+.head.is-min::before{
   background:rgba(7,48,46,.82);
   -webkit-backdrop-filter:saturate(160%) blur(20px);backdrop-filter:saturate(160%) blur(20px);
-  padding-block:11px;
 }
 .head__logo{flex:none;line-height:0;padding-block:8px}
 .head__logo img{width:clamp(136px,13vw,196px);height:auto;filter:brightness(0) invert(1)}
@@ -273,28 +281,54 @@ a[href^="tel:"]{display:inline-block;padding-block:8px}
   .head__tel,.head__cta{display:none}
   .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;
     position:relative;z-index:2;width:46px;height:46px;margin-left:auto;padding:0;
-    background:none;border:0;cursor:pointer;touch-action:manipulation}
+    background:none;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   .burger span{display:block;width:24px;height:2px;background:#fff;margin-inline:auto;transition:transform .35s,opacity .25s}
   .burger.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .burger.is-open span:nth-child(2){opacity:0}
   .burger.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  /* 背景と文字をまとめて透かすと、展開中に背後の本文と重なって読めなくなる。
-     背景は即座に不透明で出し、内側の文字だけを短くフェードさせる。 */
-  .head__nav{position:fixed;inset:0;margin:0;background:#07302e;
-    display:flex;align-items:center;justify-content:center;
-    visibility:hidden;transition:visibility 0s linear .28s;z-index:-1}
-  .head__nav.is-open{visibility:visible;transition:visibility 0s;z-index:1}
+  /* 引き出しを開いても、ロゴと閉じるボタンは幕の上に残す */
+  .head__logo{position:relative;z-index:2}
+  /* 引き出し ── 画面いっぱいの幕。
+     ⚠️ 幕と字を同時に透かすと、途中で背後の本文と重なって読めない。
+        幕は短く出し、字は幕が濃くなってから遅れて出す。閉じるときは字を先に消す。
+     ⚠️ 項目8本と電話で約640px。背の低い画面や横向きでは収まらないので、幕の中でスクロールさせる。
+        上下の中央は margin-block:auto で取る（align-items:center だと上が切れて戻れない）。 */
+  .head__nav{position:fixed;inset:0;margin:0;z-index:1;
+    display:flex;flex-direction:column;align-items:center;
+    padding:96px 0 calc(40px + env(safe-area-inset-bottom,0px));
+    overflow-y:auto;overscroll-behavior:contain;background:#07302e;
+    opacity:0;visibility:hidden;transition:opacity .22s ease .08s,visibility 0s linear .3s}
+  .head__nav.is-open{opacity:1;visibility:visible;transition:opacity .2s ease,visibility 0s}
   .head__inner{flex-direction:column;gap:28px;width:min(100% - 44px,420px);align-items:stretch;
-    opacity:0;transform:translateY(10px);transition:opacity .24s ease,transform .28s ease}
-  .head__nav.is-open .head__inner{opacity:1;transform:none}
+    margin-block:auto;opacity:0;transform:translateY(12px);transition:opacity .12s ease,transform .12s ease}
+  .head__nav.is-open .head__inner{opacity:1;transform:none;
+    transition:opacity .28s ease .12s,transform .46s cubic-bezier(.2,.7,.2,1) .12s}
+  /* 左端の温度計は頭より上にいるので、開いているあいだは下げる */
+  .is-nav .gauge{opacity:0}
   .head__list{flex-direction:column;align-items:stretch;gap:0;width:100%}
   .head__list li+li{border-top:1px solid var(--line-ds)}
-  .head__list a{flex-direction:row;align-items:baseline;gap:16px;padding:16px 4px;font-size:15px;color:#fff}
+  .head__list a{flex-direction:row;align-items:baseline;gap:12px;padding:16px 4px;font-size:15px;color:#fff}
   .head__list a::after{display:none}
-  .head__list a .en{width:124px;flex:none;font-size:11px;letter-spacing:.14em;color:#e9d7a4}
+  /* ⚠️ いちばん長い CUSTOMER REVIEWS は 139px ある。124px の枠だと「お客様の声」に食い込んでいた（2026-09-13 実測） */
+  .head__list a .en{width:142px;flex:none;font-size:11px;letter-spacing:.12em;color:#e9d7a4}
   .navtel{display:flex;flex-direction:column;gap:4px;align-items:center;padding-top:12px;border-top:1px solid var(--line-ds)}
   .navtel small{font-family:var(--en);font-weight:600;font-size:10px;letter-spacing:.22em;color:#e9d7a4}
   .navtel .num{font-size:29px;color:#fff}
+  /* 背の低い画面では詰めて、電話まで1画面に収める。
+     ⚠️ iPhone の Safari は道具帯が出ていると高さ 660〜750px しか無い。上の詰め方（中身642px）だと電話が画面の外に出る。 */
+  @media (max-height:800px){
+    .head__nav{padding-top:84px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+    .head__inner{gap:18px}
+    .head__list a{padding-block:11px;line-height:1.6}
+    .navtel{gap:2px;padding-top:10px}
+    .navtel small{line-height:1.6}
+    .navtel .num{font-size:26px;line-height:1.3}
+  }
+  @media (max-height:600px){
+    .head__nav{padding-top:76px}
+    .head__list a{padding-block:8px}
+  }
+  @media (prefers-reduced-motion:reduce){.head__inner{transform:none}}
 }
 
 /* --------------------------------------------------------------------------
@@ -993,8 +1027,9 @@ section:nth-of-type(5n)::before{--fieldp:66% 8%}
 
 /* 頭 ── 地の温度に合わせて、膜の色も冷から温へ。
    ⚠️ 明るくはしない。白い字が読めなくなる。動かすのは色みだけ。 */
-@property --hd{syntax:"<color>";inherits:false;initial-value:rgba(7,48,46,.82)}
-.head.is-min{background:var(--hd)}
+/* ⚠️ 膜は .head::before が塗る。動かすのは .head なので、::before へ継がせる（inherits:true）。 */
+@property --hd{syntax:"<color>";inherits:true;initial-value:rgba(7,48,46,.82)}
+.head.is-min::before{background:var(--hd)}
 @supports (animation-timeline:scroll()){
   @media (prefers-reduced-motion:no-preference){
     .head{animation:headWarm linear both;animation-timeline:scroll(root block)}

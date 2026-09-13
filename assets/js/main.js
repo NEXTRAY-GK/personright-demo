@@ -24,25 +24,28 @@
   var burger = document.querySelector('.burger');
   var nav = document.querySelector('.head__nav');
   if (burger && nav) {
-    burger.addEventListener('click', function () {
-      var open = nav.classList.toggle('is-open');
+    var setNav = function (open) {
+      nav.classList.toggle('is-open', open);
       burger.classList.toggle('is-open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
       burger.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      document.documentElement.classList.toggle('is-nav', open);
       document.body.style.overflow = open ? 'hidden' : '';
+    };
+    burger.addEventListener('click', function () {
+      setNav(!nav.classList.contains('is-open'));
     });
     nav.addEventListener('click', function (e) {
-      if (e.target.closest('a')) {
-        nav.classList.remove('is-open');
-        burger.classList.remove('is-open');
-        burger.setAttribute('aria-expanded', 'false');
-        burger.setAttribute('aria-label', 'メニューを開く');
-        document.body.style.overflow = '';
-      }
+      if (e.target.closest('a')) setNav(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('is-open')) burger.click();
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) { setNav(false); burger.focus(); }
     });
+    /* ⚠️ 開いたまま画面が広がると、引き出しが消えても本文のスクロールが止まったままになる */
+    var wide = window.matchMedia('(min-width:1181px)');
+    var onWide = function (e) { if (e.matches && nav.classList.contains('is-open')) setNav(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else if (wide.addListener) wide.addListener(onWide);
   }
 
   /* -------------------------------------------------------------- 現れる
