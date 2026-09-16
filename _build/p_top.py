@@ -1,343 +1,246 @@
 # -*- coding: utf-8 -*-
-"""トップページ
+"""トップページ（2026-09-16 第3版）
 
    組み立ての考え：
-     空調は、目に見えない空気を設計する仕事。
-     だから冒頭は写真ではなく「温度の分布」から入り、
-     そこから 4つの事業 → 数字 → 仕組みの断面 → 現場の写真 → 声 と降りる。
-   事実はすべて現行サイト（personright.com）から引き継いだもの。足していない。
+     会社の事業一覧から入らない。読む人の困りごとから入る。
+     冒頭は写真ではなく、スクロールで冷えていく部屋の断面（サーモ画像）。
+       冷える部屋 → 困りごと6つ → 冷媒で変わる電気代 → 現場の写真 → 窓口は1本 → 声 → 採用
+   事実（メーカー・保証・数字・声・求人）はすべて会社の情報から。足していない。
+   断面図の温度はイメージで、画面にもそう書く。
 """
-from common import head, header, cta, footer, jsonld, TEL, TEL_RAW, INSTA
+from common import head, header, footer, jsonld, sh, TEL, TEL_RAW, INSTA
 
-TITLE = "株式会社パーソンライト｜業務用エアコン・環境商材・通信機器（福島県郡山市）"
-DESC = "郡山市を拠点に、業務用エアコンの販売・設置工事、LED照明、防犯カメラ、複合機の導入までを一貫して承ります。見積りは無料。株式会社パーソンライト。"
+TITLE = "株式会社パーソンライト｜業務用エアコンの販売・設置工事（福島県郡山市）"
+DESC = "福島県郡山市の株式会社パーソンライト。ダイキンほか5メーカーの業務用エアコンを自社の工事部が取り付け、7年保証と年間メンテナンスで見続けます。リースなら初期費用0円。防犯カメラ・複合機・ビジネスフォンも。"
 
-BIZ = [
-    ("01", "環境事業", "ENVIRONMENT",
-     ["業務用エアコン", "家庭用エアコン", "空気清浄機", "LED照明", "分解・洗浄クリーニング",
-      "エコキュート", "高機能換気設備", "業務用冷蔵庫・冷凍庫", "各種厨房機器"],
-     "業務用エアコンには <b>7年保証サービス</b>と年間メンテナンスサービスをご用意しています。"),
-    ("02", "通信事業", "COMMUNICATION",
-     ["ビジネスフォン", "複合機", "セキュリティ商材", "PC周辺設備", "防犯カメラ", "UTM", "サーバー"],
-     "選ぶところから設置、故障したときの連絡先まで、同じ担当が持ちます。"),
-    ("03", "工事部", "CONSTRUCTION",
-     ["各種工事", "電気工事", "水回り工事"],
-     "電気も水回りも、自社の工事部でやります。エアコンに付く工事を、外へ回しません。"),
-    ("04", "テレマーケティング事業", "TELEMARKETING",
-     ["アポイント"],
-     "福島県内の事業所へ、お電話でご案内しています。"),
+# 困りごと → 行き先
+CASES = [
+    ("夏になると、効きが悪い。",
+     "天井カセット形の分解・洗浄クリーニングから、入れ替えまで。まず今の一台を見ます。",
+     "ac/", "業務用エアコン"),
+    ("電気代が、毎月重い。",
+     "最新の省エネ機種に替えると、消費電力は最大70%下がります。15年前の機種からなら65%。",
+     "ac/#eco", "替える理由"),
+    ("2001年より前のエアコンを、まだ使っている。",
+     "その機種の冷媒 R22 は、生産も輸入も終わっています。修理用のガスが手に入るうちに。",
+     "ac/#refrigerant", "R22 のこと"),
+    ("開業や入れ替えに、まとまった資金を出したくない。",
+     "リースなら初期費用0円。税務上認められたリース期間なら、全額を経費として処理できます。",
+     "ac/#lease", "リース"),
+    ("電話も複合機も防犯カメラも、そろそろ替えたい。",
+     "ビジネスフォン、富士フイルムの複合機、夜間もカラーで撮れる防犯カメラ、UTM、サーバーまで。",
+     "office-tech/", "通信機器"),
+    ("エアコンのついでに、電気や水回りも。",
+     "電気工事も水回り工事も、自社の工事部で受けます。",
+     "company/", "会社案内"),
 ]
 
-# 断面図に添える説明（図と一対）
-ROOM = [
-    ("01", "室内機", "天井に埋め込む「天井カセット形」が主流です。四方向から吹き出すので、部屋の隅まで温度のむらが出にくくなります。"),
-    ("02", "冷媒配管", "天井裏を通して、外の室外機へつなぎます。曲がりが多いほど冷媒が流れにくく、効きが落ちます。"),
-    ("03", "室外機", "室内から集めた熱を、外へ捨てます。据付の向きと風の抜けで、効きと電気代が変わります。"),
-    ("04", "ドレン", "冷房中に出る水を、外へ流します。勾配が甘いと、天井に染みが出ます。"),
+REEL = [
+    ("case-install01.jpg", 640, 800, "天井を開け、天井裏で作業する当社の工事スタッフ", "天井を開けての工事", "天井裏"),
+    ("case-shop.jpg", 780, 611, "店舗の天井に設置した天井カセット形エアコン", "天井カセット形", "店舗"),
+    ("case-install02.jpg", 640, 480, "建物の外壁に据え付けた業務用エアコンの室外機", "室外機の据付", "外壁"),
+    ("case-house.jpg", 640, 427, "工場の外壁に並べて設置した業務用エアコンの室外機7台", "室外機7台", "工場"),
 ]
 
-WORKS = [
-    ("work-ceiling.jpg", "天井カセット形エアコンを分解して点検する当社の工事スタッフ", "分解・点検"),
-    ("case-install01.jpg", "天井カセット形エアコンの入れ替え工事の様子", "入れ替え工事"),
-    ("work-outdoor.jpg", "建物の外壁で室外機を据え付ける工事の様子", "室外機の据付"),
-    ("work-filter.jpg", "天井カセット形エアコンのフィルターを清掃する様子", "フィルター清掃"),
-    ("case-install02.jpg", "設置を終えた天井カセット形エアコン", "設置完了"),
-    ("work-attic.jpg", "天井裏で配管と配線を通す作業の様子", "天井裏の配管"),
+HUB = [
+    ("環境事業", ["業務用エアコン", "家庭用エアコン", "空気清浄機", "LED照明", "分解・洗浄クリーニング",
+               "エコキュート", "高機能換気設備", "業務用冷蔵庫・冷凍庫", "各種厨房機器"]),
+    ("通信事業", ["ビジネスフォン", "複合機", "セキュリティ商材", "PC周辺設備", "防犯カメラ", "UTM", "サーバー"]),
+    ("工事部", ["各種工事", "電気工事", "水回り工事"]),
+    ("テレマーケティング事業", ["アポイント"]),
 ]
 
 VOICE = [
     ("最適な提案と確かな技術で大満足です。", "田村市　N様", "98",
-     "会社のエアコン設置をお願いしました。こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。コスト面も含めて納得のいく内容で、仕上がりも大満足です。またお願いしたいと思います。"),
+     "こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。コスト面も含めて納得のいく内容で、仕上がりも大満足です。"),
     ("業務への影響を最小限に、スムーズな設置でした。", "郡山市　M様", "96",
-     "オフィスのエアコンを新しく設置していただきました。作業が迅速かつ丁寧で、業務の妨げにならないよう配慮いただき助かりました。社内が快適になり、社員からも好評です。プロの仕事に感謝しています。"),
+     "作業が迅速かつ丁寧で、業務の妨げにならないよう配慮いただき助かりました。社内が快適になり、社員からも好評です。"),
+]
+
+JOBS = [
+    ("49", "エアコン設備工事スタッフ", "正社員", "月給 220,000〜450,000円"),
+    ("46", "営業職", "正社員", "月給 220,000〜650,000円"),
+    ("48", "テレフォンアポインター", "パート・アルバイト", "時給 1,100〜1,500円"),
+    ("77", "管理職責任者", "正社員", "月給 350,000〜650,000円"),
 ]
 
 
-def room_svg():
-    """室内機から室外機までの断面。写真では撮れないので自分で描く。
-       冷たい空気は青緑、暖かい空気は銅色。色がそのまま温度を指す。"""
-    return """<svg viewBox="0 0 660 420" role="img" aria-labelledby="roomT roomD" fill="none">
-  <title id="roomT">業務用エアコンの断面図</title>
-  <desc id="roomD">天井カセット形の室内機から冷たい空気が四方に降り、室内で暖まった空気が中央を上がって室内機へ戻る。熱は天井裏の冷媒配管を通って屋外の室外機から捨てられる。</desc>
-
-  <!-- 建物 -->
-  <g stroke="#1a6969" stroke-width="1">
-    <path d="M40 44 H470 V376 H40 Z"/>
-    <path d="M40 92 H470" stroke-dasharray="3 4" opacity=".75"/>
-    <path d="M40 376 H620"/>
-    <path d="M470 44 V376"/>
-  </g>
-  <text x="52" y="72" fill="#4e625f" font-size="10.5" letter-spacing="2.4">天井裏</text>
-  <text x="486" y="72" fill="#4e625f" font-size="10.5" letter-spacing="2.4">屋外</text>
-
-  <!-- 室内機（天井カセット形） -->
-  <g stroke="#f0a933" stroke-width="1.4">
-    <path d="M212 92 H298 V116 H212 Z"/>
-    <path d="M226 116 V124 M255 116 V126 M284 116 V124"/>
-  </g>
-  <circle cx="255" cy="104" r="2.2" fill="#f0a933"/>
-
-  <!-- 冷たい空気：室内機から四方へ降りる -->
-  <g stroke="#2ea294" stroke-width="1.2" stroke-linecap="round">
-    <path class="air" pathLength="1" d="M212 118 C170 138 140 190 136 262" opacity=".9"/>
-    <path class="air d2" pathLength="1" d="M212 118 C182 148 162 200 160 268" opacity=".55"/>
-    <path class="air" pathLength="1" d="M298 118 C340 138 370 190 374 262" opacity=".9"/>
-    <path class="air d2" pathLength="1" d="M298 118 C328 148 348 200 350 268" opacity=".55"/>
-  </g>
-  <g fill="#2ea294" class="tip">
-    <path d="M136 268 l4.6 -9 h-9.2 Z"/>
-    <path d="M374 268 l4.6 -9 h-9.2 Z"/>
-  </g>
-
-  <!-- 暖かい空気：中央を上がって戻る -->
-  <g stroke="#f0a933" stroke-width="1.2" stroke-linecap="round">
-    <path class="air d2" pathLength="1" d="M232 330 C238 268 244 200 248 130" opacity=".85"/>
-    <path class="air d2" pathLength="1" d="M278 330 C274 268 268 200 262 130" opacity=".85"/>
-    <path class="air d3" pathLength="1" d="M255 336 C255 300 255 280 255 258" opacity=".4"/>
-  </g>
-  <g fill="#f0a933" class="tip">
-    <path d="M248 130 l-4.6 9 h9.2 Z" transform="rotate(180 248 134)"/>
-    <path d="M262 130 l-4.6 9 h9.2 Z" transform="rotate(180 262 134)"/>
-  </g>
-
-  <!-- 人がいる高さ -->
-  <g stroke="#1a6969" stroke-width="1" stroke-dasharray="2 5">
-    <path d="M60 300 H450"/>
-  </g>
-  <text x="60" y="292" fill="#4e625f" font-size="10" letter-spacing="2">人のいる高さ</text>
-
-  <!-- 冷媒配管：天井裏 → 壁 → 室外機 -->
-  <g stroke="#2ea294" stroke-width="1.6">
-    <path class="air d3" pathLength="1" d="M298 100 H438 C452 100 458 106 458 120 V244"/>
-  </g>
-  <g stroke="#f0a933" stroke-width="1.6">
-    <path class="air d3" pathLength="1" d="M458 244 H520"/>
-  </g>
-
-  <!-- ドレン -->
-  <g stroke="#5ec4b0" stroke-width="1.1" stroke-dasharray="4 3">
-    <path class="drain" d="M212 104 H120 C108 104 104 110 104 122 V352 H470"/>
-  </g>
-
-  <!-- 室外機 -->
-  <g stroke="#f0a933" stroke-width="1.4">
-    <path d="M520 224 H612 V320 H520 Z"/>
-    <path d="M520 300 H612"/>
-  </g>
-  <g stroke="#f0a933" stroke-width="1.1" opacity=".9">
-    <circle cx="566" cy="262" r="24"/>
-    <g class="fan" stroke-linecap="round">
-      <path d="M566.0 262.0 C575.0 256.5 582.5 255.5 586.0 260.5"/>
-      <path d="M566.0 262.0 C566.3 272.5 563.4 279.5 557.3 280.1"/>
-      <path d="M566.0 262.0 C556.7 257.0 552.1 251.0 554.7 245.4"/>
-    </g>
-  </g>
-  <!-- 捨てられる熱 -->
-  <g stroke="#f0a933" stroke-width="1.1" stroke-linecap="round" opacity=".7">
-    <path d="M622 250 C636 246 640 240 636 232"/>
-    <path d="M622 266 C640 262 646 254 640 244"/>
-  </g>
-
-  <!-- 番号 -->
-  <g font-size="10.5" letter-spacing="1.6" fill="#f0a933" font-family="Jost, sans-serif">
-    <text x="304" y="88">01</text>
-    <text x="400" y="116">02</text>
-    <text x="524" y="216">03</text>
-    <text x="110" y="366">04</text>
-  </g>
-</svg>"""
-
-
 def build():
-    biz = "\n".join(f"""      <article class="biz__i rise">
-        <span class="biz__n" aria-hidden="true">{n}</span>
-        <h3 class="biz__t"><small>{en}</small>{ja}</h3>
-        <ul class="biz__l">{''.join(f'<li>{x}</li>' for x in items)}</ul>
-        <p class="biz__d">{d}</p>
-      </article>""" for n, ja, en, items, d in BIZ)
+    cases = "\n".join(f"""      <li class="case rise">
+        <a href="./{href}">
+          <span class="case__n mono">{i+1:02d}</span>
+          <b class="case__t">{t}</b>
+          <span class="case__d">{d}</span>
+          <span class="case__go mono">{go} →</span>
+        </a>
+      </li>""" for i, (t, d, href, go) in enumerate(CASES))
 
-    steps = "\n".join(f"""        <div class="room__s">
-          <b>{n}</b>
-          <p><i>{t}</i>{d}</p>
-        </div>""" for n, t, d in ROOM)
-
-    works = "\n".join(f"""        <figure class="tile rise">
-          <img src="./assets/img/{f}" alt="{a}" width="760" height="507" loading="lazy">
-          <figcaption class="tile__n">{c}</figcaption>
-        </figure>""" for f, a, c in WORKS)
-
-    voice = "\n".join(f"""      <article class="voice rise">
-        <p class="voice__mark" aria-hidden="true">&ldquo;</p>
-        <div class="voice__b">
-          <h3 class="voice__t">{t}</h3>
-          <p class="voice__d">{d}</p>
-          <p class="voice__who"><b>{who}</b><a class="tlink" href="./reviews/{i}/">この声を読む</a></p>
+    reel = "\n".join(f"""      <figure class="reel__i" style="--ar:{w}/{h}">
+        <div class="scan" data-scan>
+          <img class="scan__real" src="./assets/img/{f}" alt="{a}" width="{w}" height="{h}" loading="lazy">
+          <img class="scan__heat" src="./assets/img/{f}" alt="" width="{w}" height="{h}" loading="lazy" aria-hidden="true">
+          <i class="scan__line" aria-hidden="true"></i>
         </div>
-      </article>""" for t, who, i, d in VOICE)
+        <figcaption><span class="mono">{i+1:02d} / {len(REEL):02d}　{place}</span>{c}</figcaption>
+      </figure>""" for i, (f, w, h, a, c, place) in enumerate(REEL))
 
-    return head(TITLE, DESC, "", 0, extra=jsonld(0, [{
+    hub = "\n".join(f"""      <div class="hub__i rise">
+        <h3 class="hub__t"><span class="mono">{i+1:02d}</span>{t}</h3>
+        <ul>{''.join(f'<li>{x}</li>' for x in items)}</ul>
+      </div>""" for i, (t, items) in enumerate(HUB))
+
+    voice = "\n".join(f"""      <article class="q rise">
+        <p class="q__no mono">VOICE {i+1:02d}　{who}</p>
+        <h3 class="q__t">「{t}」</h3>
+        <p class="q__d">{d}</p>
+        <a class="tl" href="./reviews/{vid}/">全文を読む</a>
+      </article>""" for i, (t, who, vid, d) in enumerate(VOICE))
+
+    jobs = "\n".join(f"""      <li><a href="./recruit/{jid}/"><b>{n}</b><span>{ty}</span><span class="mono">{pay}</span><i aria-hidden="true">→</i></a></li>"""
+                     for jid, n, ty, pay in JOBS)
+
+    return head(TITLE, DESC, "", 0, page="is-top", extra=jsonld(0, [{
         "@context": "https://schema.org", "@type": "WebSite",
         "name": "株式会社パーソンライト", "url": "https://nextray-gk.github.io/personright-demo/",
     }])) + header("", 0) + f"""
 <main id="main">
 
-<!-- ======================================================== 冒頭 ── 冷 -->
-<section class="hero" style="--c1:#041f1e;--c2:#0a3835">
-  <div class="hero__ph" aria-hidden="true">
-    <picture>
-      <source media="(max-width:860px)" srcset="./assets/img/hero-sp.jpg">
-      <img src="./assets/img/hero.jpg" alt="" width="1600" height="771" fetchpriority="high">
-    </picture>
-  </div>
-  <div class="hero__in">
-    <span class="hero__lab">Service &amp; Contribution</span>
-    <h1 class="hero__h">
-      <i>つけて終わり、</i>
-      <i>にしない。</i>
-    </h1>
-    <p class="hero__sub">業務用エアコンに7年保証と年間メンテナンス。ダイキンほか5メーカーから選び、自社の工事部が取り付けます。福島県郡山市。</p>
-    <div class="hero__acts">
-      <a class="btn" href="./ac/">業務用エアコンを見る</a>
-      <a class="btn btn--ghost" href="./contact/">無料で見積りを頼む</a>
+<!-- ================================================ 冒頭 ── 冷えていく部屋 -->
+<section class="tm" id="top" aria-labelledby="tmH">
+  <div class="tm__stage">
+    <canvas class="tm__cv" aria-hidden="true"></canvas>
+    <div class="tm__hud mono" aria-hidden="true">
+      <span class="tm__rec"><i></i>IR VIEW　断面図・温度はイメージです</span>
+      <span class="tm__sp" data-sp="0">SP1 窓際　<b>--.-</b>℃</span>
+      <span class="tm__sp" data-sp="1">SP2 机の上　<b>--.-</b>℃</span>
+      <span class="tm__sp" data-sp="2">SP3 床の隅　<b>--.-</b>℃</span>
     </div>
-  </div>
-  <div class="hero__foot">
-    <span>KORIYAMA, FUKUSHIMA</span>
-    <a class="num" href="tel:{TEL_RAW}">{TEL}</a>
-  </div>
-</section>
 
-<!-- ============================================== 取り扱いメーカー -->
-<section class="makers-band on-dark" aria-label="取り扱いメーカー" style="--c1:#0a3835;--c2:#0c3b38">
-  <div class="wrap">
-    <p class="makers-band__l">取り扱いメーカー</p>
-    <img src="./assets/img/makers.png" alt="ダイキン、三菱電機、日立、東芝、パナソニック" width="634" height="29" loading="lazy">
-  </div>
-</section>
-
-<!-- ======================================================== 事業案内 -->
-<section class="sec on-dark" id="business" style="--c1:#0c3b38;--c2:#134a46">
-  <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Business</span>
-      <h2 class="lead__ja">事業案内</h2>
-      <p class="lead__note">郡山市を拠点に、業務用エアコンから家庭用エアコン、ビル用マルチエアコン、業務用冷凍機・冷蔵庫、換気扇、全熱交換器、除湿器、暖房機、また通信機器などの販売や各種設置工事を行っております。</p>
-    </div>
-    <div class="biz">
-{biz}
-    </div>
-  </div>
-</section>
-
-<!-- ==================================================== 空調（数字） -->
-<section class="band on-dark" id="aircon" style="--c1:#134a46;--c2:#1a6969">
-  <div class="band__ph"><img src="./assets/img/case-house.jpg" alt="" width="1200" height="801" loading="lazy"></div>
-  <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Air Conditioner</span>
-      <h2 class="lead__ja">空調機器の各種販売、設置工事</h2>
-      <p class="lead__note">業務用エアコンの入れ替え・取り付け工事はパーソンライトにお任せください。ダイキン・三菱電機・日立・東芝・パナソニックの5メーカーから、お使いの場所に合う一台をお選びします。</p>
-    </div>
-    <div class="figs rise">
-      <div class="figs__hero">
-        <span class="figs__l">最新の省エネ機種に替えると</span>
-        <p class="figs__v num"><span class="tick" style="--to:70"><i>70</i></span><small>%</small></p>
-        <span class="figs__d">消費電力を最大で削減できます</span>
+    <div class="tm__txt">
+      <div class="tm__s" data-s="0">
+        <p class="tm__eye mono">業務用エアコン ／ 福島県郡山市</p>
+        <h1 class="tm__h" id="tmH">暑い部屋は、<br>天井から冷やす。</h1>
+        <p class="tm__p">ダイキンほか5メーカーから選び、自社の工事部が取り付け、7年保証と年間メンテナンスで見続けます。</p>
+        <p class="tm__acts">
+          <a class="btn btn--light" href="./contact/">無料で見積りを頼む</a>
+          <a class="tl tl--light" href="tel:{TEL_RAW}"><span class="mono">{TEL}</span></a>
+        </p>
       </div>
-      <div class="figs__rest">
-        <div class="figs__i">
-          <p class="figs__v num"><span class="tick" style="--to:5"><i>5</i></span><small>社</small></p>
-          <span class="figs__l">取り扱いメーカー</span>
-          <span class="figs__d">ダイキン・三菱電機・日立・東芝・パナソニック</span>
-        </div>
-        <div class="figs__i">
-          <p class="figs__v num"><span class="tick" style="--to:7"><i>7</i></span><small>年</small></p>
-          <span class="figs__l">業務用エアコン</span>
-          <span class="figs__d">保証サービス。年間メンテナンスも承ります</span>
-        </div>
-        <div class="figs__i">
-          <p class="figs__v num"><span class="tick" style="--to:0"><i>0</i></span><small>円</small></p>
-          <span class="figs__l">初期費用</span>
-          <span class="figs__d">リースなら、まとまった資金を用意せずに導入できます</span>
-        </div>
+      <div class="tm__s" data-s="1">
+        <p class="tm__eye mono">01 ／ 選ぶ</p>
+        <p class="tm__h2">ダイキン、三菱電機、<br>日立、東芝、<br>パナソニック。</p>
+        <p class="tm__p">天井カセット形、天井吊形、壁掛形、床置形、厨房用まで12の形から、部屋の広さと天井の構造に合う一台を。</p>
+      </div>
+      <div class="tm__s" data-s="2">
+        <p class="tm__eye mono">02 ／ 取り付ける</p>
+        <p class="tm__h2">冷たい空気は下へ、<br>暖まった空気は上へ。</p>
+        <p class="tm__p">その流れを邪魔しない位置に室内機を置き、配管とドレンの勾配を取る。ここまでを自社の工事部がやります。</p>
+      </div>
+      <div class="tm__s" data-s="3">
+        <p class="tm__eye mono">03 ／ 見続ける</p>
+        <p class="tm__h2">引き渡しのあとは、<br>7年保証と<br>年間メンテナンス。</p>
+        <p class="tm__p">最新の省エネ機種に替えると、消費電力は最大70%下がります。</p>
+        <p class="tm__acts"><a class="btn btn--light" href="./ac/">業務用エアコンを見る</a></p>
       </div>
     </div>
-    <p class="c-act"><a class="btn btn--ghost" href="./ac/">業務用エアコンのご案内</a></p>
+
+    <div class="tm__temp" aria-hidden="true">
+      <p class="tm__deg"><b class="tm__v">33.8</b><span>℃</span></p>
+      <div class="tm__scale mono"><span>22</span><i><em></em></i><span>36℃</span></div>
+      <p class="tm__hint mono"><i></i>スクロールすると、部屋が冷えます</p>
+    </div>
   </div>
 </section>
 
-<!-- 温度が上がる ── ここから地が明るくなる -->
-<div class="dawn" aria-hidden="true"></div>
+<!-- ======================================================== メーカー -->
+<div class="makers">
+  <p class="mono">取り扱い</p>
+  <ul><li>ダイキン</li><li>三菱電機</li><li>日立</li><li>東芝</li><li>パナソニック</li></ul>
+</div>
 
-<!-- ============================================ 仕組み（断面図） -->
-<section class="sec" id="how" style="--c1:#eef6f2;--c2:#e8f3ee">
+<!-- ======================================================== 困りごと -->
+<section class="sec" id="cases">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">How it works</span>
-      <h2 class="lead__ja">一台のエアコンが、部屋の空気を変えるまで</h2>
-      <p class="lead__note">効きと電気代は、天井裏で決まります。冷たい空気は下へ、暖まった空気は上へ。その流れを邪魔しない位置に室内機を置き、配管とドレンの勾配を取る。ここまでが工事です。</p>
-    </div>
-    <div class="room rise">
-      <figure class="room__fig">
-        {room_svg()}
-        <figcaption class="room__cap">断面図 ── 天井カセット形の場合</figcaption>
-      </figure>
-      <div class="room__steps">
-{steps}
+    {sh("A", "ご相談の入り口", "どこから話せばいいか、<br>分からなくても。", "よくいただくご相談を6つに分けました。当てはまる所から読んでください。どれにも当てはまらなければ、そのままお電話を。")}
+    <ol class="cases">
+{cases}
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================ 冷媒で変わる電気代（止まって読む） -->
+<section class="mt" id="meter" aria-labelledby="mtH">
+  <div class="mt__stage">
+    <div class="wrap mt__in">
+      <div class="mt__l">
+        <p class="sh__no mono"><b>B</b><span>電気代</span></p>
+        <h2 class="mt__h" id="mtH">同じ部屋を冷やす電気は、<br>冷媒の世代で5分の1に。</h2>
+        <p class="mt__p">冷媒 R22 の機種の消費電力を100としたときの比較です。2001年より前の機種を使っているなら、替える理由は電気代だけではありません。R22 は生産・輸入が終わっています。</p>
+        <p><a class="tl" href="./ac/#refrigerant">冷媒と入れ替えの話を読む</a></p>
+      </div>
+      <div class="mt__r">
+        <p class="mt__yr mono"><span class="mt__gen">R22（指定フロン）</span><span class="mt__era">2001年以前</span></p>
+        <p class="mt__big"><b class="mt__v">100</b><span>%</span></p>
+        <div class="mt__bar"><i></i></div>
+        <ol class="mt__steps mono">
+          <li data-m="0"><b>100</b>R22<small>〜2001</small></li>
+          <li data-m="1"><b>60</b>R407・R410<small>2001〜2013</small></li>
+          <li data-m="2"><b>20</b>R32<small>2014〜</small></li>
+        </ol>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======================================================== 施工実例 -->
-<section class="sec" id="works" style="--c1:#e8f3ee;--c2:#f1f7f3">
-  <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Works</span>
-      <h2 class="lead__ja">施工実例</h2>
-      <p class="lead__note">事務所・店舗・工場・倉庫。天井カセット形の入れ替えから、外壁の室外機据付、天井裏の配管まで。現場の写真は Instagram でも随時ご紹介しています。</p>
+<!-- ======================================================== 現場（横に流れる） -->
+<section class="reel" id="works" aria-labelledby="reelH">
+  <div class="reel__stage">
+    <div class="wrap reel__hd">
+      <p class="sh__no mono"><b>C</b><span>現場</span></p>
+      <h2 class="reel__h" id="reelH">天井の上と、壁の外。</h2>
+      <p class="reel__p">事務所と店舗の天井、工場の外壁。取り付けの現場から。</p>
+    </div>
+    <div class="reel__track">
+{reel}
+      <div class="reel__end">
+        <p>ほかの現場は<br>Instagram に。</p>
+        <a class="tl tl--light" href="{INSTA}" target="_blank" rel="noopener">@personright501</a>
+      </div>
     </div>
   </div>
-  <div class="tiles tiles--w">
-{works}
-  </div>
-  <div class="wrap"><p class="c-act"><a class="tlink" href="{INSTA}" target="_blank" rel="noopener">Instagram（@personright501）で施工実例を見る</a></p></div>
 </section>
 
-<!-- ======================================================== お客様の声 -->
-<section class="sec" id="voice" style="--c1:#f1f7f3;--c2:#f7f4ea">
+<!-- ======================================================== 窓口は1本 -->
+<section class="sec hub" id="madoguchi">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Reviews</span>
-      <h2 class="lead__ja">お客様の声</h2>
-      <p class="lead__note">パーソンライトでは、設備機器の工事を終えた後からが本当のお付き合いの始まりであると考えております。皆様からのご意見をお伺いし、今後のアフターフォローに活かしていきます。</p>
+    {sh("D", "窓口", "電話は、一本でいい。", "空調・通信機器・工事・テレマーケティングの4つを1社でやっています。エアコンの相談のついでに、電話機や複合機の話をしても構いません。")}
+    <p class="hub__tel rise"><small class="mono">TEL</small><a class="mono" href="tel:{TEL_RAW}">{TEL}</a></p>
+    <div class="hub__g">
+{hub}
     </div>
-    <div class="voices">
+  </div>
+</section>
+
+<!-- ======================================================== 声 -->
+<section class="sec sec--p2" id="voice">
+  <div class="wrap">
+    {sh("E", "お客様の声", "工事のあとに、<br>届いた言葉。")}
+    <div class="qs">
 {voice}
     </div>
-    <p class="c-act"><a class="btn" href="./reviews/">お客様の声の一覧</a></p>
+    <p class="more rise"><a class="btn" href="./reviews/">お客様の声を4件すべて読む</a></p>
   </div>
 </section>
 
-<!-- ========================================================== 採用 -->
-<section class="sec" id="recruit" style="--c1:#f7f4ea;--c2:#f4efdf">
-  <div class="wrap">
-    <div class="duo">
-      <figure class="duo__fig rise">
-        <img src="./assets/img/recruit03.jpg" alt="天井カセット形エアコンを点検する当社の工事スタッフ" width="1000" height="717" loading="lazy">
-        <figcaption>RECRUIT</figcaption>
-      </figure>
-      <div class="rise">
-        <div class="lead lead--l">
-          <span class="lead__en">Recruit</span>
-          <h2 class="lead__ja">一緒に働く人を探しています</h2>
-        </div>
-        <p>自ら行動する意欲や姿勢を持ち、常にチャレンジ精神旺盛な人物を求めています。営業職・工事スタッフ・テレフォンアポインター・管理職責任者の4職種で募集中です。</p>
-        <p style="margin-top:30px"><a class="btn" href="./recruit/">採用情報を見る</a></p>
-      </div>
-    </div>
+<!-- ======================================================== 採用 -->
+<section class="sec" id="recruit">
+  <div class="wrap rc">
+    {sh("F", "採用", "天井に上がる人も、<br>電話をかける人も。", "4つの職種で募集しています。")}
+    <ul class="rows rise">
+{jobs}
+    </ul>
   </div>
 </section>
 
 </main>
-""" + cta(0) + footer(0)
+""" + footer(0)

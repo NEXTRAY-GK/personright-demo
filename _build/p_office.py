@@ -1,108 +1,108 @@
 # -*- coding: utf-8 -*-
-"""通信機器 /office-tech/"""
-from common import head, header, phero, cta, footer, jsonld
+"""通信機器 /office-tech/（2026-09-16 第3版）
 
-TITLE = "通信機器｜株式会社パーソンライト"
-DESC = "夜間もカラーで撮れる防犯カメラ、富士フイルムの複合機、ビジネスフォン、UTM、サーバーまで。ビジネス現場に最適な機器を一括でご提案・導入します。福島県郡山市の株式会社パーソンライト。"
+   並びを「取り扱い → 夜の映像の見比べ（スクロールで切り替わる）→ 複合機」にした。
+"""
+from common import head, header, phero, footer, jsonld, sh
+
+TITLE = "防犯カメラ・複合機・ビジネスフォン｜株式会社パーソンライト"
+DESC = "夜間もカラーで撮れる防犯カメラ、富士フイルムの複合機、ビジネスフォン、UTM、サーバーまで。福島県郡山市の株式会社パーソンライトがご提案から設置まで承ります。"
 
 CAM = [
-    ("cam-color.jpg", "夜間カラー撮影に対応したカメラ",
-     "暗いなかでも輪郭と色が残ります。服装や車の色まで判別でき、証拠として役に立ちます。"),
-    ("cam-dark.jpg", "夜間の撮影に対応していないカメラ",
+    ("cam-dark.jpg", 520, 242, "夜間の撮影に対応していないカメラ",
      "暗くなると、ほとんど何も判別できません。"),
-    ("cam-mono.jpg", "夜間のカラー撮影に対応していないカメラ",
+    ("cam-mono.jpg", 520, 242, "夜間のカラー撮影に対応していないカメラ",
      "写ってはいますが白黒のため、色の手がかりは残りません。"),
+    ("cam-color.jpg", 1080, 504, "夜間カラー撮影に対応したカメラ",
+     "暗いなかでも輪郭と色が残ります。服装や車の色まで判別でき、証拠として役に立ちます。"),
 ]
 
 FUJI = [
-    ("圧倒的なコストパフォーマンス",
-     "現在お使いのプリンターで印刷コストが高いと感じている企業様、ぜひ一度お問合せください。弊社は常にお客様のニーズに応えるため、地域ナンバーワンの低価格を目指しています。"),
+    ("コストパフォーマンス",
+     "いまお使いのプリンターの印刷コストが高いと感じていれば、一度ご相談ください。導入コスト・印刷コストで地域ナンバーワンの低価格を目指しています。"),
     ("高品質な印刷",
-     "富士フイルムの複合機は色彩の再現性に優れた製品として市場から高い評価を得ています。高精細な印刷品質で、鮮やかな色彩とシャープなテキストを実現します。"),
+     "富士フイルムの複合機は、色の再現性に優れた製品として市場から高い評価を得ています。"),
     ("高い耐久性",
-     "全国のセブン-イレブンに富士フイルムの複合機が設置されています。利用客も多く、環境が不安定なコンビニでも安定して運用されており、その耐久性が高く評価されています。"),
-    ("質の高いサポート体制",
-     "富士フイルムビジネスイノベーションは全国にメンテナンス拠点を多く設けております。不具合が生じたときも迅速に対応できる体制を整えているため、業務中に機器が不具合を生じたとしても安心してご利用いただけます。"),
+     "全国のセブン-イレブンに富士フイルムの複合機が設置されています。利用客が多く、環境が安定しないコンビニでも安定して動いています。"),
+    ("サポート体制",
+     "富士フイルムビジネスイノベーションは全国にメンテナンス拠点を多く設けており、業務中に不具合が出ても迅速に対応できる体制があります。"),
 ]
 
 ITEMS = ["ビジネスフォン", "複合機", "セキュリティ商材", "PC周辺設備", "防犯カメラ", "UTM", "サーバー"]
 
 
 def build():
-    cam = "\n".join(f"""      <figure class="card rise">
-        <div class="card__fig"><img src="../assets/img/{f}" alt="{t}" width="1200" height="675" loading="lazy"></div>
-        <div class="card__body"><h3 class="card__t">{t}</h3><p class="card__d">{d}</p></div>
-      </figure>""" for f, t, d in CAM)
+    layers = "\n".join(f"""        <figure class="nv__i" data-nv="{i}">
+          <img src="../assets/img/{f}" alt="{t}の夜間の映像" width="{w}" height="{h}" loading="lazy">
+        </figure>""" for i, (f, w, h, t, d) in enumerate(CAM))
+    caps = "\n".join(f"""        <li data-nv="{i}"><span class="mono">{i+1:02d}</span><b>{t}</b><p>{d}</p></li>""" for i, (f, w, h, t, d) in enumerate(CAM))
 
-    fuji = "\n".join(f"""      <li class="rise"><h3 class="merit__t"><i>{i+1:02d}</i>{t}</h3><p class="merit__d">{d}</p></li>"""
+    fuji = "\n".join(f"""      <li class="rise"><span class="mono">{i+1:02d}</span><b>{t}</b><p>{d}</p></li>"""
                      for i, (t, d) in enumerate(FUJI))
 
     items = "".join(f"<li>{i}</li>" for i in ITEMS)
 
     return head(TITLE, DESC, "office-tech", 1, extra=jsonld(1)) + header("office-tech", 1) + f"""
 <main id="main">
-""" + phero("Office Tech", "通信機器",
-            "防犯カメラをはじめ、電話機、コピー機、IT・通信機器まで。ビジネス現場に最適な機器を一括でご提案・導入いたします。",
-            "cam-hero.jpg", "建物の外壁に設置された防犯カメラ",
-            [("通信機器", "")], 1) + f"""
+""" + phero("02", "OFFICE TECH", "通信機器",
+            "電話機、複合機、防犯カメラ、UTM、サーバー。事務所の機器を選ぶところから設置まで、まとめてご相談ください。",
+            "cam-hero.jpg", "建物の外壁に設置された防犯カメラ", [("通信機器", "")], 1, 1600, 587) + f"""
 
-<section class="sec" id="camera">
+<section class="sec" id="lineup">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Security Camera</span>
-      <h2 class="lead__ja">安心・安全な職場や店舗づくりを、<br>私たちがサポートします</h2>
-      <p class="lead__note">弊社では、夜間でもカラー撮影が可能な防犯カメラを取り扱っております。暗闇でも鮮明なカラー映像を提供し、犯罪の抑止や証拠収集に非常に効果的です。</p>
-    </div>
-    <div class="grid grid--3">
-{cam}
-    </div>
-    <p class="note rise" style="margin-top:26px">いずれも夜間の映像です。同じ場所を、対応機と非対応機で撮り比べています。</p>
-  </div>
-</section>
-
-<section class="band band--sub sec on-dark" id="compare">
-  <div class="band__ph"><img src="../assets/img/cam-color.jpg" alt="" width="1200" height="675" loading="lazy"></div>
-  <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Comparison</span>
-      <h2 class="lead__ja">金額で見送った方こそ、<br>もう一度比べてください</h2>
-      <p class="lead__note">以前、防犯カメラを検討されていたお客様の中には、金額が高くて導入を見送った方もいらっしゃるかと思います。ぜひ一度、弊社の条件と比較してみてください。夜間のカラー撮影はもちろん、動体検知や遠隔操作など、最新の技術を搭載しています。これにより、より安心で効率的な監視が可能です。</p>
-      <p class="lead__note">業種や設置環境、目的に応じて、最適な機種と設置方法をご提案いたします。設置工事からサポート体制まで、すべて弊社にお任せください。</p>
-    </div>
-    <p style="margin-top:40px"><a class="btn btn--onDark" href="../contact/">防犯カメラの相談をする</a></p>
-  </div>
-</section>
-
-<section class="sec" id="printer">
-  <div class="wrap">
-    <div class="duo duo--rev">
-      <figure class="duo__fig rise">
-        <img src="../assets/img/printer.png" alt="富士フイルムの複合機" width="800" height="600" loading="lazy" style="background:#fff;object-fit:contain">
-      </figure>
-      <div class="rise">
-        <div class="lead">
-          <span class="lead__en">Multifunction Printer</span>
-          <h2 class="lead__ja">富士フイルム複合機</h2>
-        </div>
-        <p>導入コスト、印刷コストで<b class="num" style="font-size:1.5em;color:var(--teal)">地域No.1</b>を目指します。</p>
-        <p>顧客満足度は、J.D.パワーの調査で9年連続1位。高品質な製品とサービスでお客様をサポートし、貴社の業務に貢献いたします。</p>
-      </div>
-    </div>
-    <ul class="merit rise" style="margin-top:clamp(40px,5vw,68px)">
-{fuji}
-    </ul>
-  </div>
-</section>
-
-<section class="sec--tight" id="lineup" style="padding-bottom:var(--sec);background:var(--paper-2)">
-  <div class="narrow">
-    <div class="lead lead--c rise">
-      <span class="lead__en">Line Up</span>
-      <h2 class="lead__ja">通信事業の取り扱い</h2>
-    </div>
+    {sh("01", "取り扱い", "事務所の機器を、<br>ひとつの窓口で。")}
     <ul class="chips rise">{items}</ul>
   </div>
 </section>
 
+<section class="nv" id="camera" aria-labelledby="nvH">
+  <div class="nv__stage">
+    <div class="wrap nv__in">
+      <div class="nv__l">
+        <p class="sh__no mono"><b>02</b><span>防犯カメラ</span></p>
+        <h2 class="big" id="nvH">夜の映像で、<br>比べてください。</h2>
+        <p class="lede">同じ夜間の撮影を、3種類のカメラで並べました。スクロールすると切り替わります。当社が扱うのは、夜間もカラーで撮れるカメラです。</p>
+        <ol class="nv__caps">
+{caps}
+        </ol>
+      </div>
+      <div class="nv__r">
+        <div class="nv__view">
+{layers}
+          <p class="nv__osd mono" aria-hidden="true"><span class="nv__rec"><i></i>REC</span><span>CAM 01　NIGHT</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="compare">
+  <div class="wrap duo">
+    <div class="rise">
+      <p class="sh__no mono"><b>02-b</b><span>見積り</span></p>
+      <h2 class="big">金額で見送った方こそ、<br>もう一度。</h2>
+    </div>
+    <div class="rise">
+      <p class="lede">以前、防犯カメラを検討して、金額で導入を見送った方もいらっしゃるかと思います。当社の条件と比べてみてください。夜間のカラー撮影のほか、動体検知や遠隔操作にも対応しています。</p>
+      <p class="lede">業種や設置環境、目的に応じて、機種と設置方法をご提案します。</p>
+      <p class="more"><a class="btn" href="../contact/">防犯カメラの相談をする</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--p2" id="printer">
+  <div class="wrap">
+    {sh("03", "複合機", "複合機は、<br>富士フイルム。", "顧客満足度は、J.D.パワーの調査で9年連続1位。導入コスト・印刷コストで地域No.1を目指します。")}
+    <div class="duo duo--top">
+      <figure class="pr rise">
+        <img src="../assets/img/printer.png" alt="富士フイルムの複合機" width="491" height="397" loading="lazy">
+      </figure>
+      <ol class="merits merits--1">
+{fuji}
+      </ol>
+    </div>
+  </div>
+</section>
+
 </main>
-""" + cta(1, "cam-hero.jpg") + footer(1)
+""" + footer(1)

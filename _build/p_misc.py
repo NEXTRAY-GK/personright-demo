@@ -1,72 +1,66 @@
 # -*- coding: utf-8 -*-
-"""お問い合わせ・完了・プライバシーポリシー"""
-from common import head, header, phero, footer, jsonld, TEL, TEL_RAW, FAX, ZIP, ADDR
+"""お問い合わせ・完了・プライバシーポリシー（2026-09-16 第3版）"""
+from common import head, header, phero, footer, jsonld, sh, TEL, TEL_RAW, FAX, ZIP, ADDR
 
 FORM_NOTE = """<ul class="form__note">
 <li>docomo、au、softbank等のキャリアメールをご利用の方には、返信メールが届かない場合がございます。不明な点があれば下記までご連絡ください。</li>
 <li>半角カナ入力は文字化けの原因となりますのでご注意ください。</li>
-<li>データを送信される際の情報はSSL暗号通信により保護されますので、安心してご利用ください。</li>
 </ul>"""
 
+TOPICS = ["業務用エアコン", "リース", "クリーニング", "防犯カメラ", "複合機", "ビジネスフォン", "その他"]
 
-def _field(label, req, html):
+
+def _field(label, req, fid, html):
     r = '<i>必須</i>' if req else ''
     return f"""      <div class="form__row">
-        <div class="form__l">{label}{r}</div>
+        <label class="form__l" for="{fid}">{label}{r}</label>
         <div class="form__f">{html}</div>
       </div>"""
 
 
 def contact():
     title = "お問い合わせ｜株式会社パーソンライト"
-    desc = f"業務用エアコン・防犯カメラ・複合機のご相談、資料請求はこちらから。お電話（{TEL}）でも承ります。福島県郡山市の株式会社パーソンライト。"
+    desc = f"業務用エアコン・防犯カメラ・複合機のご相談、お見積りの依頼はこちらから。お電話（{TEL}）でも承ります。福島県郡山市の株式会社パーソンライト。"
+    topics = "".join(f'<label class="pill"><input type="checkbox" name="topic" value="{t}"><span>{t}</span></label>' for t in TOPICS)
     fields = "\n".join([
-        _field("お名前", True, '<input type="text" name="name" id="f-name" autocomplete="name" required>'),
-        _field("フリガナ", True, '<input type="text" name="kana" id="f-kana" required>'),
-        _field("電話番号（携帯可）", True, '<input type="tel" name="tel" id="f-tel" autocomplete="tel" required>'),
-        _field("メールアドレス", True, '<input type="email" name="mail" id="f-mail" autocomplete="email" required>'),
-        _field("メールアドレス（確認用）", True, '<input type="email" name="mail2" id="f-mail2" required>'),
-        _field("お問い合わせ内容", True, '<textarea name="body" id="f-body" rows="8" required placeholder="ご検討中の機器、設置場所、台数など、分かる範囲でお書きください。"></textarea>'),
-        _field("送信確認", True, '<label class="form__check"><input type="checkbox" name="ok" id="f-ok" required><span>「<a href="../privacy/">プライバシーポリシー</a>」を確認し、同意します。</span></label>'),
+        f"""      <fieldset class="form__row">
+        <legend class="form__l">ご相談の種類</legend>
+        <div class="form__f pills">{topics}</div>
+      </fieldset>""",
+        _field("お名前", True, "f-name", '<input type="text" name="name" id="f-name" autocomplete="name" required>'),
+        _field("フリガナ", True, "f-kana", '<input type="text" name="kana" id="f-kana" required>'),
+        _field("電話番号（携帯可）", True, "f-tel", '<input type="tel" name="tel" id="f-tel" autocomplete="tel" required>'),
+        _field("メールアドレス", True, "f-mail", '<input type="email" name="mail" id="f-mail" autocomplete="email" required>'),
+        _field("メールアドレス（確認用）", True, "f-mail2", '<input type="email" name="mail2" id="f-mail2" required>'),
+        _field("お問い合わせ内容", True, "f-body", '<textarea name="body" id="f-body" rows="8" required placeholder="ご検討中の機器、設置場所、台数など、分かる範囲でお書きください。"></textarea>'),
+        _field("送信確認", True, "f-ok", '<label class="form__check"><input type="checkbox" name="ok" id="f-ok" required><span>「<a href="../privacy/">プライバシーポリシー</a>」を確認し、同意します。</span></label>'),
     ])
     return head(title, desc, "contact", 1, extra=jsonld(1)) + header("contact", 1) + f"""
 <main id="main">
-""" + phero("Contact Us", "お問い合わせ",
-            "ご質問・資料請求は下のフォームからお送りください。後日、担当より連絡します。",
-            "office-front.jpg", "福島県郡山市安積町日出山にある本社の外観", [("お問い合わせ", "")], 1) + f"""
+""" + phero("06", "CONTACT", "お問い合わせ",
+            "お見積りは無料です。お電話でも、下のフォームからでも。フォームは24時間受け付け、内容を確認して後日担当からご連絡します。",
+            None, None, [("お問い合わせ", "")], 1) + f"""
 
-<section class="sec--tight">
-  <div class="narrow">
+<section class="sec sec--flush">
+  <div class="wrap duo duo--top">
     <div class="ways rise">
-      <div class="ways__i">
-        <small>BY PHONE</small>
-        <a class="tel num" href="tel:{TEL_RAW}">{TEL}</a>
-        <p>FAX <span class="num">{FAX}</span></p>
-      </div>
-      <div class="ways__i">
-        <small>BY FORM</small>
-        <p>24時間受け付けています。<br>内容を確認のうえ、後日担当よりご連絡します。</p>
-      </div>
+      <p class="sh__no mono"><b>TEL</b><span>お電話</span></p>
+      <a class="ways__tel mono" href="tel:{TEL_RAW}">{TEL}</a>
+      <p>FAX <span class="mono">{FAX}</span></p>
     </div>
-  </div>
-</section>
-
-<section class="sec--tight" style="padding-top:0;padding-bottom:var(--sec)">
-  <div class="narrow">
-    <div class="lead rise">
-      <span class="lead__en">Mail Form</span>
-      <h2 class="lead__ja">メールフォーム</h2>
-    </div>
-    {FORM_NOTE}
-    <form class="form rise" method="post" action="./thanks/" data-demo="1" aria-describedby="formDemo">
+    <div class="rise">
+      <p class="sh__no mono"><b>FORM</b><span>フォーム</span></p>
+      {FORM_NOTE}
+      <form class="form" method="post" action="./thanks/" data-demo="1" aria-describedby="formDemo">
 {fields}
-      <p class="form__demo" id="formDemo">これはデモサイトです。<b>送信はできません。</b>お急ぎの用件は <a class="num" href="tel:{TEL_RAW}">{TEL}</a> へお願いします。</p>
-    </form>
+        <p class="form__demo" id="formDemo">これはデモサイトです。<b>送信はできません。</b>お急ぎの用件は <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> へお願いします。</p>
+      </form>
+    </div>
   </div>
 </section>
 
 </main>
-""" + footer(1)
+""" + footer(1, cta_on=False)
 
 
 def thanks():
@@ -74,20 +68,19 @@ def thanks():
     desc = "お問い合わせを受け付けました。株式会社パーソンライト。"
     return head(title, desc, "contact", 2, extra=jsonld(2)) + header("contact", 2) + f"""
 <main id="main">
-""" + phero("Thank You", "送信ありがとうございました", None, "office-front.jpg",
-            "福島県郡山市安積町日出山にある本社の外観",
-            [("お問い合わせ", "contact/"), ("送信完了", "")], 2) + f"""
+""" + phero("06-2", "THANK YOU", "送信ありがとうございました",
+            "内容を確認のうえ、担当より折り返しご連絡いたします。",
+            None, None, [("お問い合わせ", "contact/"), ("送信完了", "")], 2) + f"""
 
-<section class="sec">
-  <div class="narrow" style="text-align:center">
-    <p class="rise">お問い合わせいただき、ありがとうございました。<br>内容を確認のうえ、担当より折り返しご連絡いたします。</p>
-    <p class="rise" style="margin-top:26px;color:var(--ink-2);font-size:13.5px">3日たっても連絡が届かないときは、お手数ですが <a class="num" href="tel:{TEL_RAW}">{TEL}</a> までお電話ください。</p>
-    <p class="rise" style="margin-top:40px"><a class="btn" href="../../">ホームへ戻る</a></p>
+<section class="sec sec--flush">
+  <div class="wrap">
+    <p class="lede rise">3日たっても連絡が届かないときは、お手数ですが <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> までお電話ください。</p>
+    <p class="more rise"><a class="btn" href="../../">トップへ戻る</a></p>
   </div>
 </section>
 
 </main>
-""" + footer(2)
+""" + footer(2, cta_on=False)
 
 
 PRIVACY = [
@@ -108,31 +101,34 @@ def privacy():
     title = "プライバシーポリシー｜株式会社パーソンライト"
     desc = "株式会社パーソンライトの個人情報保護方針です。"
     items = "\n".join(f"""      <section class="pp__i rise">
-        <h2 class="pp__t"><span class="num">{n}</span>{t}</h2>
+        <h2><span class="mono">{n}</span>{t}</h2>
         <p>{d}</p>
       </section>""" for n, t, d in PRIVACY)
     return head(title, desc, "privacy", 1, extra=jsonld(1)) + header("privacy", 1) + f"""
 <main id="main">
-""" + phero("Privacy Policy", "プライバシーポリシー", None, "office-side.jpg",
-            "Person right の看板を掲げた本社の外観", [("プライバシーポリシー", "")], 1) + f"""
+""" + phero("07", "PRIVACY POLICY", "プライバシーポリシー",
+            "パーソンライト（以下、当社という）は、皆様からお預かりする個人情報の管理に細心の注意を払い、これを取り扱うものとします。",
+            None, None, [("プライバシーポリシー", "")], 1) + f"""
 
-<section class="sec">
-  <div class="narrow">
-    <p class="rise">パーソンライト（以下、当社という）は、皆様からお預かりする個人情報の管理に細心の注意を払い、これを取り扱うものとします。</p>
-    <div class="pp">
+<section class="sec sec--flush">
+  <div class="wrap duo duo--top">
+    <p class="sh__no mono"><b>07</b><span>方針</span></p>
+    <div>
+      <div class="pp">
 {items}
-    </div>
-    <div class="pp__box rise">
-      <h2 class="pp__t">お問い合わせ窓口</h2>
-      <p>上記内容に関してご質問などがございましたら、下記連絡先にご連絡ください。</p>
-      <address class="acc__a">
-        パーソンライト<br>
-        {ZIP}　{ADDR}<br>
-        TEL <a class="num" href="tel:{TEL_RAW}">{TEL}</a> ／ FAX <span class="num">{FAX}</span>
-      </address>
+      </div>
+      <div class="pp__box rise">
+        <h2>お問い合わせ窓口</h2>
+        <p>上記内容に関してご質問などがございましたら、下記連絡先にご連絡ください。</p>
+        <address class="addr">
+          パーソンライト<br>
+          {ZIP}　{ADDR}<br>
+          TEL <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> ／ FAX <span class="mono">{FAX}</span>
+        </address>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
-""" + footer(1)
+""" + footer(1, cta_on=False)

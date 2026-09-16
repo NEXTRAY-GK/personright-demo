@@ -1,26 +1,23 @@
 # -*- coding: utf-8 -*-
-"""お客様の声 /reviews/ と個票4本"""
-from common import head, header, phero, cta, footer, jsonld
-
-INTRO = ("ご利用いただいたお客様のさまざまなお声を掲載しております。"
-         "パーソンライトでは設備機器の工事を終えた後からが本当のお付き合いの始まりであると考えております。"
-         "皆様からのご意見をお伺いし、今後のアフターフォローに活かしていきます。")
+"""お客様の声 /reviews/ と個票4本（2026-09-16 第3版）
+   声の本文はお客様の言葉なので、そのまま。"""
+from common import head, header, phero, footer, jsonld, sh
 
 VOICES = [
     {"id": "98", "title": "最適な提案と確かな技術で大満足です。", "who": "田村市　N様",
-     "img": "case-install01.jpg", "alt": "天井カセット形エアコンの入れ替え工事の様子",
+     "img": "case-install01.jpg", "w": 640, "h": 800, "alt": "天井を開け、天井裏で作業する工事の様子",
      "body": ["会社のエアコン設置をお願いしました。こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。",
               "コスト面も含めて納得のいく内容で、仕上がりも大満足です。またお願いしたいと思います。"]},
     {"id": "96", "title": "業務への影響を最小限に、スムーズな設置でした。", "who": "郡山市　M様",
-     "img": "case-install02.jpg", "alt": "設置を終えた天井カセット形エアコン",
+     "img": "case-install02.jpg", "w": 640, "h": 480, "alt": "建物の外壁に据え付けた業務用エアコンの室外機",
      "body": ["オフィスのエアコンを新しく設置していただきました。作業が迅速かつ丁寧で、業務の妨げにならないよう配慮いただき助かりました。",
               "社内が快適になり、社員からも好評です。プロの仕事に感謝しています。"]},
     {"id": "53", "title": "通常業務もストップすることなく完了しました。", "who": "須賀川市内　某社 様",
-     "img": "case-shop.jpg", "alt": "店舗の天井に設置した業務用エアコン",
+     "img": "case-shop.jpg", "w": 780, "h": 611, "alt": "店舗の天井に設置した天井カセット形エアコン",
      "body": ["空調設備の老朽化に伴い、空調更新工事をお願いしました。変電設備を増やす工事に伴っては、工場内を計画的に停電させる必要がありましたが、こちらもスケジュール通り安全に進めていただき、業務もストップすることなく完了しました。",
               "リースの内容も詳しく説明していただき、とても助かりました。"]},
     {"id": "56", "title": "とても作業が丁寧で、安心して見ていました。", "who": "郡山市　S.T 様",
-     "img": "case-house.jpg", "alt": "工場の外壁に並べて設置した業務用エアコンの室外機",
+     "img": "case-house.jpg", "w": 640, "h": 427, "alt": "工場の外壁に並べて設置した業務用エアコンの室外機",
      "body": ["丁寧なご説明とご提案をいただきました。タイミングもよく、翌日には対応いただき大変助かりました。元気のある青年で良かったです。",
               "エアコンのカバーも綺麗にやっていただき満足しています。"]},
 ]
@@ -28,33 +25,32 @@ VOICES = [
 
 def build_index():
     title = "お客様の声｜株式会社パーソンライト"
-    desc = "業務用エアコンの設置・更新工事をご利用いただいたお客様からいただいたお声を掲載しています。福島県郡山市の株式会社パーソンライト。"
-    cards = "\n".join(f"""      <article class="card rise">
-        <a class="card__fig" href="./{v['id']}/"><img src="../assets/img/{v['img']}" alt="{v['alt']}" width="1200" height="900" loading="lazy"></a>
-        <div class="card__body">
-          <p class="voice__mark" aria-hidden="true">“</p>
-          <h2 class="card__t">{v['title']}</h2>
-          <p class="card__d">{v['body'][0]}</p>
-          <p class="voice__who"><b>{v['who']}</b></p>
-          <p class="card__more"><a class="tlink" href="./{v['id']}/">この声を読む</a></p>
-        </div>
-      </article>""" for v in VOICES)
+    desc = "業務用エアコンの設置・更新工事をご利用いただいたお客様からのお声を掲載しています。福島県郡山市の株式会社パーソンライト。"
+    cards = "\n".join(f"""      <article class="vc rise">
+        <a href="./{v['id']}/">
+          <p class="mono">VOICE {i+1:02d}　{v['who']}</p>
+          <h2 class="vc__t">「{v['title']}」</h2>
+          <p class="vc__d">{v['body'][0]}</p>
+          <span class="vc__go">全文を読む →</span>
+        </a>
+      </article>""" for i, v in enumerate(VOICES))
 
     return head(title, desc, "reviews", 1, extra=jsonld(1)) + header("reviews", 1) + f"""
 <main id="main">
-""" + phero("Customer Reviews", "お客様の声", INTRO, "case-install01.jpg",
-            "天井カセット形エアコンの入れ替え工事の様子", [("お客様の声", "")], 1) + f"""
+""" + phero("03", "VOICES", "お客様の声",
+            "工事を終えたあとからが、本当のお付き合いの始まりだと考えています。いただいた声は、アフターフォローに活かしています。",
+            None, None, [("お客様の声", "")], 1) + f"""
 
-<section class="sec">
+<section class="sec sec--flush">
   <div class="wrap">
-    <div class="grid grid--2">
+    <div class="vcs">
 {cards}
     </div>
   </div>
 </section>
 
 </main>
-""" + cta(1, "case-shop.jpg") + footer(1)
+""" + footer(1)
 
 
 def build_one(v):
@@ -66,34 +62,29 @@ def build_one(v):
     body = "\n".join(f"<p>{b}</p>" for b in v["body"])
     nav = []
     if prev:
-        nav.append(f'<a class="pn__p" href="../{prev["id"]}/"><span class="en">PREV</span><span>{prev["title"]}</span></a>')
+        nav.append(f'<a class="pn__p" href="../{prev["id"]}/"><small class="mono">← 前の声</small><span>{prev["title"]}</span></a>')
     if nxt:
-        nav.append(f'<a class="pn__n" href="../{nxt["id"]}/"><span class="en">NEXT</span><span>{nxt["title"]}</span></a>')
+        nav.append(f'<a class="pn__n" href="../{nxt["id"]}/"><small class="mono">次の声 →</small><span>{nxt["title"]}</span></a>')
 
     return head(title, desc, "reviews", 2, og=v["img"], extra=jsonld(2)) + header("reviews", 2) + f"""
 <main id="main">
-""" + phero("Customer Reviews", "お客様の声", None, v["img"], v["alt"],
-            [("お客様の声", "reviews/"), (v["title"], "")], 2) + f"""
+""" + phero(f"03-{i+1}", "VOICE", f"「{v['title']}」", v["who"], v["img"], v["alt"],
+            [("お客様の声", "reviews/"), (v["title"], "")], 2, v["w"], v["h"]) + f"""
 
-<section class="sec--tight" style="padding-bottom:var(--sec)">
-  <div class="narrow">
-    <article class="one rise">
-      <p class="voice__mark" aria-hidden="true">“</p>
-      <h2 class="one__t">{v['title']}</h2>
-      <p class="one__who">{v['who']}</p>
-      <figure class="one__fig">
-        <img src="../../assets/img/{v['img']}" alt="{v['alt']}" width="1200" height="900" loading="lazy">
-      </figure>
-      <div class="one__b">
+<section class="sec">
+  <div class="wrap duo duo--top">
+    <p class="sh__no mono"><b>{i+1:02d}</b><span>いただいた声</span></p>
+    <div>
+      <div class="one rise">
 {body}
       </div>
-    </article>
-    <nav class="pn rise" aria-label="ほかのお客様の声">
-      {''.join(nav)}
-    </nav>
-    <p style="margin-top:44px;text-align:center"><a class="btn" href="../">お客様の声の一覧へ</a></p>
+      <nav class="pn rise" aria-label="ほかのお客様の声">
+        {''.join(nav)}
+      </nav>
+      <p class="more"><a class="btn" href="../">お客様の声の一覧へ</a></p>
+    </div>
   </div>
 </section>
 
 </main>
-""" + cta(2, "work-outdoor.jpg") + footer(2)
+""" + footer(2)

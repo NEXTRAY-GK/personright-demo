@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-"""業務用エアコン /ac/"""
-from common import head, header, phero, cta, footer, jsonld, TEL, TEL_RAW
+"""業務用エアコン /ac/（2026-09-16 第3版）
 
-TITLE = "業務用エアコン｜株式会社パーソンライト"
-DESC = "オフィス・飲食店・工場の業務用エアコンならリースがおすすめ。初期費用0円で導入でき、最新の省エネ機種なら消費電力を最大70%削減。福島県郡山市の株式会社パーソンライト。"
+   並びを「替える理由 → 選ぶ → 払う → 流れ → 質問」にした。
+   読む人が決める順番に合わせてある。事実は会社の情報のまま。
+   リースの注意点と Q&A の答えは契約にかかわるので、言い回しも変えていない。
+"""
+from common import head, header, phero, footer, jsonld, sh, TEL, TEL_RAW
+
+TITLE = "業務用エアコンの販売・設置工事とリース｜株式会社パーソンライト"
+DESC = "業務用エアコンを5メーカー・12の形から選び、自社の工事部が設置。リースなら初期費用0円。最新の省エネ機種なら消費電力を最大70%削減。福島県郡山市の株式会社パーソンライト。"
 
 TYPES = [
     ("01", "S-ラウンドフロー", "天井カセット形（4方向）"),
@@ -30,7 +35,7 @@ MERITS = [
     ("動産総合保険付", "偶然な事故による損害のときにも保証されます。"),
     ("無料修理付き", "無料修理の付いたプランもあります。"),
     ("最新機種は省エネ", "15年前の機種から替えると、消費電力が65%下がります。"),
-    ("再リースがお得", "再リースなら1/10程度の低価格で利用できます。<br><small>※動産保険はつきません。</small>"),
+    ("再リースがお得", "再リースなら1/10程度の低価格で利用できます。<small>※動産保険はつきません。</small>"),
 ]
 
 CAUTIONS = [
@@ -63,69 +68,36 @@ FAQ = [
      "<p>はい、大丈夫です。複数のお支払方法をご準備しております。お気軽にお問い合わせください。</p>"),
 ]
 
-# 冷媒別の消費電力（旧サイトのグラフを SVG で描き直した）
-GRAPH = """<figure class="graph rise">
-  <svg viewBox="0 0 720 300" role="img" aria-labelledby="gT gD">
-    <title id="gT">冷媒別の消費電力の比較</title>
-    <desc id="gD">2001年以前のR22（指定フロン）を100%としたとき、2001年から2013年のR407・R410（代替フロン）は60%、2014年以降のR32（代替えフロン）は20%。</desc>
-    <line x1="46" y1="248" x2="700" y2="248" stroke="rgba(26,105,105,.3)" stroke-width="1"/>
-    <g font-family="Jost, sans-serif" font-size="11" fill="#7c8481" text-anchor="end">
-      <text x="38" y="56">100</text><text x="38" y="152">50</text><text x="38" y="252">0</text>
-    </g>
-    <g stroke="rgba(26,105,105,.1)" stroke-width="1">
-      <line x1="46" y1="52" x2="700" y2="52"/><line x1="46" y1="148" x2="700" y2="148"/>
-    </g>
-    <!-- R22 100% -->
-    <rect x="96" y="52" width="128" height="196" fill="#1a6969" opacity=".14"/>
-    <rect x="96" y="52" width="128" height="196" fill="none" stroke="#1a6969" stroke-width="1"/>
-    <text x="160" y="146" text-anchor="middle" font-family="Jost, sans-serif" font-size="27" fill="#0e4444">100<tspan font-size="14">%</tspan></text>
-    <text x="160" y="168" text-anchor="middle" font-size="11" fill="#4a5350">消費</text>
-    <!-- R407/R410 60% -->
-    <rect x="296" y="130" width="128" height="118" fill="#1a6969" opacity=".14"/>
-    <rect x="296" y="130" width="128" height="118" fill="none" stroke="#1a6969" stroke-width="1"/>
-    <text x="360" y="190" text-anchor="middle" font-family="Jost, sans-serif" font-size="27" fill="#0e4444">60<tspan font-size="14">%</tspan></text>
-    <text x="360" y="212" text-anchor="middle" font-size="11" fill="#4a5350">消費</text>
-    <text x="360" y="112" text-anchor="middle" font-family="Jost, sans-serif" font-size="17" fill="#ab8f4e">40% 削減</text>
-    <!-- R32 20% -->
-    <rect x="496" y="209" width="128" height="39" fill="#1a6969" opacity=".14"/>
-    <rect x="496" y="209" width="128" height="39" fill="none" stroke="#1a6969" stroke-width="1"/>
-    <text x="560" y="238" text-anchor="middle" font-family="Jost, sans-serif" font-size="19" fill="#0e4444">20<tspan font-size="11">%</tspan></text>
-    <text x="560" y="191" text-anchor="middle" font-family="Jost, sans-serif" font-size="17" fill="#ab8f4e">80% 削減</text>
-    <!-- 削減の線 -->
-    <path d="M224 52 L296 130" stroke="#ab8f4e" stroke-width="1" stroke-dasharray="3 3"/>
-    <path d="M424 130 L496 209" stroke="#ab8f4e" stroke-width="1" stroke-dasharray="3 3"/>
-    <g font-size="11.5" fill="#4a5350" text-anchor="middle">
-      <text x="160" y="270">R22（指定フロン）</text><text x="160" y="288">2001年以前</text>
-      <text x="360" y="270">R407・R410（代替フロン）</text><text x="360" y="288">2001年〜2013年</text>
-      <text x="560" y="270">R32（代替えフロン）</text><text x="560" y="288">2014年以降</text>
-    </g>
-  </svg>
-  <figcaption>冷媒別の消費電力の比較。R22 は入手が難しくなっていくため、早めの更新をおすすめします。</figcaption>
-</figure>"""
+GEN = [
+    ("R22", "指定フロン", "2001年以前", 100),
+    ("R407・R410", "代替フロン", "2001年〜2013年", 60),
+    ("R32", "代替えフロン", "2014年以降", 20),
+]
 
 
 def build():
-    types = "\n".join(f"""      <figure class="tile tile--flat rise">
+    types = "\n".join(f"""      <figure class="ty rise">
         <img src="../assets/img/ac-type{n}.jpg" alt="{name}（{d}）" width="720" height="511" loading="lazy">
-        <figcaption class="tile__n">{name}</figcaption>
+        <figcaption><span class="mono">{n}</span><b>{name}</b><small>{d}</small></figcaption>
       </figure>""" for n, name, d in TYPES)
 
-    cases = "\n".join(f"""      <figure class="tile rise">
-        <img src="../assets/img/ac-case{i+1:02d}.jpg" alt="{c}への業務用エアコン設置例" width="760" height="507" loading="lazy">
-        <figcaption class="tile__n">{c}</figcaption>
-      </figure>""" for i, c in enumerate(CASES))
+    cases = "\n".join(f"""      <li class="rise"><img src="../assets/img/ac-case{i+1:02d}.jpg" alt="{c}への業務用エアコン設置例" width="352" height="352" loading="lazy"><span>{c}</span></li>"""
+                      for i, c in enumerate(CASES))
 
-    merits = "\n".join(f"""      <li class="rise"><h3 class="merit__t"><i>{i+1:02d}</i>{t}</h3><p class="merit__d">{d}</p></li>"""
+    merits = "\n".join(f"""      <li class="rise"><span class="mono">{i+1:02d}</span><b>{t}</b><p>{d}</p></li>"""
                        for i, (t, d) in enumerate(MERITS))
 
     cautions = "\n".join(f"""      <li><b>{t}</b><p>{d}</p></li>""" for t, d in CAUTIONS)
 
-    flow = "\n".join(f"""      <li class="rise"><h3 class="flow__t">{t}</h3><p class="flow__d">{d}</p></li>""" for t, d in FLOW)
+    flow = "\n".join(f"""      <li class="rise"><span class="mono">STEP {i+1}</span><b>{t}</b><p>{d}</p></li>""" for i, (t, d) in enumerate(FLOW))
 
     faq = "\n".join(f"""    <details{' open' if i == 0 else ''}>
-      <summary><i>Q</i><span>{q}</span></summary>
-      <div class="qa__a"><i>A</i><div>{a}</div></div>
+      <summary><span class="mono">Q{i+1}</span>{q}</summary>
+      <div class="qa__a">{a}</div>
     </details>""" for i, (q, a) in enumerate(FAQ))
+
+    gen = "\n".join(f"""        <li style="--w:{w}"><span class="mono">{r}</span><small>{k}・{y}</small><i><em></em></i><b class="mono">{w}%</b></li>"""
+                    for r, k, y, w in GEN)
 
     faq_ld = {
         "@context": "https://schema.org", "@type": "FAQPage",
@@ -136,102 +108,77 @@ def build():
 
     return head(TITLE, DESC, "ac", 1, extra=jsonld(1, [faq_ld])) + header("ac", 1) + f"""
 <main id="main">
-""" + phero("Air Conditioner", "業務用エアコン",
-            "オフィスや工場、飲食店の業務用エアコンなら、リースで初期費用0円。月々の支払いは全額を経費にできます。",
-            "case-house.jpg", "工場の外壁に並べて設置した業務用エアコンの室外機",
-            [("業務用エアコン", "")], 1) + f"""
+""" + phero("01", "AIR CONDITIONER", "業務用エアコン",
+            "選ぶ、払う、取り付ける、見続ける。5メーカー・12の形から選び、リースなら初期費用0円。工事は自社の工事部、引き渡しのあとは7年保証と年間メンテナンスです。",
+            "case-shop.jpg", "店舗の天井に設置した天井カセット形エアコン",
+            [("業務用エアコン", "")], 1, 780, 611) + f"""
+<nav class="toc" aria-label="このページの目次">
+  <ol class="mono">
+    <li><a href="#eco">01 替える理由</a></li>
+    <li><a href="#lineup">02 選ぶ</a></li>
+    <li><a href="#lease">03 払う</a></li>
+    <li><a href="#flow">04 流れ</a></li>
+    <li><a href="#faq">05 質問</a></li>
+  </ol>
+</nav>
 
-<section class="sec" id="strength">
+<section class="sec" id="eco">
   <div class="wrap">
-    <div class="lead lead--c rise">
-      <span class="lead__en">Strength</span>
-      <h2 class="lead__ja">当社の業務用エアコン<br>提供サービスの強み</h2>
-      <p class="lead__note">様々なニーズに応じてお選びいただけるよう、メーカー・製品ともに種類豊富に業務用エアコンを取り扱っています。お客様のご希望にあったエアコン選びと、当社の充実・安心サービスで、快適な省エネ空間をご提供いたします。</p>
+    {sh("01", "替える理由", "替える理由は、<br>電気代とガスの2つ。", "2011年3月の東日本大震災のあと、電気代の値上がりが続くなかで、業務用エアコンの省電力化は大きく進みました。いまの機種は、従来の機種に比べて電気代を1/5まで削減できるほどです。")}
+    <div class="nums">
+      <div class="rise"><small>省エネ最新エアコンに交換すると</small><p><b class="count mono" data-to="70">70</b><span>%</span></p><span>消費電力を最大で削減</span></div>
+      <div class="rise"><small>15年前の機種より</small><p><b class="count mono" data-to="65">65</b><span>%</span></p><span>消費電力を削減</span></div>
+      <div class="rise"><small>18年前の機種より</small><p><b class="count mono" data-to="80">80</b><span>%</span></p><span>消費電力を削減</span></div>
     </div>
-    <figure class="makers rise">
-      <img src="../assets/img/makers.png" alt="取り扱いメーカー：ダイキン、三菱電機、日立、東芝、パナソニック" width="1200" height="60" loading="lazy">
-      <figcaption>取り扱いメーカー</figcaption>
+  </div>
+</section>
+
+<section class="sec sec--ink" id="refrigerant">
+  <div class="wrap duo">
+    <div class="rise">
+      <p class="sh__no mono"><b>01-b</b><span>冷媒</span></p>
+      <h2 class="big">R22 の機種は、<br>ガスが手に入るうちに。</h2>
+      <p class="lede">2001年以前の機種に使われている R22（指定フロン）は、生産・輸入が終了しています。故障しても修理用のガスが手に入らなくなる前に、早めの更新をおすすめします。</p>
+    </div>
+    <figure class="gen rise" aria-labelledby="genC">
+      <ul>
+{gen}
+      </ul>
+      <figcaption id="genC">冷媒別の消費電力の比較（R22＝100%）</figcaption>
     </figure>
   </div>
 </section>
 
-<section class="sec--tight" id="lineup" style="padding-bottom:var(--sec)">
+<section class="sec" id="lineup">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Line Up</span>
-      <h2 class="lead__ja">種類豊富なパッケージエアコン</h2>
-      <p class="lead__note">天井カセット形から天井吊形、壁掛形、床置形、厨房用まで。設置する場所と広さ、天井の構造に合わせてお選びします。</p>
+    {sh("02", "選ぶ", "12の形から、<br>部屋に合う一台を。", "天井カセット形から天井吊形、壁掛形、床置形、厨房用まで。設置する場所と広さ、天井の構造に合わせてお選びします。")}
+    <div class="brand rise">
+      <p class="mono">取り扱いメーカー</p>
+      <img src="../assets/img/makers.png" alt="ダイキン、三菱電機、日立、東芝、パナソニック" width="634" height="29" loading="lazy">
     </div>
-    <div class="tiles tiles--t">
+    <div class="tys">
 {types}
     </div>
   </div>
 </section>
 
-<section class="band band--sub sec on-dark" id="eco">
-  <div class="band__ph"><img src="../assets/img/case-install01.jpg" alt="" width="1200" height="900" loading="lazy"></div>
+<section class="sec sec--p2" id="case">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Energy Saving</span>
-      <h2 class="lead__ja">今のエアコンを替えるだけで、<br>電気代は下がります</h2>
-      <p class="lead__note">2011年3月の東日本大震災以降、電気代の値上がり傾向が進むなかで、業務用エアコンの機能も「環境面」「省エネ面」「機能面」と進化してきました。現在では空調機の省電力化の技術が進み、従来の機種に比べ1/5の電気代を削減できるほどになっています。</p>
-    </div>
-    <div class="figs rise">
-      <div class="figs__i">
-        <span class="figs__l">省エネ最新エアコンに交換すると</span>
-        <p class="figs__v num"><span class="tick" style="--to:70"><i>70</i></span><small>%</small></p>
-        <span class="figs__d">消費電力を最大で削減</span>
-      </div>
-      <div class="figs__i">
-        <span class="figs__l">15年前の機種より</span>
-        <p class="figs__v num"><span class="tick" style="--to:65"><i>65</i></span><small>%</small></p>
-        <span class="figs__d">消費電力を削減</span>
-      </div>
-      <div class="figs__i">
-        <span class="figs__l">18年前の機種より</span>
-        <p class="figs__v num"><span class="tick" style="--to:80"><i>80</i></span><small>%</small></p>
-        <span class="figs__d">消費電力を削減</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="refrigerant">
-  <div class="narrow">
-    <div class="lead lead--c rise">
-      <span class="lead__en">Refrigerant</span>
-      <h2 class="lead__ja">R22冷媒が入手困難になる前に</h2>
-      <p class="lead__note">2001年以前の機種に使われている R22（指定フロン）は、生産・輸入が終了しています。故障しても修理用のガスが手に入らなくなる前に、早めの更新をおすすめします。</p>
-    </div>
-{GRAPH}
-  </div>
-</section>
-
-<section class="sec" id="case" style="background:var(--paper-2)">
-  <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Case</span>
-      <h2 class="lead__ja">実績多数。<br>様々なケースに最適なご提案を</h2>
-      <p class="lead__note">業務用エアコン・空調設備は利用場所により適した形があり、業態に合わせた商品をご提案させていただきます。</p>
-    </div>
-    <div class="tiles tiles--c">
+    {sh("02-b", "業態", "業態ごとに、<br>合う形がある。", "業務用エアコン・空調設備は、使う場所によって適した形が違います。業態に合わせてご提案します。")}
+    <ul class="biz">
 {cases}
-    </div>
+    </ul>
   </div>
 </section>
 
 <section class="sec" id="lease">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Lease</span>
-      <h2 class="lead__ja">リースには、<br>メリットがいっぱい</h2>
-      <p class="lead__note">まとまった資金を用意せずに、最新の省エネ機種を導入できます。月々の支払いは全額を経費として処理できます。</p>
-    </div>
-    <ul class="merit">
+    {sh("03", "払う", "リースなら、<br>初期費用は0円。", "まとまった資金を用意せずに、最新の省エネ機種を入れられます。現金購入やクレジットの分割払いもできます。")}
+    <ol class="merits">
 {merits}
-    </ul>
-    <div class="caution rise" style="margin-top:clamp(34px,4vw,54px)">
-      <h3 class="caution__t">ご契約の前に、ここだけはご確認ください</h3>
+    </ol>
+    <div class="caution rise">
+      <h3>ご契約の前に、ここだけはご確認ください</h3>
       <ul>
 {cautions}
       </ul>
@@ -239,30 +186,23 @@ def build():
   </div>
 </section>
 
-<section class="sec--tight" id="flow" style="padding-bottom:var(--sec)">
+<section class="sec sec--p2" id="flow">
   <div class="wrap">
-    <div class="lead rise">
-      <span class="lead__en">Flow</span>
-      <h2 class="lead__ja">ご依頼から設置工事までの流れ</h2>
-      <p class="lead__note">当社スタッフがお見積りから工事完了まで一貫して対応します。リース審査・本契約につきましては、弊社とリース会社とで丁寧にサポートいたしますので、安心してご利用ください。</p>
-    </div>
-    <ol class="flow flow--5">
+    {sh("04", "流れ", "ご相談から工事まで、<br>5つの段。", "リース審査・本契約は、当社とリース会社とでお手伝いします。")}
+    <ol class="flow">
 {flow}
     </ol>
   </div>
 </section>
 
-<section class="sec" id="faq" style="background:var(--paper-2)">
-  <div class="narrow">
-    <div class="lead lead--c rise">
-      <span class="lead__en">Q &amp; A</span>
-      <h2 class="lead__ja">よくあるご質問</h2>
-    </div>
-    <div class="qa">
+<section class="sec" id="faq">
+  <div class="wrap duo duo--top">
+    {sh("05", "質問", "リースについて、<br>よく聞かれること。", f'ほかに分からないことがあれば、<a class="mono" href="tel:{TEL_RAW}">{TEL}</a> へ。')}
+    <div class="qa rise">
 {faq}
     </div>
   </div>
 </section>
 
 </main>
-""" + cta(1, "work-outdoor.jpg") + footer(1)
+""" + footer(1)

@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""パーソンライト — 共通部品。build.py から読む。"""
+"""パーソンライト — 共通部品。build.py から読む。
+
+   2026-09-16 第3版。考えは1つ。
+     「空調の仕事は、目に見えない温度を扱う。だからサイトはサーモカメラのように見せる」
+   写真はサーモ画像から実写へ戻り、頭の読み出しは読み進めるほど室温が下がる。
+"""
 
 import hashlib as _hl, os as _os
 
@@ -28,21 +33,32 @@ ADDR = "福島県郡山市安積町日出山2-43"
 INSTA = "https://www.instagram.com/personright501/"
 BASE = "https://nextray-gk.github.io/personright-demo"
 
+# 頭の並び。施工の写真はトップの中にあるので、足にだけ出す
 NAV = [
-    ("",            "/",             "HOME",             "ホーム"),
-    ("ac",          "/ac/",          "AIR CONDITIONER",  "エアコン"),
-    ("office-tech", "/office-tech/", "OFFICE TECH",      "通信機器"),
-    ("works",       "/#works",       "WORKS",            "施工実例"),
-    ("reviews",     "/reviews/",     "CUSTOMER REVIEWS", "お客様の声"),
-    ("company",     "/company/",     "COMPANY",          "会社案内"),
-    ("recruit",     "/recruit/",     "RECRUIT",          "採用情報"),
-    ("contact",     "/contact/",     "CONTACT US",       "お問い合わせ"),
+    ("ac",          "ac/",          "業務用エアコン"),
+    ("office-tech", "office-tech/", "通信機器"),
+    ("reviews",     "reviews/",     "お客様の声"),
+    ("company",     "company/",     "会社案内"),
+    ("recruit",     "recruit/",     "採用情報"),
 ]
-FOOT_NAV = NAV + [("privacy", "/privacy/", "PRIVACY POLICY", "プライバシーポリシー")]
+FOOT_NAV = [
+    ("", "", "トップ"),
+    ("ac", "ac/", "業務用エアコン"),
+    ("office-tech", "office-tech/", "通信機器"),
+    ("works", "#works", "施工の写真"),
+    ("reviews", "reviews/", "お客様の声"),
+    ("company", "company/", "会社案内"),
+    ("recruit", "recruit/", "採用情報"),
+    ("contact", "contact/", "お問い合わせ"),
+    ("privacy", "privacy/", "プライバシーポリシー"),
+]
 
 
-def head(title, desc, here, depth, og="og.jpg", extra=""):
-    """depth … ルートからの階層数（/ac/ なら 1、/recruit/46/ なら 2）"""
+def R(depth):
+    return "../" * depth if depth else "./"
+
+
+def head(title, desc, here, depth, og="og.jpg", extra="", page=""):
     r = "../" * depth if depth else ""
     return f"""<!DOCTYPE html>
 <html lang="ja">
@@ -58,151 +74,164 @@ def head(title, desc, here, depth, og="og.jpg", extra=""):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{BASE}/assets/img/{og}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1a6969">
+<meta name="theme-color" content="#0b0e10">
 <link rel="icon" href="{r}assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="{r}assets/img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="{r}assets/css/style.css?v={CSS_V}">
+<script>document.documentElement.classList.add('js')</script>
 {extra}</head>
-<body>
+<body class="{page}">
 <a class="sr" href="#main">本文へ移動</a>
-<div class="gauge" aria-hidden="true"><i></i></div>
 """
 
 
 def header(here, depth):
-    r = "../" * depth if depth else "./"
-    items = []
-    for key, href, en, ja in NAV:
-        h = (r + href.lstrip("/")) if href.startswith("/") else href
-        if href == "/":
-            h = r
-        elif href.startswith("/#"):
-            h = r + href[1:]
-        cur = ' aria-current="page"' if key == here else ""
-        items.append(
-            f'<li><a href="{h}"{cur}><span class="en">{en}</span><span>{ja}</span></a></li>'
-        )
-    lis = "\n      ".join(items)
+    r = R(depth)
+    cur = ' aria-current="page"'
+    items = "\n      ".join(
+        f'<li><a href="{r}{href}"{cur if key == here else ""}>{ja}</a></li>'
+        for key, href, ja in NAV
+    )
     return f"""<header class="head">
-  <a class="head__logo" href="{r}"><img src="{r}assets/img/logo.svg" alt="{SITE}" width="370" height="46"></a>
-  <nav class="head__nav" id="gnav" aria-label="主なメニュー">
-    <div class="head__inner">
-      <ul class="head__list">
-        {lis}
-      </ul>
-      <div class="navtel">
-        <small>TEL</small>
-        <a class="num" href="tel:{TEL_RAW}">{TEL}</a>
-      </div>
-    </div>
+  <a class="head__logo" href="{r}">
+    <img class="lg-d" src="{r}assets/img/logo.svg" alt="{SITE}" width="370" height="46">
+    <img class="lg-l" src="{r}assets/img/logo-white.svg" alt="" width="370" height="46" aria-hidden="true">
+  </a>
+  <nav class="head__nav" aria-label="主なメニュー">
+    <ul>
+      {items}
+    </ul>
   </nav>
-  <div class="head__tel">
-    <small>TEL</small>
-    <b><a href="tel:{TEL_RAW}">{TEL}</a></b>
-  </div>
-  <a class="btn head__cta" href="{r}contact/">お問い合わせ</a>
-  <button class="burger" type="button" aria-controls="gnav" aria-expanded="false" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+  <p class="rd" aria-hidden="true" title="読み進めるほど、室温が下がります">
+    <i class="rd__dot"></i><span class="rd__m">冷房</span><b class="rd__v">--.-</b><span class="rd__u">℃</span>
+  </p>
+  <a class="head__cta" href="{r}contact/">見積りを頼む</a>
+  <button class="burger" type="button" aria-controls="drawer" aria-expanded="false" aria-label="メニューを開く"><span></span><span></span></button>
 </header>
-"""
-
-
-def phero(en, ja, note, img, alt, crumbs, depth):
-    """下層ページの見出し。crumbs … [(名前, href), …] 最後はリンク無し"""
-    r = "../" * depth if depth else "./"
-    c = [f'<a href="{r}">ホーム</a>']
-    for name, href in crumbs:
-        c.append('<span aria-hidden="true">/</span>')
-        c.append(f'<a href="{r}{href}">{name}</a>' if href else f"<span>{name}</span>")
-    note_html = f'<p class="phero__note">{note}</p>' if note else ""
-    return f"""<div class="phero" style="--c1:#041f1e;--c2:#0f423f">
-  <div class="phero__ph"><img src="{r}assets/img/{img}" alt="{alt}" width="1600" height="900" fetchpriority="high"></div>
-  <div class="wrap phero__in">
-    <div class="phero__t">
-      <span class="phero__en">{en}</span>
-      <h1>{ja}</h1>
-      {note_html}
-    </div>
-    <nav class="crumb" aria-label="現在地">{''.join(c)}</nav>
+<div class="drawer" id="drawer" hidden>
+  <nav aria-label="メニュー">
+    <ol>
+      <li><a href="{r}"><i>00</i>トップ</a></li>
+      {"".join(f'<li><a href="{r}{href}"><i>{i+1:02d}</i>{ja}</a></li>' for i, (key, href, ja) in enumerate(NAV))}
+      <li><a href="{r}contact/"><i>06</i>お問い合わせ</a></li>
+    </ol>
+  </nav>
+  <div class="drawer__tel">
+    <small>お電話</small>
+    <a class="mono" href="tel:{TEL_RAW}">{TEL}</a>
   </div>
 </div>
 """
 
 
-def cta(depth, bg="office-front.jpg"):
-    r = "../" * depth if depth else "./"
-    return f"""<section class="cta" style="--c1:#f4efdf;--c2:#e6d5ab">
-  <div class="cta__ph"><img src="{r}assets/img/{bg}" alt="" width="1600" height="900" loading="lazy"></div>
+def phero(no, en, ja, note, img, alt, crumbs, depth, w=1200, h=800):
+    """下層ページの頭。左に言葉、右にサーモ画像から実写へ戻る写真。
+       crumbs … [(名前, href), …] 最後はリンク無し"""
+    r = R(depth)
+    c = [f'<a href="{r}">トップ</a>']
+    for name, href in crumbs:
+        c.append('<span aria-hidden="true">/</span>')
+        c.append(f'<a href="{r}{href}">{name}</a>' if href else f'<span aria-current="page">{name}</span>')
+    note_html = f'<p class="ph__note">{note}</p>' if note else ""
+    fig = ""
+    if img:
+        fig = f"""  <figure class="ph__fig scan scan--auto">
+    <img class="scan__real" src="{r}assets/img/{img}" alt="{alt}" width="{w}" height="{h}" fetchpriority="high">
+    <img class="scan__heat" src="{r}assets/img/{img}" alt="" width="{w}" height="{h}" aria-hidden="true">
+    <i class="scan__line" aria-hidden="true"></i>
+    <figcaption class="scan__tag mono" aria-hidden="true">IR → RGB</figcaption>
+  </figure>
+"""
+    long = " ph--long" if len(ja) > 12 else ""
+    return f"""<div class="ph{'' if img else ' ph--text'}{long}">
+  <div class="ph__t">
+    <nav class="crumb" aria-label="現在地">{''.join(c)}</nav>
+    <p class="ph__no mono"><b>{no}</b> {en}</p>
+    <h1 class="ph__h">{ja}</h1>
+    {note_html}
+  </div>
+{fig}</div>
+"""
+
+
+def sh(no, tag, title, note="", cls="", hid=""):
+    """節の見出し。左に番号と札、右に見出しと添え書き"""
+    n = f'<p class="sh__p">{note}</p>' if note else ""
+    i = f' id="{hid}"' if hid else ""
+    return f"""<header class="sh rise {cls}">
+      <p class="sh__no mono"><b>{no}</b><span>{tag}</span></p>
+      <div class="sh__b">
+        <h2 class="sh__t"{i}>{title}</h2>
+        {n}
+      </div>
+    </header>"""
+
+
+def cta(depth):
+    r = R(depth)
+    return f"""<section class="cta" aria-labelledby="ctaT">
   <div class="wrap cta__in">
-    <div class="cta__l">
-      <span class="cta__en">CONTACT</span>
-      <h2 class="cta__t">まずは、いまの一台を<br>見せてください</h2>
-      <p class="cta__d">いまお使いの機種の型番と、部屋の広さが分かれば見積りが出ます。無料です。電気代が気になる、古い機種を入れ替えたい、防犯カメラを検討している ── どれでも構いません。</p>
-    </div>
-    <div class="cta__r">
-      <div class="cta__way">
-        <small>BY PHONE</small>
-        <a class="tel num" href="tel:{TEL_RAW}">{TEL}</a>
-        <p>FAX {FAX}</p>
-      </div>
-      <div class="cta__way">
-        <small>BY FORM</small>
-        <p>24時間受け付けています。後日、担当よりご連絡します。</p>
-        <a class="btn btn--dark" href="{r}contact/">お問い合わせフォーム</a>
-      </div>
+    <p class="cta__no mono">CALL / FORM</p>
+    <h2 class="cta__t" id="ctaT">その部屋を、<br>一度見に行きます。</h2>
+    <p class="cta__d">お見積りは無料です。当社のスタッフが設置場所を実際に見て、機種と工法を決めます。エアコンでも、防犯カメラでも、複合機でも構いません。</p>
+    <div class="cta__ways">
+      <a class="cta__tel" href="tel:{TEL_RAW}"><small>お電話</small><b class="mono">{TEL}</b></a>
+      <a class="cta__form" href="{r}contact/"><small>フォーム・24時間</small><b>お問い合わせフォーム</b><i aria-hidden="true">→</i></a>
     </div>
   </div>
 </section>
 """
 
 
-def footer(depth):
-    r = "../" * depth if depth else "./"
-    items = []
-    for key, href, en, ja in FOOT_NAV:
-        h = r if href == "/" else (r + href[1:] if href.startswith("/#") else r + href.lstrip("/"))
-        items.append(f'<a href="{h}"><span class="en">{en}</span><span>{ja}</span></a>')
-    nav = "\n      ".join(items)
-    return f"""<div class="dusk" aria-hidden="true"></div>
-<footer class="foot" style="--c1:#0a3a37;--c2:#04211f">
+THERMAL_FILTER = """<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="thermal" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values=".33 .5 .17 0 0  .33 .5 .17 0 0  .33 .5 .17 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.03 0.10 0.42 0.76 0.94 0.98 1"/>
+      <feFuncG type="table" tableValues="0.04 0.12 0.11 0.09 0.35 0.69 0.96"/>
+      <feFuncB type="table" tableValues="0.12 0.43 0.60 0.36 0.17 0.24 0.76"/>
+    </feComponentTransfer>
+  </filter>
+</svg>"""
+
+
+def footer(depth, cta_on=True):
+    r = R(depth)
+    nav = "\n      ".join(
+        f'<a href="{r}{href}">{ja}</a>' for key, href, ja in FOOT_NAV
+    )
+    return (cta(depth) if cta_on else "") + f"""<footer class="foot">
   <div class="wrap">
     <div class="foot__top">
       <div>
         <img class="foot__logo" src="{r}assets/img/logo-white.svg" alt="{SITE}" width="370" height="46">
         <address class="foot__addr">
-          <b>株式会社 パーソンライト</b>
-          本社 ／ {ZIP}　{ADDR}<br>
-          TEL <a class="num" href="tel:{TEL_RAW}">{TEL}</a>　FAX <span class="num">{FAX}</span>
+          本社　{ZIP}　{ADDR}<br>
+          TEL <a class="mono" href="tel:{TEL_RAW}">{TEL}</a>　FAX <span class="mono">{FAX}</span>
         </address>
-        <div class="foot__sns">
-          <a href="{INSTA}" target="_blank" rel="noopener">INSTAGRAM</a>
-        </div>
+        <p class="foot__sns"><a href="{INSTA}" target="_blank" rel="noopener">Instagram　@personright501</a></p>
       </div>
-      <nav class="foot__nav" aria-label="サイト内のご案内">
+      <nav class="foot__nav" aria-label="サイトのご案内">
       {nav}
       </nav>
     </div>
-    <div class="foot__sub">
-      <p>このホームページは須賀川市中小企業ホームページ開設等支援事業補助金を活用して作成しました</p>
-      <p class="foot__cr">© 2023 Person right All Rights Reserved.</p>
-    </div>
+    <p class="foot__cr mono">© Person right Co., Ltd.</p>
   </div>
 </footer>
 
-<button class="toTop" type="button" aria-label="ページの先頭へ戻る">
-  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-</button>
+<p class="bar" aria-hidden="true"><i></i></p>
 
 <button class="demo" type="button" popovertarget="demoNote">デモサイトについて</button>
 <div id="demoNote" popover>
   <h2>これはデモサイトです</h2>
-  <p>株式会社パーソンライト様の現行サイト（personright.com）の内容をもとに、NextRay がデザイン案として制作したものです。<strong>ご発注をいただいたものではありません。</strong></p>
-  <p>掲載の社名・住所・電話番号・写真は現行サイトから引き継いだ実在のものです。お問い合わせフォームは形だけで、送信はできません。検索には出ないようにしてあります。</p>
+  <p>株式会社パーソンライト様の会社情報をもとに、NextRay がデザイン案として制作したものです。<strong>ご発注をいただいたものではありません。</strong></p>
+  <p>社名・住所・電話番号・写真は実在のものです。断面図の温度はイメージです。お問い合わせフォームは形だけで、送信はできません。検索には出ないようにしてあります。</p>
   <button class="btn" type="button" popovertarget="demoNote" popovertargetaction="hide">閉じる</button>
 </div>
-
+{THERMAL_FILTER}
 <script src="{r}assets/js/main.js?v={JS_V}" defer></script>
 </body>
 </html>
@@ -212,7 +241,6 @@ def footer(depth):
 def jsonld(depth, extra=None):
     """組織の構造化データ。手元にある事実だけ。"""
     import json
-    r = "../" * depth if depth else "./"
     org = {
         "@context": "https://schema.org",
         "@type": "Organization",
