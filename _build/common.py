@@ -37,6 +37,7 @@ BASE = "https://nextray-gk.github.io/personright-demo"
 NAV = [
     ("ac",          "ac/",          "業務用エアコン"),
     ("office-tech", "office-tech/", "通信機器"),
+    ("works",       "works/",       "施工実績"),
     ("reviews",     "reviews/",     "お客様の声"),
     ("company",     "company/",     "会社案内"),
     ("recruit",     "recruit/",     "採用情報"),
@@ -45,7 +46,7 @@ FOOT_NAV = [
     ("", "", "トップ"),
     ("ac", "ac/", "業務用エアコン"),
     ("office-tech", "office-tech/", "通信機器"),
-    ("works", "#works", "施工の写真"),
+    ("works", "works/", "施工実績"),
     ("reviews", "reviews/", "お客様の声"),
     ("company", "company/", "会社案内"),
     ("recruit", "recruit/", "採用情報"),
@@ -116,7 +117,7 @@ def header(here, depth):
     <ol>
       <li><a href="{r}"><i>00</i>トップ</a></li>
       {"".join(f'<li><a href="{r}{href}"><i>{i+1:02d}</i>{ja}</a></li>' for i, (key, href, ja) in enumerate(NAV))}
-      <li><a href="{r}contact/"><i>06</i>お問い合わせ</a></li>
+      <li><a href="{r}contact/"><i>{len(NAV)+1:02d}</i>お問い合わせ</a></li>
     </ol>
   </nav>
   <div class="drawer__tel">

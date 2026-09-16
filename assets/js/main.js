@@ -52,7 +52,7 @@
   var rdV = document.querySelector('.rd__v');
   var rdDot = document.querySelector('.rd__dot');
   var bar = document.querySelector('.bar');
-  var darkSecs = [].slice.call(document.querySelectorAll('.tm, .mt, .reel, .nv, .sec--ink, .cta, .foot'));
+  var darkSecs = [].slice.call(document.querySelectorAll('.tm, .mt, .reel, .nv, .wk, .wash, .sec--ink, .cta, .foot'));
   var roomTemp = null; /* トップの冒頭が温度を持っているあいだは、そちらを出す */
   var shownTemp = -1;
 
@@ -620,6 +620,85 @@
     setTimeout(function () { if (coolV.textContent !== to.toFixed(1) && document.hidden) coolV.textContent = to.toFixed(1); }, 4000);
   }
 
+
+  /* ============================================ 施工実績 */
+  var wk = document.querySelector('.wk');
+  function updWk() {
+    if (!wk) return;
+    var r = wk.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) return;
+    wk.style.setProperty('--k', ease(band(pinProgress(wk), 0.05, 0.72)).toFixed(3));
+  }
+
+  var wash = document.querySelector('.wash');
+  var washParts = wash && {
+    m: wash.querySelector('.wash__clean2'), n: wash.querySelector('.wash__nozzle'), w: wash.querySelector('.wash__water')
+  };
+  function updWash() {
+    if (!wash) return;
+    var r = wash.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) return;
+    var k = ease(band(pinProgress(wash), 0.08, 0.85));
+    washParts.m.setAttribute('height', (230 * k).toFixed(1));
+    washParts.n.setAttribute('transform', 'translate(' + (Math.sin(k * 18) * 120).toFixed(1) + ',' + (30 + 220 * k).toFixed(1) + ')');
+    var hw = 100 * k;
+    washParts.w.setAttribute('y', (410 - hw).toFixed(1));
+    washParts.w.setAttribute('height', hw.toFixed(1));
+  }
+
+  /* 絞り込み … 残る記録は元の位置から滑らせて動かす */
+  var recs = [].slice.call(document.querySelectorAll('.rec'));
+  var chips = [].slice.call(document.querySelectorAll('.filt .chip'));
+  var filtN = document.querySelector('.filt__n b');
+  function applyFilter(f) {
+    var first = recs.map(function (el) { return el.hidden ? null : el.getBoundingClientRect(); });
+    var shown = 0;
+    recs.forEach(function (el) {
+      var ok = f === 'all' ||
+        (f.indexOf('kind:') === 0 && el.getAttribute('data-kind') === f.slice(5)) ||
+        (f.indexOf('part:') === 0 && (' ' + el.getAttribute('data-parts') + ' ').indexOf(' ' + f.slice(5) + ' ') >= 0);
+      el.hidden = !ok;
+      if (ok) shown++;
+    });
+    chips.forEach(function (c) {
+      var on = c.getAttribute('data-f') === f;
+      c.classList.toggle('is-on', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (filtN) filtN.textContent = shown;
+    recs.forEach(function (el, i) {
+      if (el.hidden || !el.animate) return;
+      var last = el.getBoundingClientRect();
+      if (first[i]) {
+        var dy = first[i].top - last.top;
+        if (Math.abs(dy) > 1) el.animate([{ transform: 'translateY(' + dy + 'px)' }, { transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      } else {
+        el.animate([{ opacity: 0, transform: 'translateY(30px) scale(.98)' }, { opacity: 1, transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      }
+    });
+    tick();
+  }
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var f = c.getAttribute('data-f');
+      applyFilter(c.classList.contains('is-on') && f !== 'all' ? 'all' : f);
+    });
+  });
+  [].forEach.call(document.querySelectorAll('[data-jump]'), function (b) {
+    b.addEventListener('click', function () {
+      applyFilter(b.getAttribute('data-jump'));
+      var t = document.getElementById('records');
+      if (t) t.scrollIntoView({ behavior: still ? 'auto' : 'smooth' });
+    });
+  });
+  /* 暦や冒頭の写真から飛んだとき、その記録が隠れていたら全件に戻す */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#w"]');
+    if (!a) return;
+    var t = document.getElementById(a.getAttribute('href').slice(1));
+    if (t && t.hidden) applyFilter('all');
+  });
+
   /* 目次の今いる所（業務用エアコン） */
   var tocLinks = [].slice.call(document.querySelectorAll('.toc a'));
   function updToc() {
@@ -638,7 +717,7 @@
     ticking = false;
     var y = window.scrollY || window.pageYOffset;
     if (room) room.scroll();
-    updMeter(); updReel(); updScans(); updNv(); updToc(); updK();
+    updMeter(); updReel(); updScans(); updNv(); updToc(); updK(); updWk(); updWash();
     updHead(y);
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }

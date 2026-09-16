@@ -203,8 +203,8 @@ def build():
     <div class="reel__track">
 {reel}
       <div class="reel__end">
-        <p>ほかの現場の写真は、<br>Instagramに載せています。</p>
-        <a class="tl tl--light" href="{INSTA}" target="_blank" rel="noopener">@personright501</a>
+        <p>ほかの現場は、<br>施工実績のページに。</p>
+        <a class="tl tl--light" href="./works/">施工実績を見る</a>
       </div>
     </div>
   </div>

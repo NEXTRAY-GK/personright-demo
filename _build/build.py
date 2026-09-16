@@ -10,7 +10,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
-import p_top, p_ac, p_office, p_company, p_recruit, p_reviews, p_misc
+import p_top, p_ac, p_office, p_company, p_recruit, p_reviews, p_misc, p_works
 
 
 def put(rel, html):
@@ -26,6 +26,7 @@ def main():
     made.append(put("index.html", p_top.build()))
     made.append(put("ac/index.html", p_ac.build()))
     made.append(put("office-tech/index.html", p_office.build()))
+    made.append(put("works/index.html", p_works.build()))
     made.append(put("company/index.html", p_company.build()))
     made.append(put("recruit/index.html", p_recruit.build_index()))
     for j in p_recruit.JOBS:
