@@ -142,14 +142,12 @@ def phero(no, en, ja, note, img, alt, crumbs, depth, w=1200, h=800):
     <img class="scan__real" src="{r}assets/img/{img}" alt="{alt}" width="{w}" height="{h}" fetchpriority="high">
     <img class="scan__heat" src="{r}assets/img/{img}" alt="" width="{w}" height="{h}" aria-hidden="true">
     <i class="scan__line" aria-hidden="true"></i>
-    <figcaption class="scan__tag mono" aria-hidden="true">IR → RGB</figcaption>
   </figure>
 """
     long = " ph--long" if len(ja) > 12 else ""
     return f"""<div class="ph{'' if img else ' ph--text'}{long}">
   <div class="ph__t">
     <nav class="crumb" aria-label="現在地">{''.join(c)}</nav>
-    <p class="ph__no mono"><b>{no}</b> {en}</p>
     <h1 class="ph__h">{ja}</h1>
     {note_html}
   </div>
@@ -162,7 +160,7 @@ def sh(no, tag, title, note="", cls="", hid=""):
     n = f'<p class="sh__p">{note}</p>' if note else ""
     i = f' id="{hid}"' if hid else ""
     return f"""<header class="sh rise {cls}">
-      <p class="sh__no mono"><b>{no}</b><span>{tag}</span></p>
+      <p class="sh__no mono">{f"<b>{no}</b>" if no else ""}<span>{tag}</span></p>
       <div class="sh__b">
         <h2 class="sh__t"{i}>{title}</h2>
         {n}
@@ -174,12 +172,12 @@ def cta(depth):
     r = R(depth)
     return f"""<section class="cta" aria-labelledby="ctaT">
   <div class="wrap cta__in">
-    <p class="cta__no mono">CALL / FORM</p>
-    <h2 class="cta__t" id="ctaT">その部屋を、<br>一度見に行きます。</h2>
-    <p class="cta__d">お見積りは無料です。当社のスタッフが設置場所を実際に見て、機種と工法を決めます。エアコンでも、防犯カメラでも、複合機でも構いません。</p>
+    <p class="cta__no">ご相談・お見積り</p>
+    <h2 class="cta__t" id="ctaT">まずは一度、<br>その部屋を見せてください。</h2>
+    <p class="cta__d">お見積りは無料です。スタッフがうかがって実際の場所を見てから、機種と工事のやり方を決めます。エアコンに限らず、防犯カメラや複合機のご相談でも構いません。</p>
     <div class="cta__ways">
-      <a class="cta__tel" href="tel:{TEL_RAW}"><small>お電話</small><b class="mono">{TEL}</b></a>
-      <a class="cta__form" href="{r}contact/"><small>フォーム・24時間</small><b>お問い合わせフォーム</b><i aria-hidden="true">→</i></a>
+      <a class="cta__tel" href="tel:{TEL_RAW}"><small>お電話で</small><b class="mono">{TEL}</b></a>
+      <a class="cta__form" href="{r}contact/"><small>フォームから（24時間受付）</small><b>お問い合わせフォーム</b><i aria-hidden="true">→</i></a>
     </div>
   </div>
 </section>

@@ -11,33 +11,33 @@
 from common import head, header, footer, jsonld, sh, TEL, TEL_RAW, INSTA
 
 TITLE = "株式会社パーソンライト｜業務用エアコンの販売・設置工事（福島県郡山市）"
-DESC = "福島県郡山市の株式会社パーソンライト。ダイキンほか5メーカーの業務用エアコンを自社の工事部が取り付け、7年保証と年間メンテナンスで見続けます。リースなら初期費用0円。防犯カメラ・複合機・ビジネスフォンも。"
+DESC = "福島県郡山市の株式会社パーソンライト。ダイキンをはじめ5社のメーカーから業務用エアコンを選び、自社の工事部で取り付けます。7年保証と年間メンテナンスもご用意しています。リースなら初期費用0円。防犯カメラ・複合機・ビジネスフォンも。"
 
 # 困りごと → 行き先
 CASES = [
-    ("夏になると、効きが悪い。",
-     "天井カセット形の分解・洗浄クリーニングから、入れ替えまで。まず今の一台を見ます。",
+    ("夏になると、どうも効きが悪い。",
+     "分解クリーニングで済むのか、入れ替えたほうがいいのか。まずは今お使いの一台を見せてください。",
      "ac/", "業務用エアコン"),
-    ("電気代が、毎月重い。",
-     "最新の省エネ機種に替えると、消費電力は最大70%下がります。15年前の機種からなら65%。",
+    ("毎月の電気代が重い。",
+     "15年前の機種を最新の省エネ機種に替えると、消費電力は65%下がります。機種によっては最大70%です。",
      "ac/#eco", "替える理由"),
     ("2001年より前のエアコンを、まだ使っている。",
-     "その機種の冷媒 R22 は、生産も輸入も終わっています。修理用のガスが手に入るうちに。",
+     "その頃の機種に使われている冷媒R22は、もう生産も輸入もされていません。修理用のガスが手に入らなくなる前に、入れ替えを考えてみませんか。",
      "ac/#refrigerant", "R22 のこと"),
-    ("開業や入れ替えに、まとまった資金を出したくない。",
-     "リースなら初期費用0円。税務上認められたリース期間なら、全額を経費として処理できます。",
+    ("開業や入れ替えで、まとまったお金を出すのは厳しい。",
+     "リースなら初期費用はかかりません。税務上認められたリース期間なら、支払いを全額経費にできます。",
      "ac/#lease", "リース"),
-    ("電話も複合機も防犯カメラも、そろそろ替えたい。",
-     "ビジネスフォン、富士フイルムの複合機、夜間もカラーで撮れる防犯カメラ、UTM、サーバーまで。",
+    ("電話も複合機も、防犯カメラも古くなってきた。",
+     "ビジネスフォンや富士フイルムの複合機、夜でもカラーで撮れる防犯カメラ、UTM、サーバーも扱っています。",
      "office-tech/", "通信機器"),
-    ("エアコンのついでに、電気や水回りも。",
-     "電気工事も水回り工事も、自社の工事部で受けます。",
+    ("エアコンと一緒に、電気や水回りの工事も頼みたい。",
+     "電気工事も水回りの工事も、自社の工事部でお受けします。",
      "company/", "会社案内"),
 ]
 
 REEL = [
-    ("case-install01.jpg", 640, 800, "天井を開け、天井裏で作業する当社の工事スタッフ", "天井を開けての工事", "天井裏"),
-    ("case-shop.jpg", 780, 611, "店舗の天井に設置した天井カセット形エアコン", "天井カセット形", "店舗"),
+    ("case-install01.jpg", 640, 800, "天井を開け、天井裏で作業する当社の工事スタッフ", "天井を開けての工事", "事務所"),
+    ("case-shop.jpg", 780, 611, "店舗の天井に設置した天井カセット形エアコン", "店舗の天井", "店舗"),
     ("case-install02.jpg", 640, 480, "建物の外壁に据え付けた業務用エアコンの室外機", "室外機の据付", "外壁"),
     ("case-house.jpg", 640, 427, "工場の外壁に並べて設置した業務用エアコンの室外機7台", "室外機7台", "工場"),
 ]
@@ -81,7 +81,7 @@ def build():
           <img class="scan__heat" src="./assets/img/{f}" alt="" width="{w}" height="{h}" loading="lazy" aria-hidden="true">
           <i class="scan__line" aria-hidden="true"></i>
         </div>
-        <figcaption><span class="mono">{i+1:02d} / {len(REEL):02d}　{place}</span>{c}</figcaption>
+        <figcaption><span>{place}</span>{c}</figcaption>
       </figure>""" for i, (f, w, h, a, c, place) in enumerate(REEL))
 
     hub = "\n".join(f"""      <div class="hub__i rise">
@@ -90,10 +90,10 @@ def build():
       </div>""" for i, (t, items) in enumerate(HUB))
 
     voice = "\n".join(f"""      <article class="q rise">
-        <p class="q__no mono">VOICE {i+1:02d}　{who}</p>
+        <p class="q__no">{who}</p>
         <h3 class="q__t">「{t}」</h3>
         <p class="q__d">{d}</p>
-        <a class="tl" href="./reviews/{vid}/">全文を読む</a>
+        <a class="tl" href="./reviews/{vid}/">続きを読む</a>
       </article>""" for i, (t, who, vid, d) in enumerate(VOICE))
 
     jobs = "\n".join(f"""      <li><a href="./recruit/{jid}/"><b>{n}</b><span>{ty}</span><span class="mono">{pay}</span><i aria-hidden="true">→</i></a></li>"""
@@ -110,7 +110,7 @@ def build():
   <div class="tm__stage">
     <canvas class="tm__cv" aria-hidden="true"></canvas>
     <div class="tm__hud mono" aria-hidden="true">
-      <span class="tm__rec"><i></i>IR VIEW　断面図・温度はイメージです</span>
+      <span class="tm__rec"><i></i>サーモ画像で見た部屋の断面（温度はイメージです）</span>
       <span class="tm__sp" data-sp="0">SP1 窓際　<b>--.-</b>℃</span>
       <span class="tm__sp" data-sp="1">SP2 机の上　<b>--.-</b>℃</span>
       <span class="tm__sp" data-sp="2">SP3 床の隅　<b>--.-</b>℃</span>
@@ -118,28 +118,28 @@ def build():
 
     <div class="tm__txt">
       <div class="tm__s" data-s="0">
-        <p class="tm__eye mono">業務用エアコン ／ 福島県郡山市</p>
+        <p class="tm__eye">福島県郡山市　業務用エアコンの販売と取り付け</p>
         <h1 class="tm__h" id="tmH">暑い部屋は、<br>天井から冷やす。</h1>
-        <p class="tm__p">ダイキンほか5メーカーから選び、自社の工事部が取り付け、7年保証と年間メンテナンスで見続けます。</p>
+        <p class="tm__p">ダイキンをはじめ5社のメーカーから部屋に合う機種を選び、自社の工事部で取り付けます。付けたあとの7年保証と年間メンテナンスもご用意しています。</p>
         <p class="tm__acts">
           <a class="btn btn--light" href="./contact/">無料で見積りを頼む</a>
           <a class="tl tl--light" href="tel:{TEL_RAW}"><span class="mono">{TEL}</span></a>
         </p>
       </div>
       <div class="tm__s" data-s="1">
-        <p class="tm__eye mono">01 ／ 選ぶ</p>
+        <p class="tm__eye">まず、選ぶ</p>
         <p class="tm__h2">ダイキン、三菱電機、<br>日立、東芝、<br>パナソニック。</p>
-        <p class="tm__p">天井カセット形、天井吊形、壁掛形、床置形、厨房用まで12の形から、部屋の広さと天井の構造に合う一台を。</p>
+        <p class="tm__p">天井に埋め込む形、吊るす形、壁掛け、床置き、厨房用まで12種類あります。部屋の広さや天井のつくりを見て、合うものをご提案します。</p>
       </div>
       <div class="tm__s" data-s="2">
-        <p class="tm__eye mono">02 ／ 取り付ける</p>
+        <p class="tm__eye">次に、取り付ける</p>
         <p class="tm__h2">冷たい空気は下へ、<br>暖まった空気は上へ。</p>
-        <p class="tm__p">その流れを邪魔しない位置に室内機を置き、配管とドレンの勾配を取る。ここまでを自社の工事部がやります。</p>
+        <p class="tm__p">この流れをじゃましない場所に室内機を置き、配管や排水の傾きをきちんと取ります。同じ機種でも、取り付け方で効き具合は変わります。工事は自社の工事部が行います。</p>
       </div>
       <div class="tm__s" data-s="3">
-        <p class="tm__eye mono">03 ／ 見続ける</p>
-        <p class="tm__h2">引き渡しのあとは、<br>7年保証と<br>年間メンテナンス。</p>
-        <p class="tm__p">最新の省エネ機種に替えると、消費電力は最大70%下がります。</p>
+        <p class="tm__eye">そのあとも、見守る</p>
+        <p class="tm__h2">付けたあとも、<br>7年間は保証します。</p>
+        <p class="tm__p">年間メンテナンスもご用意しています。古い機種を最新の省エネ機種に替えると、消費電力は最大で70%下がります。</p>
         <p class="tm__acts"><a class="btn btn--light" href="./ac/">業務用エアコンを見る</a></p>
       </div>
     </div>
@@ -147,21 +147,21 @@ def build():
     <div class="tm__temp" aria-hidden="true">
       <p class="tm__deg"><b class="tm__v">33.8</b><span>℃</span></p>
       <div class="tm__scale mono"><span>22</span><i><em></em></i><span>36℃</span></div>
-      <p class="tm__hint mono"><i></i>スクロールすると、部屋が冷えます</p>
+      <p class="tm__hint"><i></i>スクロールすると、部屋が冷えていきます</p>
     </div>
   </div>
 </section>
 
 <!-- ======================================================== メーカー -->
 <div class="makers">
-  <p class="mono">取り扱い</p>
+  <p>取り扱いメーカー</p>
   <ul><li>ダイキン</li><li>三菱電機</li><li>日立</li><li>東芝</li><li>パナソニック</li></ul>
 </div>
 
 <!-- ======================================================== 困りごと -->
 <section class="sec" id="cases">
   <div class="wrap">
-    {sh("A", "ご相談の入り口", "どこから話せばいいか、<br>分からなくても。", "よくいただくご相談を6つに分けました。当てはまる所から読んでください。どれにも当てはまらなければ、そのままお電話を。")}
+    {sh("", "ご相談の入り口", "何から聞けばいいか、<br>わからなくても大丈夫です。", "よくいただくご相談を6つにまとめました。近いものから読んでみてください。どれにも当てはまらなければ、そのままお電話ください。")}
     <ol class="cases">
 {cases}
     </ol>
@@ -173,10 +173,10 @@ def build():
   <div class="mt__stage">
     <div class="wrap mt__in">
       <div class="mt__l">
-        <p class="sh__no mono"><b>B</b><span>電気代</span></p>
-        <h2 class="mt__h" id="mtH">同じ部屋を冷やす電気は、<br>冷媒の世代で5分の1に。</h2>
-        <p class="mt__p">冷媒 R22 の機種の消費電力を100としたときの比較です。2001年より前の機種を使っているなら、替える理由は電気代だけではありません。R22 は生産・輸入が終わっています。</p>
-        <p><a class="tl" href="./ac/#refrigerant">冷媒と入れ替えの話を読む</a></p>
+        <p class="sh__no mono"><span>電気代</span></p>
+        <h2 class="mt__h" id="mtH">同じ部屋を冷やす電気が、<br>いまの冷媒なら5分の1です。</h2>
+        <p class="mt__p">R22という冷媒を使った古い機種を100として比べています。2001年より前の機種をお使いなら、気にしていただきたいのは電気代だけではありません。R22はもう生産も輸入もされていないので、修理用のガスが手に入りにくくなっていきます。</p>
+        <p><a class="tl" href="./ac/#refrigerant">冷媒と入れ替えについて読む</a></p>
       </div>
       <div class="mt__r">
         <p class="mt__yr mono"><span class="mt__gen">R22（指定フロン）</span><span class="mt__era">2001年以前</span></p>
@@ -196,14 +196,14 @@ def build():
 <section class="reel" id="works" aria-labelledby="reelH">
   <div class="reel__stage">
     <div class="wrap reel__hd">
-      <p class="sh__no mono"><b>C</b><span>現場</span></p>
-      <h2 class="reel__h" id="reelH">天井の上と、壁の外。</h2>
-      <p class="reel__p">事務所と店舗の天井、工場の外壁。取り付けの現場から。</p>
+      <p class="sh__no mono"><span>現場</span></p>
+      <h2 class="reel__h" id="reelH">天井の中も、壁の外も。</h2>
+      <p class="reel__p">事務所や店舗の天井、工場の外壁など、実際に取り付けた現場の写真です。</p>
     </div>
     <div class="reel__track">
 {reel}
       <div class="reel__end">
-        <p>ほかの現場は<br>Instagram に。</p>
+        <p>ほかの現場の写真は、<br>Instagramに載せています。</p>
         <a class="tl tl--light" href="{INSTA}" target="_blank" rel="noopener">@personright501</a>
       </div>
     </div>
@@ -213,8 +213,8 @@ def build():
 <!-- ======================================================== 窓口は1本 -->
 <section class="sec hub" id="madoguchi">
   <div class="wrap">
-    {sh("D", "窓口", "電話は、一本でいい。", "空調・通信機器・工事・テレマーケティングの4つを1社でやっています。エアコンの相談のついでに、電話機や複合機の話をしても構いません。")}
-    <p class="hub__tel rise"><small class="mono">TEL</small><a class="mono" href="tel:{TEL_RAW}">{TEL}</a></p>
+    {sh("", "窓口", "お電話は、<br>この番号ひとつで。", "空調、通信機器、工事、テレマーケティングの4つを1つの会社でやっています。エアコンの相談のついでに、電話機や複合機のことを聞いていただいても構いません。")}
+    <p class="hub__tel rise"><small>お電話</small><a class="mono" href="tel:{TEL_RAW}">{TEL}</a></p>
     <div class="hub__g">
 {hub}
     </div>
@@ -224,18 +224,18 @@ def build():
 <!-- ======================================================== 声 -->
 <section class="sec sec--p2" id="voice">
   <div class="wrap">
-    {sh("E", "お客様の声", "工事のあとに、<br>届いた言葉。")}
+    {sh("", "お客様の声", "工事のあとに、<br>いただいた声です。")}
     <div class="qs">
 {voice}
     </div>
-    <p class="more rise"><a class="btn" href="./reviews/">お客様の声を4件すべて読む</a></p>
+    <p class="more rise"><a class="btn" href="./reviews/">お客様の声をすべて読む（4件）</a></p>
   </div>
 </section>
 
 <!-- ======================================================== 採用 -->
 <section class="sec" id="recruit">
   <div class="wrap rc">
-    {sh("F", "採用", "天井に上がる人も、<br>電話をかける人も。", "4つの職種で募集しています。")}
+    {sh("", "採用", "天井に上がる人も、<br>電話をかける人も<br>募集しています。", "いま、4つの職種で募集しています。")}
     <ul class="rows rise">
 {jobs}
     </ul>

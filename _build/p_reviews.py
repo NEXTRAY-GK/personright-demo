@@ -28,17 +28,17 @@ def build_index():
     desc = "業務用エアコンの設置・更新工事をご利用いただいたお客様からのお声を掲載しています。福島県郡山市の株式会社パーソンライト。"
     cards = "\n".join(f"""      <article class="vc rise">
         <a href="./{v['id']}/">
-          <p class="mono">VOICE {i+1:02d}　{v['who']}</p>
+          <p class="vc__who">{v['who']}</p>
           <h2 class="vc__t">「{v['title']}」</h2>
           <p class="vc__d">{v['body'][0]}</p>
-          <span class="vc__go">全文を読む →</span>
+          <span class="vc__go">続きを読む →</span>
         </a>
       </article>""" for i, v in enumerate(VOICES))
 
     return head(title, desc, "reviews", 1, extra=jsonld(1)) + header("reviews", 1) + f"""
 <main id="main">
 """ + phero("03", "VOICES", "お客様の声",
-            "工事を終えたあとからが、本当のお付き合いの始まりだと考えています。いただいた声は、アフターフォローに活かしています。",
+            "工事が終わってからが、本当のお付き合いの始まりだと考えています。いただいた声は、そのあとのフォローに活かしています。",
             None, None, [("お客様の声", "")], 1) + f"""
 
 <section class="sec sec--flush">
@@ -62,9 +62,9 @@ def build_one(v):
     body = "\n".join(f"<p>{b}</p>" for b in v["body"])
     nav = []
     if prev:
-        nav.append(f'<a class="pn__p" href="../{prev["id"]}/"><small class="mono">← 前の声</small><span>{prev["title"]}</span></a>')
+        nav.append(f'<a class="pn__p" href="../{prev["id"]}/"><small>← 前の声</small><span>{prev["title"]}</span></a>')
     if nxt:
-        nav.append(f'<a class="pn__n" href="../{nxt["id"]}/"><small class="mono">次の声 →</small><span>{nxt["title"]}</span></a>')
+        nav.append(f'<a class="pn__n" href="../{nxt["id"]}/"><small>次の声 →</small><span>{nxt["title"]}</span></a>')
 
     return head(title, desc, "reviews", 2, og=v["img"], extra=jsonld(2)) + header("reviews", 2) + f"""
 <main id="main">
@@ -73,7 +73,7 @@ def build_one(v):
 
 <section class="sec">
   <div class="wrap duo duo--top">
-    <p class="sh__no mono"><b>{i+1:02d}</b><span>いただいた声</span></p>
+    <p class="sh__no mono"><span>いただいた声</span></p>
     <div>
       <div class="one rise">
 {body}

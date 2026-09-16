@@ -3,8 +3,8 @@
 from common import head, header, phero, footer, jsonld, sh, TEL, TEL_RAW, FAX, ZIP, ADDR
 
 FORM_NOTE = """<ul class="form__note">
-<li>docomo、au、softbank等のキャリアメールをご利用の方には、返信メールが届かない場合がございます。不明な点があれば下記までご連絡ください。</li>
-<li>半角カナ入力は文字化けの原因となりますのでご注意ください。</li>
+<li>docomo・au・softbankなど、携帯会社のメールアドレスをお使いの場合、こちらからの返信が届かないことがあります。困ったときはお電話ください。</li>
+<li>半角カナは文字化けすることがあるので、全角でご入力ください。</li>
 </ul>"""
 
 TOPICS = ["業務用エアコン", "リース", "クリーニング", "防犯カメラ", "複合機", "ビジネスフォン", "その他"]
@@ -20,11 +20,11 @@ def _field(label, req, fid, html):
 
 def contact():
     title = "お問い合わせ｜株式会社パーソンライト"
-    desc = f"業務用エアコン・防犯カメラ・複合機のご相談、お見積りの依頼はこちらから。お電話（{TEL}）でも承ります。福島県郡山市の株式会社パーソンライト。"
+    desc = f"業務用エアコン・防犯カメラ・複合機のご相談、お見積りの依頼はこちらから。お電話（{TEL}）でも受け付けています。福島県郡山市の株式会社パーソンライト。"
     topics = "".join(f'<label class="pill"><input type="checkbox" name="topic" value="{t}"><span>{t}</span></label>' for t in TOPICS)
     fields = "\n".join([
         f"""      <fieldset class="form__row">
-        <legend class="form__l">ご相談の種類</legend>
+        <legend class="form__l">何についてのご相談ですか</legend>
         <div class="form__f pills">{topics}</div>
       </fieldset>""",
         _field("お名前", True, "f-name", '<input type="text" name="name" id="f-name" autocomplete="name" required>'),
@@ -32,24 +32,24 @@ def contact():
         _field("電話番号（携帯可）", True, "f-tel", '<input type="tel" name="tel" id="f-tel" autocomplete="tel" required>'),
         _field("メールアドレス", True, "f-mail", '<input type="email" name="mail" id="f-mail" autocomplete="email" required>'),
         _field("メールアドレス（確認用）", True, "f-mail2", '<input type="email" name="mail2" id="f-mail2" required>'),
-        _field("お問い合わせ内容", True, "f-body", '<textarea name="body" id="f-body" rows="8" required placeholder="ご検討中の機器、設置場所、台数など、分かる範囲でお書きください。"></textarea>'),
-        _field("送信確認", True, "f-ok", '<label class="form__check"><input type="checkbox" name="ok" id="f-ok" required><span>「<a href="../privacy/">プライバシーポリシー</a>」を確認し、同意します。</span></label>'),
+        _field("ご相談の内容", True, "f-body", '<textarea name="body" id="f-body" rows="8" required placeholder="考えている機器や取り付ける場所、台数など、わかる範囲で書いてください。"></textarea>'),
+        _field("送信確認", True, "f-ok", '<label class="form__check"><input type="checkbox" name="ok" id="f-ok" required><span>「<a href="../privacy/">プライバシーポリシー</a>」を読んで、同意します。</span></label>'),
     ])
     return head(title, desc, "contact", 1, extra=jsonld(1)) + header("contact", 1) + f"""
 <main id="main">
 """ + phero("06", "CONTACT", "お問い合わせ",
-            "お見積りは無料です。お電話でも、下のフォームからでも。フォームは24時間受け付け、内容を確認して後日担当からご連絡します。",
+            "お見積りは無料です。お電話でもフォームでも、どちらでも構いません。フォームは24時間受け付けていて、内容を確かめてから担当者がご連絡します。",
             None, None, [("お問い合わせ", "")], 1) + f"""
 
 <section class="sec sec--flush">
   <div class="wrap duo duo--top">
     <div class="ways rise">
-      <p class="sh__no mono"><b>TEL</b><span>お電話</span></p>
+      <p class="sh__no mono"><span>お電話で</span></p>
       <a class="ways__tel mono" href="tel:{TEL_RAW}">{TEL}</a>
       <p>FAX <span class="mono">{FAX}</span></p>
     </div>
     <div class="rise">
-      <p class="sh__no mono"><b>FORM</b><span>フォーム</span></p>
+      <p class="sh__no mono"><span>フォームで</span></p>
       {FORM_NOTE}
       <form class="form" method="post" action="./thanks/" data-demo="1" aria-describedby="formDemo">
 {fields}
@@ -69,12 +69,12 @@ def thanks():
     return head(title, desc, "contact", 2, extra=jsonld(2)) + header("contact", 2) + f"""
 <main id="main">
 """ + phero("06-2", "THANK YOU", "送信ありがとうございました",
-            "内容を確認のうえ、担当より折り返しご連絡いたします。",
+            "内容を確かめて、担当者から折り返しご連絡します。",
             None, None, [("お問い合わせ", "contact/"), ("送信完了", "")], 2) + f"""
 
 <section class="sec sec--flush">
   <div class="wrap">
-    <p class="lede rise">3日たっても連絡が届かないときは、お手数ですが <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> までお電話ください。</p>
+    <p class="lede rise">3日たっても連絡がないときは、お手数ですが <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> までお電話ください。</p>
     <p class="more rise"><a class="btn" href="../../">トップへ戻る</a></p>
   </div>
 </section>
@@ -84,16 +84,16 @@ def thanks():
 
 
 PRIVACY = [
-    ("1", "個人情報の取得、利用及び提供",
-     "当社は、業務上個人情報を取得する場合には利用目的を特定し、その利用目的の達成に必要な限度で取扱い、目的外利用を行わないための措置を講じます。また、当社はご提供いただいた個人情報を、ご本人様の同意がある場合または正当な理由がある場合を除き、第三者に開示または提供いたしません。"),
-    ("2", "法令及びその他の規範の順守",
-     "当社は、保有する個人情報の取扱いに関し、適用される法令及び国が定める指針その他の規範を順守します。"),
-    ("3", "個人情報の管理と保護",
-     "当社は、個人情報の管理を厳重に行ない、個人情報の漏えい、滅失又はき損を防ぐため、適切な防止及び是正処置を行います。"),
-    ("4", "お問い合わせ・苦情への対応",
-     "当社は、保有する個人情報の取り扱いに対するご相談や苦情について、速やかに対応致します。"),
-    ("5", "個人情報保護管理体制の確立及び仕組みの継続的改善",
-     "当社は、業務上の個人情報を適正に取扱うための責任体制を確立し、また個人情報保護を実践するため、内部規程を整備して全従業者に周知し、定期的な監査と見直しを行い、個人情報保護マネジメントシステムの継続的改善に努めます。"),
+    ("1", "個人情報を受け取るとき、使うとき、渡すとき",
+     "仕事の中で個人情報をお預かりするときは、何に使うのかをはっきりさせ、その目的に必要な範囲でだけ使います。目的以外には使わないよう、社内で手立てを取ります。また、ご本人の同意がある場合や正当な理由がある場合を除いて、お預かりした個人情報を第三者に見せたり渡したりしません。"),
+    ("2", "法律や決まりを守ります",
+     "個人情報の扱いについては、関係する法律や国の指針などの決まりを守ります。"),
+    ("3", "しっかり管理して守ります",
+     "個人情報は厳しく管理します。外に漏れたり、なくなったり、壊れたりしないよう、防ぐための対策と、起きたときに正すための対策を取ります。"),
+    ("4", "ご相談や苦情には、すぐに対応します",
+     "個人情報の扱いについてご相談や苦情をいただいたときは、すぐに対応します。"),
+    ("5", "管理の体制を整え、よくしていきます",
+     "個人情報を正しく扱うための責任者と体制を決めます。社内の決まりを作って全員に伝え、定期的に点検と見直しを行い、個人情報を守る仕組みをよくし続けます。"),
 ]
 
 
@@ -107,19 +107,19 @@ def privacy():
     return head(title, desc, "privacy", 1, extra=jsonld(1)) + header("privacy", 1) + f"""
 <main id="main">
 """ + phero("07", "PRIVACY POLICY", "プライバシーポリシー",
-            "パーソンライト（以下、当社という）は、皆様からお預かりする個人情報の管理に細心の注意を払い、これを取り扱うものとします。",
+            "パーソンライト（以下、当社）は、みなさまからお預かりする個人情報を、細心の注意を払って扱います。",
             None, None, [("プライバシーポリシー", "")], 1) + f"""
 
 <section class="sec sec--flush">
   <div class="wrap duo duo--top">
-    <p class="sh__no mono"><b>07</b><span>方針</span></p>
+    <p class="sh__no mono"><span>方針</span></p>
     <div>
       <div class="pp">
 {items}
       </div>
       <div class="pp__box rise">
         <h2>お問い合わせ窓口</h2>
-        <p>上記内容に関してご質問などがございましたら、下記連絡先にご連絡ください。</p>
+        <p>この方針についてご質問があれば、下の連絡先までお問い合わせください。</p>
         <address class="addr">
           パーソンライト<br>
           {ZIP}　{ADDR}<br>

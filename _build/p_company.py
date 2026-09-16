@@ -66,25 +66,25 @@ def build():
     return head(TITLE, DESC, "company", 1, extra=jsonld(1)) + header("company", 1) + f"""
 <main id="main">
 """ + phero("04", "COMPANY", "会社案内",
-            "2020年に須賀川市で、業務用空調機の取付・保守・メンテナンス会社として始まりました。いまは郡山市に本社を置いています。",
+            "2020年に須賀川市で、業務用エアコンの取り付けと保守の会社として始まりました。いまは郡山市に本社があります。",
             "office-side.jpg", "Person right の看板を掲げた本社の外観", [("会社案内", "")], 1, 1023, 655) + f"""
 
 <section class="sec" id="outline">
   <div class="wrap duo duo--top">
     <div>
-      {sh("01", "概要", "会社の概要")}
+      {sh("", "会社概要", "会社のこと")}
       <dl class="spec rise">
 {outline}
       </dl>
     </div>
     <div>
-      {sh("02", "沿革", "歩み")}
+      {sh("", "沿革", "これまでの歩み")}
       <ol class="hist rise">
 {hist}
       </ol>
       <figure class="clip rise">
         <img src="../assets/img/media.jpg" alt="地元紙に掲載された「私たち創業しました！」の記事" width="700" height="990" loading="lazy">
-        <figcaption>創業時に地元紙でご紹介いただきました。</figcaption>
+        <figcaption>創業したとき、地元の新聞で紹介していただきました。</figcaption>
       </figure>
     </div>
   </div>
@@ -96,9 +96,9 @@ def build():
       <img src="../assets/img/ceo-bg.jpg" alt="社内のソファに腰かけた代表取締役社長 増子佑" width="1600" height="431" loading="lazy">
     </figure>
     <div class="duo">
-      <p class="sh__no mono rise"><b>03</b><span>代表から</span></p>
+      <p class="sh__no mono rise"><span>代表のあいさつ</span></p>
       <div class="rise">
-        <h2 class="big">お客様も、社員も、<br>関わる全員と前へ。</h2>
+        <h2 class="big">お客様とも、社員とも、<br>一緒に前へ進みたい。</h2>
         <p class="lede">お客様はもちろん、当社の社員含め、パーソンライトに関わる全ての皆様と共に輝かしい未来へ。創造と挑戦の歩みを止めず、日々成長してまいります。</p>
         <p class="sign">代表取締役社長　<b>増子　佑</b></p>
       </div>
@@ -109,7 +109,7 @@ def build():
 <section class="sec" id="philosophy">
   <div class="wrap duo duo--top">
     <div class="rise">
-      <p class="sh__no mono"><b>04</b><span>企業理念</span></p>
+      <p class="sh__no mono"><span>企業理念</span></p>
       <h2 class="creed">サービス＆貢献</h2>
       <p class="lede">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
     </div>
@@ -122,7 +122,7 @@ def build():
 
 <section class="sec sec--p2" id="staff">
   <div class="wrap">
-    {sh("05", "人", "一緒に働いている顔ぶれ。", "環境部・通信機器部・工事部・総務。広報の3匹も含めて。")}
+    {sh("", "スタッフ", "一緒に働いている<br>メンバーです。", "環境部、通信機器部、工事部、総務のみんなと、広報を担当している3匹です。")}
     <div class="sts">
 {staff}
     </div>
@@ -139,10 +139,10 @@ def build():
       </div>
     </figure>
     <div class="rise">
-      <p class="sh__no mono"><b>06</b><span>アクセス</span></p>
+      <p class="sh__no mono"><span>アクセス</span></p>
       <h2 class="big">本社</h2>
       <address class="addr">{ZIP}<br>{ADDR}<br>TEL <a class="mono" href="tel:{TEL_RAW}">{TEL}</a>　FAX <span class="mono">{FAX}</span></address>
-      <p class="more"><a class="btn" href="{MAP}" target="_blank" rel="noopener">Google マップで開く</a></p>
+      <p class="more"><a class="btn" href="{MAP}" target="_blank" rel="noopener">Google マップで見る</a></p>
     </div>
   </div>
 </section>

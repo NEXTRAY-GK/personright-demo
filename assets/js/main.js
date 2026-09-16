@@ -410,8 +410,8 @@
         ctx.lineWidth = 1.2; ctx.setLineDash([2, 3]);
         ctx.beginPath(); ctx.moveTo(X(CX) + uw / 2, Y(CEIL * 0.55)); ctx.lineTo(X(1), Y(CEIL * 0.55)); ctx.stroke();
         ctx.setLineDash([]);
-        tag('冷媒配管 → 室外機', X(CX) + uw / 2 + 10, Y(CEIL * 0.55) - 12);
-        tag('天井カセット形', X(CX) - uw / 2, Y(CEIL) + uh + 22);
+        tag('配管は外の室外機へ', X(CX) + uw / 2 + 10, Y(CEIL * 0.55) - 12);
+        tag('天井のエアコン', X(CX) - uw / 2, Y(CEIL) + uh + 22);
         ctx.globalAlpha = 1;
       }
 
@@ -451,6 +451,7 @@
 
       /* 計測点 */
       var SP = [[0.93, 0.5], [0.5, 0.8], [0.08, 0.96]];
+      var SPN = ['窓ぎわ', '机の上', '床の隅'];
       ctx.lineWidth = 1; ctx.strokeStyle = '#fff'; ctx.fillStyle = '#fff';
       for (var k = 0; k < SP.length; k++) {
         var cx = X(SP[k][0]), cy = Y(SP[k][1]), T = at(SP[k][0], SP[k][1]);
@@ -458,7 +459,7 @@
         ctx.moveTo(cx - 9, cy); ctx.lineTo(cx - 3, cy); ctx.moveTo(cx + 3, cy); ctx.lineTo(cx + 9, cy);
         ctx.moveTo(cx, cy - 9); ctx.lineTo(cx, cy - 3); ctx.moveTo(cx, cy + 3); ctx.lineTo(cx, cy + 9);
         ctx.stroke();
-        var lab = 'SP' + (k + 1) + ' ' + T.toFixed(1) + '°';
+        var lab = SPN[k] + ' ' + T.toFixed(1) + '℃';
         var lx = SP[k][0] > 0.7 ? cx - 20 - ctx.measureText(lab).width : cx + 14;
         tag(lab, lx, cy - 14);
         ctx.strokeStyle = '#fff';
