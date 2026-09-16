@@ -159,7 +159,7 @@ def sh(no, tag, title, note="", cls="", hid=""):
     """節の見出し。左に番号と札、右に見出しと添え書き"""
     n = f'<p class="sh__p">{note}</p>' if note else ""
     i = f' id="{hid}"' if hid else ""
-    return f"""<header class="sh rise {cls}">
+    return f"""<header class="sh rise {cls}" data-k="enter">
       <p class="sh__no mono">{f"<b>{no}</b>" if no else ""}<span>{tag}</span></p>
       <div class="sh__b">
         <h2 class="sh__t"{i}>{title}</h2>

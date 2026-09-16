@@ -51,7 +51,7 @@ def build():
 <section class="sec" id="lineup">
   <div class="wrap">
     {sh("", "取り扱っている機器", "事務所の機器のことも、<br>まとめてご相談ください。")}
-    <ul class="chips rise">{items}</ul>
+    <ul class="chips rise" data-k="through" data-steps>{items}</ul>
   </div>
 </section>
 
@@ -94,10 +94,11 @@ def build():
   <div class="wrap">
     {sh("", "複合機", "複合機は、<br>富士フイルムを扱っています。", "J.D.パワーの顧客満足度調査で、9年連続1位になった複合機です。")}
     <div class="duo duo--top">
-      <figure class="pr rise">
+      <figure class="pr rise" data-k="through">
+        <div class="pr__paper" aria-hidden="true"><b></b><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i></div>
         <img src="../assets/img/printer.png" alt="富士フイルムの複合機" width="491" height="397" loading="lazy">
       </figure>
-      <ol class="merits merits--1">
+      <ol class="merits merits--1" data-k="through" data-steps>
 {fuji}
       </ol>
     </div>

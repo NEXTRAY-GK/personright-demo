@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=d03a3e12">
+<link rel="stylesheet" href="../assets/css/style.css?v=e6cd9bed">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "株式会社パーソンライト", "alternateName": "Person right", "url": "https://nextray-gk.github.io/personright-demo/", "logo": "https://nextray-gk.github.io/personright-demo/assets/img/logo.svg", "telephone": "+81-24-983-0294", "faxNumber": "+81-24-983-0295", "foundingDate": "2022-12-28", "address": {"@type": "PostalAddress", "addressCountry": "JP", "addressRegion": "福島県", "addressLocality": "郡山市", "streetAddress": "安積町日出山2-43", "postalCode": "963-0101"}, "sameAs": ["https://www.instagram.com/personright501/"]}</script>
 </head>
@@ -75,14 +75,14 @@
 
 <section class="sec" id="lineup">
   <div class="wrap">
-    <header class="sh rise ">
+    <header class="sh rise " data-k="enter">
       <p class="sh__no mono"><span>取り扱っている機器</span></p>
       <div class="sh__b">
         <h2 class="sh__t">事務所の機器のことも、<br>まとめてご相談ください。</h2>
         
       </div>
     </header>
-    <ul class="chips rise"><li>ビジネスフォン</li><li>複合機</li><li>セキュリティ商材</li><li>PC周辺設備</li><li>防犯カメラ</li><li>UTM</li><li>サーバー</li></ul>
+    <ul class="chips rise" data-k="through" data-steps><li>ビジネスフォン</li><li>複合機</li><li>セキュリティ商材</li><li>PC周辺設備</li><li>防犯カメラ</li><li>UTM</li><li>サーバー</li></ul>
   </div>
 </section>
 
@@ -133,7 +133,7 @@
 
 <section class="sec sec--p2" id="printer">
   <div class="wrap">
-    <header class="sh rise ">
+    <header class="sh rise " data-k="enter">
       <p class="sh__no mono"><span>複合機</span></p>
       <div class="sh__b">
         <h2 class="sh__t">複合機は、<br>富士フイルムを扱っています。</h2>
@@ -141,10 +141,11 @@
       </div>
     </header>
     <div class="duo duo--top">
-      <figure class="pr rise">
+      <figure class="pr rise" data-k="through">
+        <div class="pr__paper" aria-hidden="true"><b></b><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i></div>
         <img src="../assets/img/printer.png" alt="富士フイルムの複合機" width="491" height="397" loading="lazy">
       </figure>
-      <ol class="merits merits--1">
+      <ol class="merits merits--1" data-k="through" data-steps>
       <li class="rise"><span class="mono">01</span><b>印刷の費用</b><p>いまのプリンターで印刷代が高いと感じているなら、一度ご相談ください。入れるときの費用も印刷の費用も、地域でいちばんの安さを目指しています。</p></li>
       <li class="rise"><span class="mono">02</span><b>きれいな印刷</b><p>富士フイルムの複合機は、色がきれいに出ることで評判の製品です。</p></li>
       <li class="rise"><span class="mono">03</span><b>丈夫さ</b><p>全国のセブン-イレブンにも、富士フイルムの複合機が置かれています。大勢の人が使い、置き場所の環境もさまざまなコンビニでも、安定して動いています。</p></li>
@@ -212,6 +213,6 @@
     </feComponentTransfer>
   </filter>
 </svg>
-<script src="../assets/js/main.js?v=d0415229" defer></script>
+<script src="../assets/js/main.js?v=f1f9718b" defer></script>
 </body>
 </html>

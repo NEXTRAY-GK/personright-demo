@@ -513,6 +513,113 @@
     return api;
   }
 
+
+  /* ============================================ 追加の仕掛け（全ページ） */
+  /* [data-k] にスクロール量を入れる。enter … 頭が画面の下から上半分へ／through … 通り抜けるあいだ／read … 読むあいだ */
+  var kEls = [].slice.call(document.querySelectorAll('[data-k]'));
+  function updK() {
+    for (var i = 0; i < kEls.length; i++) {
+      var el = kEls[i], r = el.getBoundingClientRect(), m = el.getAttribute('data-k'), k;
+      if (m === 'through') k = (vh * 0.88 - r.top) / (r.height + vh * 0.3);
+      else if (m === 'read') k = (vh * 0.82 - r.top) / (r.height + vh * 0.22);
+      else k = (vh * 0.95 - r.top) / (vh * 0.5);
+      k = clamp(k, 0, 1);
+      el.style.setProperty('--k', k.toFixed(3));
+      if (el.hasAttribute('data-steps')) {
+        var ch = el.children, n = ch.length;
+        for (var j = 0; j < n; j++) ch[j].classList.toggle('is-on', k * n > j + 0.15);
+      }
+    }
+  }
+
+  /* 頭の写真のサーモ走査が終わったら、虫めがねに切り替えられるようにする */
+  [].forEach.call(document.querySelectorAll('.scan--auto .scan__heat'), function (h) {
+    h.addEventListener('animationend', function () { h.parentNode.classList.add('is-done'); });
+  });
+
+  /* サーモの虫めがね … カーソルの下だけサーモ画像にして、明るさから温度を出す（温度はイメージ） */
+  if (window.matchMedia('(hover: hover)').matches) {
+    [].forEach.call(document.querySelectorAll('.scan'), function (sc) {
+      var real = sc.querySelector('.scan__real');
+      if (!real) return;
+      var rd = document.createElement('span');
+      rd.className = 'scan__rd mono';
+      rd.setAttribute('aria-hidden', 'true');
+      sc.appendChild(rd);
+      var cx = null, cw = 0, ch = 0;
+      function sample() {
+        if (cx || !real.complete || !real.naturalWidth) return;
+        try {
+          var c = document.createElement('canvas');
+          cw = c.width = 96; ch = c.height = Math.max(1, Math.round(96 * real.naturalHeight / real.naturalWidth));
+          cx = c.getContext('2d', { willReadFrequently: true });
+          cx.drawImage(real, 0, 0, cw, ch);
+        } catch (e) { cx = null; }
+      }
+      sc.addEventListener('pointerenter', function () { sample(); sc.classList.add('is-lens'); });
+      sc.addEventListener('pointerleave', function () { sc.classList.remove('is-lens'); });
+      sc.addEventListener('pointermove', function (e) {
+        var r = sc.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        sc.style.setProperty('--mx', x.toFixed(0) + 'px');
+        sc.style.setProperty('--my', y.toFixed(0) + 'px');
+        if (!cx) return;
+        /* object-fit: cover の切り抜きを戻して、元画像の位置を出す */
+        var iw = real.naturalWidth, ih = real.naturalHeight, s = Math.max(r.width / iw, r.height / ih);
+        var u = (x - (r.width - iw * s) / 2) / (iw * s), v = (y - (r.height - ih * s) / 2) / (ih * s);
+        try {
+          var d = cx.getImageData(Math.round(clamp(u, 0, 1) * (cw - 1)), Math.round(clamp(v, 0, 1) * (ch - 1)), 1, 1).data;
+          var T = T_MIN + ((0.33 * d[0] + 0.5 * d[1] + 0.17 * d[2]) / 255) * (T_MAX - T_MIN);
+          rd.textContent = T.toFixed(1) + '℃';
+        } catch (e2) { rd.textContent = ''; }
+      });
+    });
+  }
+
+  /* お問い合わせ：入力のすすみ具合 */
+  var fg = document.querySelector('.fg');
+  var form = document.querySelector('.form');
+  if (fg && form) {
+    var need = [].slice.call(form.querySelectorAll('[required]'));
+    var fgV = fg.querySelector('.fg__v b'), fgBar = fg.querySelector('.fg__bar'), fgMsg = fg.querySelector('.fg__msg');
+    fg.querySelector('.fg__v span').textContent = '／' + need.length + '項目';
+    var updFg = function () {
+      var mail = form.querySelector('[name=mail]'), done = 0;
+      need.forEach(function (el) {
+        var ok = el.type === 'checkbox' ? el.checked : (el.value.trim() !== '' && el.checkValidity());
+        if (el.name === 'mail2' && mail) ok = ok && el.value === mail.value;
+        if (ok) done++;
+      });
+      var f = done / need.length;
+      fgV.textContent = done;
+      fgBar.style.setProperty('--f', f.toFixed(3));
+      fgBar.style.setProperty('--fc', tColor(lerp(34, 23, f)));
+      var left = need.length - done;
+      fgMsg.textContent = done === 0 ? '上から順に入れていってください。'
+        : left > 0 ? 'あと' + left + '項目です。'
+        : 'これで送れます。（デモなので、実際には送られません）';
+    };
+    form.addEventListener('input', updFg);
+    form.addEventListener('change', updFg);
+    updFg();
+  }
+
+  /* 送信完了：室温が24℃まで下がる */
+  var coolV = document.querySelector('[data-cool]');
+  if (coolV) {
+    var coolBar = document.querySelector('.cool__bar i');
+    var from = parseFloat(coolV.textContent), to = parseFloat(coolV.getAttribute('data-cool')), c0 = null;
+    var coolStep = function (ts) {
+      if (c0 == null) c0 = ts;
+      var k = ease(clamp((ts - c0 - 400) / 2600, 0, 1));
+      var T = lerp(from, to, k);
+      coolV.textContent = T.toFixed(1);
+      if (coolBar) coolBar.style.setProperty('--t', (((T - T_MIN) / (T_MAX - T_MIN)) * 100).toFixed(1) + '%');
+      if (k < 1) requestAnimationFrame(coolStep);
+    };
+    requestAnimationFrame(coolStep);
+    setTimeout(function () { if (coolV.textContent !== to.toFixed(1) && document.hidden) coolV.textContent = to.toFixed(1); }, 4000);
+  }
+
   /* 目次の今いる所（業務用エアコン） */
   var tocLinks = [].slice.call(document.querySelectorAll('.toc a'));
   function updToc() {
@@ -531,7 +638,7 @@
     ticking = false;
     var y = window.scrollY || window.pageYOffset;
     if (room) room.scroll();
-    updMeter(); updReel(); updScans(); updNv(); updToc();
+    updMeter(); updReel(); updScans(); updNv(); updToc(); updK();
     updHead(y);
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }

@@ -808,5 +808,125 @@ fieldset.form__row .form__f { clear: both; padding-top: 12px; }
   .js .rise { transition-duration: .01s; transform: none; }
 }
 
+
+/* ==================================================================
+   第3版の追加仕掛け（2026-09-16）
+   [data-k] … JS がスクロール量 0〜1 を --k に入れる
+   [data-steps] … --k に合わせて子に .is-on を順に付ける
+   ================================================================== */
+
+/* 節の見出しの罫が、温度の色で伸びる */
+.sh { position: relative; }
+.sh::before { content: ""; position: absolute; left: 0; top: -1px; height: 2px; width: calc(var(--k, 1) * 100%); background: var(--therm); }
+
+/* 写真のサーモの虫めがね（カーソルを当てたところだけサーモ画像にする） */
+@media (hover: hover) {
+  .scan { cursor: crosshair; }
+  .scan.is-lens .scan__heat { animation: none; clip-path: circle(var(--lr, 84px) at var(--mx, 50%) var(--my, 50%)); }
+  .scan.is-lens .scan__line { opacity: 0; animation: none; }
+  .scan::after {
+    content: ""; position: absolute; left: var(--mx, 50%); top: var(--my, 50%); width: calc(var(--lr, 84px) * 2); height: calc(var(--lr, 84px) * 2);
+    margin: calc(var(--lr, 84px) * -1) 0 0 calc(var(--lr, 84px) * -1); border: 1px solid rgba(255,255,255,.9); border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 0 24px rgba(255,190,90,.5); opacity: 0; transition: opacity .25s; pointer-events: none;
+  }
+  .scan.is-lens::after { opacity: 1; }
+}
+.scan--auto.is-done .scan__heat, .scan--auto.is-done .scan__line { animation: none; }
+.scan__rd {
+  position: absolute; left: var(--mx, 50%); top: var(--my, 50%); transform: translate(18px, -150%);
+  padding: 3px 7px; background: rgba(11,14,16,.82); color: #fff; font-size: 12px; white-space: nowrap;
+  opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 2;
+}
+.scan.is-lens .scan__rd { opacity: 1; }
+
+/* 読み進めるとマーカーが引かれる */
+.mk {
+  background-image: linear-gradient(90deg, rgba(251,177,60,.55), rgba(239,90,43,.42));
+  background-repeat: no-repeat; background-position: 0 88%;
+  background-size: calc(var(--k, 1) * 100%) .38em;
+  -webkit-box-decoration-break: slice; box-decoration-break: slice;
+}
+.one p .mk { background-size: calc(var(--k, 1) * 100%) .5em; }
+
+/* 業務用エアコン：冷媒の棒をスクロールで伸ばす／流れの線 */
+.js .gen em { transition: none; width: calc(var(--w) * var(--k, 0) * 1%); }
+.flow::after { content: ""; position: absolute; left: 0; top: -1px; height: 2px; width: calc(var(--k, 1) * 100%); background: var(--therm); }
+.js .flow li::before { transition: background .4s, border-color .4s, transform .4s; }
+.js .flow li.is-on::before { background: var(--heat); border-color: var(--heat); transform: scale(1.25); }
+.js .flow li .mono { transition: color .4s; }
+.js .flow li.is-on .mono { color: var(--heat); }
+@media (max-width: 900px) {
+  .flow::after { top: 0; left: -1px; width: 2px; height: calc(var(--k, 1) * 100%); background: linear-gradient(180deg, #1a1f6e, #b3195c, #ef5a2b, #fbb13c); }
+}
+.js .merits[data-steps] li { position: relative; }
+.js .merits[data-steps] li::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--therm); transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.js .merits[data-steps] li.is-on::after { transform: scaleX(1); }
+
+/* 通信機器：機器が順に点く／紙が刷り出される */
+.js .chips[data-steps] li { color: var(--ink-3); transition: color .5s; position: relative; }
+.js .chips[data-steps] li::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 50%; background: var(--line-2); vertical-align: .2em; transition: background .4s, box-shadow .4s; }
+.js .chips[data-steps] li.is-on { color: var(--ink); }
+.js .chips[data-steps] li.is-on::before { background: #3ecf8e; box-shadow: 0 0 10px #3ecf8e; }
+.pr { position: relative; overflow: hidden; padding-top: clamp(110px, 12vw, 170px); }
+.pr img { position: relative; z-index: 1; }
+.pr__paper {
+  position: absolute; z-index: 0; left: 50%; top: 12px; width: 34%; aspect-ratio: 210 / 297;
+  background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  padding: 10% 9%; transform: translate(-50%, calc((1 - var(--k, 1)) * 72%));
+}
+.pr__paper b { display: block; height: 14%; margin-bottom: 10%; background: var(--therm); opacity: calc(var(--k, 1) * 3 - 1.4); }
+.pr__paper i { display: block; height: 5px; margin-bottom: 9%; background: rgba(15,19,20,.28); transform-origin: left; transform: scaleX(clamp(0, calc(var(--k, 1) * 8 - var(--i) - 1), 1)); }
+.pr__paper i:nth-child(odd) { width: 72%; }
+
+/* 会社案内：沿革の線／顔ぶれがサーモから戻る／理念の色が流れる／代表の写真がゆっくり動く */
+.hist::before { content: ""; position: absolute; left: -1px; top: 0; width: 2px; height: calc(var(--k, 1) * 100%); background: linear-gradient(180deg, #1a1f6e, #b3195c, #ef5a2b, #fbb13c); }
+.js .hist[data-steps] li::before { transition: background .4s, border-color .4s, box-shadow .4s; }
+.js .hist[data-steps] li.is-on::before { background: var(--heat); border-color: var(--heat); box-shadow: 0 0 10px rgba(239,90,43,.6); }
+.js .sts[data-steps] .st img { filter: url(#thermal) contrast(1.1); transition: filter .9s; }
+.js .sts[data-steps] .st.is-on img { filter: none; }
+.js .sts[data-steps] .st.is-on:hover img { filter: url(#thermal); }
+.creed { background-size: 220% 100%; background-position: calc(var(--k, 1) * 100%) 0; }
+.ceo img { transform: scale(1.14) translateY(calc((var(--k, .5) - .5) * -9%)); }
+.js .spec[data-steps] > div { position: relative; }
+.js .spec[data-steps] > div::before { content: ""; position: absolute; left: -14px; top: 18px; bottom: 18px; width: 3px; background: var(--therm); transform: scaleY(0); transform-origin: top; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.js .spec[data-steps] > div.is-on::before { transform: scaleY(1); }
+@media (max-width: 560px) { .js .spec[data-steps] > div::before { left: -10px; } }
+
+/* 採用：月給の幅 */
+.pay { position: relative; height: 34px; margin-top: 12px; }
+.pay::before { content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 6px; background: rgba(15,19,20,.08); }
+.pay i { position: absolute; top: 8px; height: 6px; left: calc(var(--a) * 100%); width: calc((var(--b) - var(--a)) * 100% * var(--k, 1)); background: linear-gradient(90deg, #ef5a2b, #fbb13c); box-shadow: 0 0 12px rgba(239,90,43,.45); }
+.pay span { position: absolute; top: 18px; font-size: 10.5px; color: var(--ink-3); }
+.pay__s { left: 0; }
+.pay__e { right: 0; }
+.duo--top > div > .pay { margin: 0 0 26px; }
+
+/* お問い合わせ：入力のすすみ具合 */
+.fg { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line-2); }
+.fg__l { font-size: 13px; color: var(--ink-3); }
+.fg__v { margin-top: 6px; display: flex; align-items: baseline; gap: 6px; }
+.fg__v b { font-family: var(--num); font-weight: 300; font-size: 56px; line-height: 1; letter-spacing: -.03em; }
+.fg__v span { font-size: 14px; color: var(--ink-2); }
+.fg__bar { position: relative; height: 10px; margin-top: 14px; background: rgba(15,19,20,.08); }
+.fg__bar i { position: absolute; inset: 0 auto 0 0; width: calc(var(--f, 0) * 100%); background: var(--fc, #ef5a2b); box-shadow: 0 0 14px var(--fc, #ef5a2b); transition: width .5s cubic-bezier(.2,.7,.2,1), background .5s; }
+.fg__msg { margin-top: 12px; font-size: 14px; color: var(--ink-2); }
+html:not(.js) .fg { display: none; }
+
+/* 送信完了：室温が下がっていく */
+.cool { margin-bottom: 40px; max-width: 520px; }
+.cool__l { font-size: 13px; color: var(--ink-3); }
+.cool__v { display: flex; align-items: flex-start; font-family: var(--num); font-weight: 300; line-height: .85; margin: 14px 0 18px; }
+.cool__v b { font-family: var(--num); font-weight: 300; font-size: clamp(88px, 14vw, 180px); letter-spacing: -.05em; font-feature-settings: "tnum"; }
+.cool__v span { font-size: 32px; margin: .3em 0 0 .1em; }
+.cool__bar { position: relative; height: 8px; background: var(--therm); }
+.cool__bar i { position: absolute; top: -6px; width: 2px; height: 20px; background: var(--ink); left: var(--t, 64%); }
+
+/* プライバシーポリシー：読んだ項目に印 */
+.js .pp[data-steps] .pp__i h2 .mono { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line-2); transition: background .4s, color .4s, border-color .4s; }
+.js .pp[data-steps] .pp__i.is-on h2 .mono { background: var(--heat); border-color: var(--heat); color: #fff; }
+.pp .pp__i .mk { --k: inherit; }
+.js .pp[data-steps] .pp__i .mk { background-size: 0 .38em; transition: background-size .9s cubic-bezier(.2,.7,.2,1); }
+.js .pp[data-steps] .pp__i.is-on .mk { background-size: 100% .38em; }
+
 /* 和文の行末 … 短い塊だけ */
 .sh__t, .big, .ph__h, .tm__h2, .q__t, .vc__t, .cta__t, .mt__h { text-wrap: balance; }

@@ -26,10 +26,10 @@ VOICES = [
 def build_index():
     title = "お客様の声｜株式会社パーソンライト"
     desc = "業務用エアコンの設置・更新工事をご利用いただいたお客様からのお声を掲載しています。福島県郡山市の株式会社パーソンライト。"
-    cards = "\n".join(f"""      <article class="vc rise">
+    cards = "\n".join(f"""      <article class="vc rise" data-k="read">
         <a href="./{v['id']}/">
           <p class="vc__who">{v['who']}</p>
-          <h2 class="vc__t">「{v['title']}」</h2>
+          <h2 class="vc__t"><span class="mk">「{v['title']}」</span></h2>
           <p class="vc__d">{v['body'][0]}</p>
           <span class="vc__go">続きを読む →</span>
         </a>
@@ -59,7 +59,7 @@ def build_one(v):
     nxt = VOICES[i + 1] if i < len(VOICES) - 1 else None
     title = f"{v['title']}｜お客様の声｜株式会社パーソンライト"
     desc = v["body"][0][:110]
-    body = "\n".join(f"<p>{b}</p>" for b in v["body"])
+    body = "\n".join(f'<p data-k="read"><span class="mk">{b}</span></p>' for b in v["body"])
     nav = []
     if prev:
         nav.append(f'<a class="pn__p" href="../{prev["id"]}/"><small>← 前の声</small><span>{prev["title"]}</span></a>')

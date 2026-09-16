@@ -73,13 +73,13 @@ def build():
   <div class="wrap duo duo--top">
     <div>
       {sh("", "会社概要", "会社のこと")}
-      <dl class="spec rise">
+      <dl class="spec rise" data-k="through" data-steps>
 {outline}
       </dl>
     </div>
     <div>
       {sh("", "沿革", "これまでの歩み")}
-      <ol class="hist rise">
+      <ol class="hist rise" data-k="through" data-steps>
 {hist}
       </ol>
       <figure class="clip rise">
@@ -92,7 +92,7 @@ def build():
 
 <section class="sec sec--ink" id="message">
   <div class="wrap">
-    <figure class="ceo rise">
+    <figure class="ceo rise" data-k="through">
       <img src="../assets/img/ceo-bg.jpg" alt="社内のソファに腰かけた代表取締役社長 増子佑" width="1600" height="431" loading="lazy">
     </figure>
     <div class="duo">
@@ -110,7 +110,7 @@ def build():
   <div class="wrap duo duo--top">
     <div class="rise">
       <p class="sh__no mono"><span>企業理念</span></p>
-      <h2 class="creed">サービス＆貢献</h2>
+      <h2 class="creed" data-k="through">サービス＆貢献</h2>
       <p class="lede">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
     </div>
     <div class="posters rise">
@@ -123,7 +123,7 @@ def build():
 <section class="sec sec--p2" id="staff">
   <div class="wrap">
     {sh("", "スタッフ", "一緒に働いている<br>メンバーです。", "環境部、通信機器部、工事部、総務のみんなと、広報を担当している3匹です。")}
-    <div class="sts">
+    <div class="sts" data-k="through" data-steps>
 {staff}
     </div>
   </div>

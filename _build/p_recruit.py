@@ -100,6 +100,17 @@ def apply_form(jid):
     </form>"""
 
 
+def paybar(j):
+    """月給の幅を、65万円までの目盛りで見せる（時給の仕事は出さない）"""
+    import re
+    if not j["pay"].startswith("月給"):
+        return ""
+    a, b = [int(x.replace(",", "")) for x in re.findall(r"[\d,]+", j["pay"])[:2]]
+    return (f'<div class="pay" data-k="enter" aria-hidden="true">'
+            f'<i style="--a:{a/650000:.3f};--b:{b/650000:.3f}"></i>'
+            f'<span class="pay__s mono">0</span><span class="pay__e mono">65万円</span></div>')
+
+
 def build_index():
     title = "採用情報｜株式会社パーソンライト"
     desc = "エアコン設備工事スタッフ・営業職・テレフォンアポインター・管理職責任者を募集しています。福島県郡山市の株式会社パーソンライト採用情報。"
@@ -111,6 +122,7 @@ def build_index():
             <h2 class="job__t">{j['name']}</h2>
             <p class="job__s">{j['summary']}</p>
             <p class="job__pay mono">{j['pay']}</p>
+            {paybar(j)}
             <span class="job__go">募集要項を見る →</span>
           </div>
         </a>
@@ -177,9 +189,12 @@ def build_job(j):
 <section class="sec">
   <div class="wrap duo duo--top">
     {sh("", "募集要項", "募集要項")}
-    <dl class="spec rise">
+    <div>
+    {paybar(j)}
+    <dl class="spec rise" data-k="through" data-steps>
 {tbl}
     </dl>
+    </div>
   </div>
 </section>
 

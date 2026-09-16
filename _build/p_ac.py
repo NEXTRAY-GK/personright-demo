@@ -140,7 +140,7 @@ def build():
       <h2 class="big">R22の機種は、<br>ガスがあるうちに<br>入れ替えを。</h2>
       <p class="lede">2001年より前の機種に使われているR22（指定フロン）は、もう生産も輸入もされていません。壊れたときに修理用のガスが手に入らない、ということになる前に、早めの入れ替えをおすすめします。</p>
     </div>
-    <figure class="gen rise" aria-labelledby="genC">
+    <figure class="gen rise" aria-labelledby="genC" data-k="enter">
       <ul>
 {gen}
       </ul>
@@ -174,7 +174,7 @@ def build():
 <section class="sec" id="lease">
   <div class="wrap">
     {sh("03", "払う", "リースなら、<br>初期費用はかかりません。", "まとまった資金を用意しなくても、最新の省エネ機種を入れられます。もちろん、現金での購入やクレジットの分割払いもできます。")}
-    <ol class="merits">
+    <ol class="merits" data-k="through" data-steps>
 {merits}
     </ol>
     <div class="caution rise">
@@ -189,7 +189,7 @@ def build():
 <section class="sec sec--p2" id="flow">
   <div class="wrap">
     {sh("04", "流れ", "ご相談から工事まで、<br>5つの手順です。", "リースの審査や契約の手続きも、当社とリース会社でお手伝いします。")}
-    <ol class="flow">
+    <ol class="flow" data-k="through" data-steps>
 {flow}
     </ol>
   </div>

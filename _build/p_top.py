@@ -89,9 +89,9 @@ def build():
         <ul>{''.join(f'<li>{x}</li>' for x in items)}</ul>
       </div>""" for i, (t, items) in enumerate(HUB))
 
-    voice = "\n".join(f"""      <article class="q rise">
+    voice = "\n".join(f"""      <article class="q rise" data-k="read">
         <p class="q__no">{who}</p>
-        <h3 class="q__t">「{t}」</h3>
+        <h3 class="q__t"><span class="mk">「{t}」</span></h3>
         <p class="q__d">{d}</p>
         <a class="tl" href="./reviews/{vid}/">続きを読む</a>
       </article>""" for i, (t, who, vid, d) in enumerate(VOICE))

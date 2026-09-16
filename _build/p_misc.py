@@ -47,6 +47,12 @@ def contact():
       <p class="sh__no mono"><span>お電話で</span></p>
       <a class="ways__tel mono" href="tel:{TEL_RAW}">{TEL}</a>
       <p>FAX <span class="mono">{FAX}</span></p>
+      <div class="fg" aria-hidden="true">
+        <p class="fg__l">入力のすすみ具合</p>
+        <p class="fg__v"><b class="mono">0</b><span>／7項目</span></p>
+        <div class="fg__bar"><i></i></div>
+        <p class="fg__msg">上から順に入れていってください。</p>
+      </div>
     </div>
     <div class="rise">
       <p class="sh__no mono"><span>フォームで</span></p>
@@ -74,6 +80,11 @@ def thanks():
 
 <section class="sec sec--flush">
   <div class="wrap">
+    <div class="cool rise" aria-hidden="true">
+      <p class="cool__l">お問い合わせを受け付けました</p>
+      <p class="cool__v"><b class="mono" data-cool="24.0">31.0</b><span>℃</span></p>
+      <div class="cool__bar"><i></i></div>
+    </div>
     <p class="lede rise">3日たっても連絡がないときは、お手数ですが <a class="mono" href="tel:{TEL_RAW}">{TEL}</a> までお電話ください。</p>
     <p class="more rise"><a class="btn" href="../../">トップへ戻る</a></p>
   </div>
@@ -101,7 +112,7 @@ def privacy():
     title = "プライバシーポリシー｜株式会社パーソンライト"
     desc = "株式会社パーソンライトの個人情報保護方針です。"
     items = "\n".join(f"""      <section class="pp__i rise">
-        <h2><span class="mono">{n}</span>{t}</h2>
+        <h2><span class="mono">{n}</span><span class="mk">{t}</span></h2>
         <p>{d}</p>
       </section>""" for n, t, d in PRIVACY)
     return head(title, desc, "privacy", 1, extra=jsonld(1)) + header("privacy", 1) + f"""
@@ -114,7 +125,7 @@ def privacy():
   <div class="wrap duo duo--top">
     <p class="sh__no mono"><span>方針</span></p>
     <div>
-      <div class="pp">
+      <div class="pp" data-k="through" data-steps>
 {items}
       </div>
       <div class="pp__box rise">
