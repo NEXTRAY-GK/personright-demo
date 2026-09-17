@@ -335,6 +335,7 @@ def build_ac():
     <ul class="grid4">{merits}</ul>
     <h3 class="h3">ご契約の前に、ここは必ず確かめてください</h3>
     <ul class="grid3 grid3--warn">{cautions}</ul>
+    {tbd("再リースの料金が2か所で合わない（上の注意「年間リース額の10分の1」／よくある質問「月額リース料の2倍」＝年額の6分の1）。旧サイトの数字のまま")}
   </div>
 </section>
 
