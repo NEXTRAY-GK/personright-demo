@@ -331,6 +331,70 @@ ul,ol{margin:0;padding:0;list-style:none}
 .ft__demo{max-width:760px;margin:0 auto;padding:0 24px;text-align:center;font-size:12px;color:#8c9a9c}
 .spbar{display:none}
 
+/* ---------- 料金の比べ方（スライダー） ---------- */
+.sim-sec{border-top:1px solid var(--line)}
+.sim-foot{display:none}
+.sim{display:grid;grid-template-columns:1fr 400px;gap:28px;align-items:start}
+.sim__in{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:8px 28px 12px}
+.sim__row{border:0;margin:0;padding:20px 0;border-bottom:1px solid var(--line)}
+.sim__row:last-child{border-bottom:0}
+.sim__group{font-weight:700;margin:20px 0 -8px;color:var(--accent)}
+.sim__label{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-weight:700;padding:0;margin:0 0 10px}
+.sim__val{margin-left:auto;font-size:28px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.sim__label small{font-size:14px}
+.sim__hint{font-size:13px;color:var(--muted);margin:8px 0 0}
+.sim__scale{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:4px 0 0}
+.sim__range{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;margin:0;cursor:pointer;--p:50%}
+.sim__range::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--accent) var(--p),#d6dee0 var(--p))}
+.sim__range::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--accent) var(--p),#d6dee0 var(--p))}
+.sim__range::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--accent);margin-top:-11px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.sim__range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--accent)}
+.sim__range:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.segs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg{position:relative}
+.seg input{position:absolute;inset:0;opacity:0;margin:0;width:100%;height:100%;cursor:pointer}
+.seg span{display:flex;flex-direction:column;height:100%;padding:12px;border:2px solid var(--line);border-radius:var(--r);text-align:center}
+.seg b{font-size:17px}.seg small{font-size:12px;color:var(--muted)}
+.seg input:checked+span{border-color:var(--accent);background:var(--accent-soft)}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.sim__out{position:sticky;top:calc(var(--head) + 16px);background:var(--ink);color:#fff;border-radius:var(--r);padding:24px}
+.sim__out-t{font-weight:700;margin:0 0 14px}
+.sim__bars{display:grid;gap:10px;margin:0 0 18px}
+.sim__bar{display:grid;grid-template-columns:68px 1fr;align-items:center;column-gap:10px;font-size:13px}
+.sim__bar i{display:block;height:14px;width:var(--w);background:#8a9a9c;border-radius:7px;transition:width .25s}
+.sim__bar b{grid-column:2;font-size:15px;font-variant-numeric:tabular-nums}
+.sim__bar--after i{background:#5fd0c8}
+.is-up .sim__bar--after i{background:#e0a84a}
+.sim__sum{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#3a4649;border-radius:8px;overflow:hidden;margin:0 0 12px}
+.sim__sum>div{background:#243033;padding:10px 12px}
+.sim__sum dt{font-size:12px;color:#b8c6c8}
+.sim__sum dd{margin:0;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.sim__sum-big{grid-column:1/-1}
+.sim__sum-big dd{font-size:34px;color:#5fd0c8}
+.is-up .sim__sum dd{color:#f3c27a}
+.sim__sum-big dt::after{content:"で"}
+.sim__msg{font-size:14px;min-height:1.8em}
+.sim__note{font-size:12px;color:#b8c6c8;margin:12px 0 0}
+.sim__note--warn b{color:#f3c27a}
+@media(max-width:1020px){
+  .sim{grid-template-columns:1fr}
+  .sim__out{order:-1;top:calc(var(--head) + 8px);z-index:5;padding:16px}
+  .sim__bars,.sim__msg,.sim__note,.sim__out .btn{display:none}
+  .sim__out-t{margin:0 0 6px;font-size:12px}
+  .sim__sum{grid-template-columns:1fr 1.5fr;margin:0}
+  .sim__sum>div:nth-child(2){display:none}
+  .sim__sum-big{grid-column:auto}
+  .sim__sum>div{padding:6px 10px}
+  .sim__sum-big dd{font-size:20px}
+  .sim__sum dd{font-size:16px}
+  .sim-foot{display:flex;margin:8px 0 16px}
+}
+@media(max-width:760px){
+  .sim__in{padding:4px 16px 8px}
+  .segs{grid-template-columns:1fr}
+  .seg span{flex-direction:row;justify-content:space-between;align-items:baseline;text-align:left}
+}
+
 /* ---------- 狭い画面 ---------- */
 @media(max-width:1020px){
   .quick ul{grid-template-columns:repeat(2,1fr)}

@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://nextray-gk.github.io/personright-demo/assets/img/og.jpg">
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/img/icon-180.png">
-<link rel="stylesheet" href="../assets/css/kousei.css?v=b0d5fea6">
+<link rel="stylesheet" href="../assets/css/kousei.css?v=3cd885a7">
 </head>
 <body class="p-ac">
 <a class="skip" href="#main">本文へ移動</a>
@@ -100,7 +100,7 @@
     <p class="lead">機種を選ぶところから、支払い方、取り付け、付けたあとのことまで、まとめてお任せください。</p>
     <ul class="badges"><li><b>5メーカー・12種類</b>から選べる</li><li><b>自社の工事部</b>が取り付け</li><li><b>7年保証</b>と年間メンテナンス</li><li>リースなら<b>初期費用0円</b></li></ul>
     <div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:0249830294">電話で相談する　024-983-0294</a></div>
-    <nav class="chips" aria-label="このページの目次"><ul><li><a href="#reason">替えどき</a></li><li><a href="#types">機種を選ぶ</a></li><li><a href="#pay">お支払い</a></li><li><a href="#flow">流れ</a></li><li><a href="#after">付けたあと</a></li><li><a href="#voice">お客様の声</a></li><li><a href="#works">施工事例</a></li><li><a href="#faq">よくある質問</a></li><li><a href="#form">お見積り</a></li></ul></nav>
+    <nav class="chips" aria-label="このページの目次"><ul><li><a href="#reason">替えどき</a></li><li><a href="#sim">電気代の比べ方</a></li><li><a href="#types">機種を選ぶ</a></li><li><a href="#pay">お支払い</a></li><li><a href="#flow">流れ</a></li><li><a href="#after">付けたあと</a></li><li><a href="#voice">お客様の声</a></li><li><a href="#works">施工事例</a></li><li><a href="#faq">よくある質問</a></li><li><a href="#form">お見積り</a></li></ul></nav>
   </div>
 </section>
 
@@ -121,6 +121,55 @@
     <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody><tr><th>R22</th><td>指定フロン</td><td>2001年以前</td><td><span class="bar" style="--w:100%"></span>100%</td></tr><tr><th>R407・R410</th><td>代替フロン</td><td>2001年〜2013年</td><td><span class="bar" style="--w:60%"></span>60%</td></tr><tr><th>R32</th><td>代替えフロン</td><td>2014年以降</td><td><span class="bar" style="--w:20%"></span>20%</td></tr></tbody></table>
   </div>
 </section>
+
+<section class="sec sim-sec" id="sim">
+  <div class="wrap">
+    <header class="sh">
+      <p class="sh__label"><span>電気代の比べ方</span><i>SIMULATION</i></p>
+      <h2>替えると、電気代はいくら変わるか。</h2>
+      <p class="sh__lead">いまのエアコンの時期と、毎月の電気代を動かしてみてください。結果はその場で変わります。</p>
+    </header>
+    <div class="sim" data-sim="ac">
+      <div class="sim__in">
+        <fieldset class="sim__row">
+          <legend class="sim__label">いまのエアコンは、いつ頃の機種ですか</legend>
+          <div class="segs"><label class="seg"><input type="radio" name="gen" value="100" checked><span><b>2001年以前</b><small>R22</small></span></label><label class="seg"><input type="radio" name="gen" value="60"><span><b>2001年〜2013年</b><small>R407・R410</small></span></label><label class="seg"><input type="radio" name="gen" value="20"><span><b>2014年以降</b><small>R32</small></span></label></div>
+          <p class="sim__hint">室外機の銘板に書いてある製造年か、冷媒の名前で選んでください。</p>
+        </fieldset>
+        <div class="sim__row">
+        <label class="sim__label" for="bill">エアコンにかかる電気代（月の平均）<output class="sim__val" for="bill" data-out="bill">30,000</output><small>円</small></label>
+        <input class="sim__range" type="range" id="bill" name="bill" min="5000" max="150000" step="1000" value="30000">
+        <p class="sim__scale"><span>5,000円</span><span>150,000円</span></p>
+        
+      </div>
+        <div class="sim__row">
+        <label class="sim__label" for="years">このあと使う年数<output class="sim__val" for="years" data-out="years">7</output><small>年</small></label>
+        <input class="sim__range" type="range" id="years" name="years" min="1" max="15" step="1" value="7">
+        <p class="sim__scale"><span>1年</span><span>15年</span></p>
+        <p class="sim__hint">7年は、取り付けたあとの保証の年数です。</p>
+      </div>
+        <a class="btn btn--main btn--wide sim-foot" href="#form" data-type="業務用エアコン">この条件で見積りを頼む</a>
+      </div>
+      <div class="sim__out" aria-live="polite">
+        <p class="sim__out-t">替えた場合の目安</p>
+        <div class="sim__bars">
+          <div class="sim__bar"><span>いま</span><i style="--w:100%"></i><b data-o="now">30,000円</b></div>
+          <div class="sim__bar sim__bar--after"><span>替えたあと</span><i data-o="afterW" style="--w:20%"></i><b data-o="after">6,000円</b></div>
+        </div>
+        <dl class="sim__sum">
+          <div><dt>1か月</dt><dd data-o="m">24,000円</dd></div>
+          <div><dt>1年</dt><dd data-o="y">288,000円</dd></div>
+          <div class="sim__sum-big"><dt data-o="yl">7年</dt><dd data-o="t">2,016,000円</dd></div>
+        </dl>
+        <p class="sim__msg" data-o="msg">電気代が、これだけ下がる目安です。</p>
+        <a class="btn btn--main btn--wide" href="#form" data-type="業務用エアコン">この条件で見積りを頼む</a>
+        <p class="sim__note">旧サイトの「冷媒ごとの消費電力（R22を100%としたとき、R407・R410は60%、R32は20%）」から出した目安です。電気の単価や使い方の違い、本体・工事・リースの費用は入っていません。</p>
+      </div>
+    </div>
+    <p class="tbd"><b>要確認</b>機種ごとのリース月額が分かれば、「電気代の差額 − リース月額」まで出せる。冷媒の比率の出どころ（メーカー資料か自社の実測か）も確かめる</p>
+  </div>
+</section>
+
 
 <section class="midcta">
   <div class="wrap midcta__in">
@@ -417,6 +466,6 @@
   <a href="tel:0249830294">電話する</a>
   <a class="spbar__main" href="../contact/">無料で見積りを頼む</a>
 </div>
-<script src="../assets/js/kousei.js?v=15f9b95d" defer></script>
+<script src="../assets/js/kousei.js?v=f4f720db" defer></script>
 </body>
 </html>

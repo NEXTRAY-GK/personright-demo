@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://nextray-gk.github.io/personright-demo/assets/img/og.jpg">
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/img/icon-180.png">
-<link rel="stylesheet" href="../assets/css/kousei.css?v=b0d5fea6">
+<link rel="stylesheet" href="../assets/css/kousei.css?v=3cd885a7">
 </head>
 <body class="p-office-tech">
 <a class="skip" href="#main">本文へ移動</a>
@@ -99,7 +99,7 @@
     <h1>防犯カメラ・複合機・ビジネスフォン</h1>
     <p class="lead">電話機や複合機、防犯カメラ、UTM、サーバーも扱っています。どれを選べばいいかの相談から取り付けまで、まとめてお任せください。</p>
     <div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:0249830294">電話で相談する　024-983-0294</a></div>
-    <nav class="chips" aria-label="このページの目次"><ul><li><a href="#items">取り扱い機器</a></li><li><a href="#camera">防犯カメラ</a></li><li><a href="#copier">複合機</a></li><li><a href="#flow">流れ</a></li><li><a href="#options">一緒に頼めること</a></li><li><a href="#form">お見積り</a></li></ul></nav>
+    <nav class="chips" aria-label="このページの目次"><ul><li><a href="#items">取り扱い機器</a></li><li><a href="#camera">防犯カメラ</a></li><li><a href="#copier">複合機</a></li><li><a href="#sim">印刷代の比べ方</a></li><li><a href="#flow">流れ</a></li><li><a href="#options">一緒に頼めること</a></li><li><a href="#form">お見積り</a></li></ul></nav>
   </div>
 </section>
 
@@ -112,7 +112,7 @@
     </header>
     <ul class="grid4 grid4--link">
       <li><a href="#camera"><b>防犯カメラ</b><p>夜もカラーで撮れるカメラ</p></a></li>
-      <li><a href="#copier"><b>複合機</b><p>富士フイルム</p></a></li>
+      <li><a href="#copier"><b>複合機</b><p>富士フイルム。印刷代の比べ方も</p></a></li>
       <li><a href="../contact/?type=%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%83%95%E3%82%A9%E3%83%B3"><b>ビジネスフォン</b><p>相談する</p></a></li>
       <li><a href="../contact/?type=%E3%81%9D%E3%81%AE%E4%BB%96"><b>セキュリティ商材・UTM</b><p>相談する</p></a></li>
       <li><a href="../contact/?type=%E3%81%9D%E3%81%AE%E4%BB%96"><b>PC周辺設備・サーバー</b><p>相談する</p></a></li>
@@ -160,6 +160,64 @@
     <ul class="grid4"><li><b>印刷の費用</b><p>いまのプリンターで印刷代が高いと感じているなら、一度ご相談ください。入れるときの費用も印刷の費用も、地域でいちばんの安さを目指しています。</p></li><li><b>きれいな印刷</b><p>富士フイルムの複合機は、色がきれいに出ることで評判の製品です。</p></li><li><b>丈夫さ</b><p>全国のセブン-イレブンにも、富士フイルムの複合機が置かれています。大勢の人が使い、置き場所の環境もさまざまなコンビニでも、安定して動いています。</p></li><li><b>困ったときのサポート</b><p>富士フイルムビジネスイノベーションは全国にメンテナンスの拠点が多くあるので、仕事中に調子が悪くなっても、すぐに対応してもらえます。</p></li></ul>
   </div>
 </section>
+
+<section class="sec sim-sec" id="sim">
+  <div class="wrap">
+    <header class="sh">
+      <p class="sh__label"><span>印刷代の比べ方</span><i>SIMULATION</i></p>
+      <h2>いまの印刷代と、比べてみてください。</h2>
+      <p class="sh__lead">毎月の枚数と、いまの請求書に書いてある1枚あたりの単価を動かすと、結果がその場で変わります。</p>
+    </header>
+    <div class="sim" data-sim="copier" data-our-mono="1.0" data-our-color="10.0">
+      <div class="sim__in">
+        <p class="sim__group">毎月、何枚刷っていますか</p>
+        <div class="sim__row">
+        <label class="sim__label" for="mono">モノクロ<output class="sim__val" for="mono" data-out="mono">3,000</output><small>枚</small></label>
+        <input class="sim__range" type="range" id="mono" name="mono" min="0" max="20000" step="100" value="3000">
+        <p class="sim__scale"><span>0枚</span><span>20,000枚</span></p>
+        
+      </div>
+        <div class="sim__row">
+        <label class="sim__label" for="color">カラー<output class="sim__val" for="color" data-out="color">500</output><small>枚</small></label>
+        <input class="sim__range" type="range" id="color" name="color" min="0" max="10000" step="100" value="500">
+        <p class="sim__scale"><span>0枚</span><span>10,000枚</span></p>
+        
+      </div>
+        <p class="sim__group">いまの1枚あたりの単価（カウンター料金）</p>
+        <div class="sim__row">
+        <label class="sim__label" for="pmono">モノクロ<output class="sim__val" for="pmono" data-out="pmono">3.0</output><small>円</small></label>
+        <input class="sim__range" type="range" id="pmono" name="pmono" min="0.5" max="10" step="0.1" value="3.0">
+        <p class="sim__scale"><span>0.5円</span><span>10円</span></p>
+        
+      </div>
+        <div class="sim__row">
+        <label class="sim__label" for="pcolor">カラー<output class="sim__val" for="pcolor" data-out="pcolor">20</output><small>円</small></label>
+        <input class="sim__range" type="range" id="pcolor" name="pcolor" min="3" max="60" step="1" value="20">
+        <p class="sim__scale"><span>3円</span><span>60円</span></p>
+        <p class="sim__hint">請求書の「カウンター料金」「保守料金」の欄に、1枚あたりの単価が書いてあります。</p>
+      </div>
+        <a class="btn btn--main btn--wide sim-foot" href="#form" data-type="複合機">この条件で見積りを頼む</a>
+      </div>
+      <div class="sim__out" aria-live="polite">
+        <p class="sim__out-t">パーソンライトに替えた場合の目安（当社の単価は仮）</p>
+        <div class="sim__bars">
+          <div class="sim__bar"><span>いま</span><i style="--w:100%"></i><b data-o="now">0円</b></div>
+          <div class="sim__bar sim__bar--after"><span>替えたあと</span><i data-o="afterW" style="--w:50%"></i><b data-o="after">0円</b></div>
+        </div>
+        <dl class="sim__sum">
+          <div><dt>1か月</dt><dd data-o="m">0円</dd></div>
+          <div><dt>1年</dt><dd data-o="y">0円</dd></div>
+          <div class="sim__sum-big"><dt>5年</dt><dd data-o="t">0円</dd></div>
+        </dl>
+        <p class="sim__msg" data-o="msg"></p>
+        <a class="btn btn--main btn--wide" href="#form" data-type="複合機">この条件で見積りを頼む</a>
+        <p class="sim__note sim__note--warn">当社の単価（モノクロ 1.0円・カラー 10.0円）は<b>仮の数字</b>です。本体・リース・基本料金は入っていません。</p>
+      </div>
+    </div>
+    <p class="tbd"><b>要確認</b>当社の1枚あたりの単価（モノクロ・カラー）と、月額の基本料金・リース料。いまは仮の数字で動かしている</p>
+  </div>
+</section>
+
 
 <section class="sec sec--tint" id="flow">
   <div class="wrap">
@@ -299,6 +357,6 @@
   <a href="tel:0249830294">電話する</a>
   <a class="spbar__main" href="../contact/">無料で見積りを頼む</a>
 </div>
-<script src="../assets/js/kousei.js?v=15f9b95d" defer></script>
+<script src="../assets/js/kousei.js?v=f4f720db" defer></script>
 </body>
 </html>

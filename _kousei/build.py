@@ -112,6 +112,100 @@ def page(title, desc, depth, here, body, band=True, band_title=None, band_topic=
             + footer(depth, band, band_title, band_topic))
 
 
+# ================================================================= 料金の比べ方（スライダー）
+# 2026-09-17、代表の指示「スライダーで簡単な料金比較。複合機とエアコン両方。ワイモバイルのページに近い感じ」。
+# 条件を動かすと、右（スマホは上）の結果がその場で変わる。計算は assets/js/kousei.js の sim。
+# エアコン … 旧サイトの「冷媒ごとの消費電力（R22を100%）」だけで出す。単価の仮置きは無い。
+# 複合機   … 当社の単価が手元に無い。COPIER_OURS は仮の数字。画面にも「仮」と出す。先方の単価が来たらここだけ直す。
+COPIER_OURS = {"mono": 1.0, "color": 10.0}   # ⚠️ 仮。根拠なし。要確認
+
+
+def sim_range(name, label, unit, mn, mx, step, val, hint=""):
+    return f"""<div class="sim__row">
+        <label class="sim__label" for="{name}">{label}<output class="sim__val" for="{name}" data-out="{name}">{val:,}</output><small>{unit}</small></label>
+        <input class="sim__range" type="range" id="{name}" name="{name}" min="{mn}" max="{mx}" step="{step}" value="{val}">
+        <p class="sim__scale"><span>{mn:,}{unit}</span><span>{mx:,}{unit}</span></p>
+        {f'<p class="sim__hint">{hint}</p>' if hint else ''}
+      </div>"""
+
+
+def sim_ac(depth):
+    r = R(depth)
+    gens = "".join(f'<label class="seg"><input type="radio" name="gen" value="{p}"{" checked" if i == 0 else ""}><span><b>{c}</b><small>{a}</small></span></label>'
+                   for i, (a, b, c, p) in enumerate(GEN))
+    return f"""<section class="sec sim-sec" id="sim">
+  <div class="wrap">
+    {sec_head("SIMULATION", "電気代の比べ方", "替えると、電気代はいくら変わるか。", "いまのエアコンの時期と、毎月の電気代を動かしてみてください。結果はその場で変わります。")}
+    <div class="sim" data-sim="ac">
+      <div class="sim__in">
+        <fieldset class="sim__row">
+          <legend class="sim__label">いまのエアコンは、いつ頃の機種ですか</legend>
+          <div class="segs">{gens}</div>
+          <p class="sim__hint">室外機の銘板に書いてある製造年か、冷媒の名前で選んでください。</p>
+        </fieldset>
+        {sim_range("bill", "エアコンにかかる電気代（月の平均）", "円", 5000, 150000, 1000, 30000)}
+        {sim_range("years", "このあと使う年数", "年", 1, 15, 1, 7, "7年は、取り付けたあとの保証の年数です。")}
+        <a class="btn btn--main btn--wide sim-foot" href="#form" data-type="業務用エアコン">この条件で見積りを頼む</a>
+      </div>
+      <div class="sim__out" aria-live="polite">
+        <p class="sim__out-t">替えた場合の目安</p>
+        <div class="sim__bars">
+          <div class="sim__bar"><span>いま</span><i style="--w:100%"></i><b data-o="now">30,000円</b></div>
+          <div class="sim__bar sim__bar--after"><span>替えたあと</span><i data-o="afterW" style="--w:20%"></i><b data-o="after">6,000円</b></div>
+        </div>
+        <dl class="sim__sum">
+          <div><dt>1か月</dt><dd data-o="m">24,000円</dd></div>
+          <div><dt>1年</dt><dd data-o="y">288,000円</dd></div>
+          <div class="sim__sum-big"><dt data-o="yl">7年</dt><dd data-o="t">2,016,000円</dd></div>
+        </dl>
+        <p class="sim__msg" data-o="msg">電気代が、これだけ下がる目安です。</p>
+        <a class="btn btn--main btn--wide" href="#form" data-type="業務用エアコン">この条件で見積りを頼む</a>
+        <p class="sim__note">旧サイトの「冷媒ごとの消費電力（R22を100%としたとき、R407・R410は60%、R32は20%）」から出した目安です。電気の単価や使い方の違い、本体・工事・リースの費用は入っていません。</p>
+      </div>
+    </div>
+    {tbd("機種ごとのリース月額が分かれば、「電気代の差額 − リース月額」まで出せる。冷媒の比率の出どころ（メーカー資料か自社の実測か）も確かめる")}
+  </div>
+</section>
+"""
+
+
+def sim_copier(depth):
+    o = COPIER_OURS
+    return f"""<section class="sec sim-sec" id="sim">
+  <div class="wrap">
+    {sec_head("SIMULATION", "印刷代の比べ方", "いまの印刷代と、比べてみてください。", "毎月の枚数と、いまの請求書に書いてある1枚あたりの単価を動かすと、結果がその場で変わります。")}
+    <div class="sim" data-sim="copier" data-our-mono="{o['mono']}" data-our-color="{o['color']}">
+      <div class="sim__in">
+        <p class="sim__group">毎月、何枚刷っていますか</p>
+        {sim_range("mono", "モノクロ", "枚", 0, 20000, 100, 3000)}
+        {sim_range("color", "カラー", "枚", 0, 10000, 100, 500)}
+        <p class="sim__group">いまの1枚あたりの単価（カウンター料金）</p>
+        {sim_range("pmono", "モノクロ", "円", 0.5, 10, 0.1, 3.0)}
+        {sim_range("pcolor", "カラー", "円", 3, 60, 1, 20, "請求書の「カウンター料金」「保守料金」の欄に、1枚あたりの単価が書いてあります。")}
+        <a class="btn btn--main btn--wide sim-foot" href="#form" data-type="複合機">この条件で見積りを頼む</a>
+      </div>
+      <div class="sim__out" aria-live="polite">
+        <p class="sim__out-t">パーソンライトに替えた場合の目安（当社の単価は仮）</p>
+        <div class="sim__bars">
+          <div class="sim__bar"><span>いま</span><i style="--w:100%"></i><b data-o="now">0円</b></div>
+          <div class="sim__bar sim__bar--after"><span>替えたあと</span><i data-o="afterW" style="--w:50%"></i><b data-o="after">0円</b></div>
+        </div>
+        <dl class="sim__sum">
+          <div><dt>1か月</dt><dd data-o="m">0円</dd></div>
+          <div><dt>1年</dt><dd data-o="y">0円</dd></div>
+          <div class="sim__sum-big"><dt>5年</dt><dd data-o="t">0円</dd></div>
+        </dl>
+        <p class="sim__msg" data-o="msg"></p>
+        <a class="btn btn--main btn--wide" href="#form" data-type="複合機">この条件で見積りを頼む</a>
+        <p class="sim__note sim__note--warn">当社の単価（モノクロ {o['mono']:.1f}円・カラー {o['color']:.1f}円）は<b>仮の数字</b>です。本体・リース・基本料金は入っていません。</p>
+      </div>
+    </div>
+    {tbd("当社の1枚あたりの単価（モノクロ・カラー）と、月額の基本料金・リース料。いまは仮の数字で動かしている")}
+  </div>
+</section>
+"""
+
+
 # ================================================================= トップ
 def build_top():
     d = 0
@@ -276,7 +370,7 @@ def build_top():
 def build_ac():
     d = 1
     r = R(d)
-    chips = [("reason", "替えどき"), ("types", "機種を選ぶ"), ("pay", "お支払い"), ("flow", "流れ"),
+    chips = [("reason", "替えどき"), ("sim", "電気代の比べ方"), ("types", "機種を選ぶ"), ("pay", "お支払い"), ("flow", "流れ"),
              ("after", "付けたあと"), ("voice", "お客様の声"), ("works", "施工事例"), ("faq", "よくある質問"),
              ("form", "お見積り")]
     hero = page_hero(d, "AIR CONDITIONER", "業務用エアコンの販売・取り付け・リース",
@@ -314,6 +408,8 @@ def build_ac():
     <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody>{gen}</tbody></table>
   </div>
 </section>
+
+{sim_ac(d)}
 
 {mid_cta(d, "いまお使いの一台を、見せてください。", "入れ替えか、クリーニングで済むか。現地を見てからお答えします。お見積りは無料です。", "業務用エアコン")}
 
@@ -413,7 +509,7 @@ def build_ac():
 def build_office():
     d = 1
     r = R(d)
-    chips = [("items", "取り扱い機器"), ("camera", "防犯カメラ"), ("copier", "複合機"), ("flow", "流れ"),
+    chips = [("items", "取り扱い機器"), ("camera", "防犯カメラ"), ("copier", "複合機"), ("sim", "印刷代の比べ方"), ("flow", "流れ"),
              ("options", "一緒に頼めること"), ("form", "お見積り")]
     hero = page_hero(d, "OFFICE TECH", "防犯カメラ・複合機・ビジネスフォン",
                      "電話機や複合機、防犯カメラ、UTM、サーバーも扱っています。どれを選べばいいかの相談から取り付けまで、まとめてお任せください。",
@@ -428,7 +524,7 @@ def build_office():
     {sec_head("LINEUP", "取り扱い機器", "事務所の機器のことも、まとめてご相談ください。")}
     <ul class="grid4 grid4--link">
       <li><a href="#camera"><b>防犯カメラ</b><p>夜もカラーで撮れるカメラ</p></a></li>
-      <li><a href="#copier"><b>複合機</b><p>富士フイルム</p></a></li>
+      <li><a href="#copier"><b>複合機</b><p>富士フイルム。印刷代の比べ方も</p></a></li>
       <li><a href="{r}contact/{q('ビジネスフォン')}"><b>ビジネスフォン</b><p>相談する</p></a></li>
       <li><a href="{r}contact/{q('その他')}"><b>セキュリティ商材・UTM</b><p>相談する</p></a></li>
       <li><a href="{r}contact/{q('その他')}"><b>PC周辺設備・サーバー</b><p>相談する</p></a></li>
@@ -456,6 +552,8 @@ def build_office():
     <ul class="grid4">{fuji}</ul>
   </div>
 </section>
+
+{sim_copier(d)}
 
 <section class="sec sec--tint" id="flow">
   <div class="wrap">
