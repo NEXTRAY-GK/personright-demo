@@ -245,7 +245,7 @@ def contact_band(depth, title="まずは一度、その部屋を見せてくだ�
     {sec_head("CONTACT", "お見積り・ご相談", title, "スタッフがうかがって、取り付ける場所を実際に見てから、機種と工事のやり方を決めます。お見積りは無料です。", center=True)}
     <div class="cband__ways">
       <a class="cband__way" href="tel:{TEL_RAW}"><small>お電話で</small><b>{TEL}</b><span>FAX {FAX}</span></a>
-      <a class="cband__way cband__way--main" href="{href}"><small>フォームで（24時間受付）</small><b>無料で見積りを頼む</b><span>入れていただくのは、お名前・電話・メールの3つです</span></a>
+      <a class="cband__way cband__way--main" href="{href}"><small>フォームで（24時間受付）</small><b>無料で見積りを頼む</b><span>入れていただくのは、お名前と電話番号だけです</span></a>
     </div>
     <p class="cband__sub">先に聞きたいことがあれば <a href="{r}faq/">よくある質問</a> へ。</p>
   </div>
@@ -360,7 +360,7 @@ def inquiry_form(depth, topic=None, heading=True):
     h = ""
     if heading:
         h = sec_head("CONTACT", "お見積り・ご相談", "無料で見積りを頼む",
-                     "フォームは24時間受け付けています。内容を確かめてから、担当者がご連絡します。", center=True)
+                     "入れていただくのは、相談の種類・お名前・電話番号の3つだけです。フォームは24時間受け付けています。", center=True)
     return f"""{h}
     <ol class="after-send" aria-label="送ったあとの流れ">
       <li><b>1</b><span>内容を確かめます</span></li>
@@ -374,8 +374,8 @@ def inquiry_form(depth, topic=None, heading=True):
           <div class="pills">{radios}</div>
         </fieldset>
         <label class="field"><span>お名前<em>必須</em></span><input type="text" name="name" autocomplete="name" required></label>
-        <label class="field"><span>電話番号（携帯可）<em>必須</em></span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" required></label>
-        <label class="field"><span>メールアドレス<em>必須</em></span><input type="email" name="email" autocomplete="email" required></label>
+        <label class="field"><span>電話番号（携帯可）<em>必須</em></span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" required><small class="field__why">うかがう日を決めるために、担当者からお電話します。</small></label>
+        <label class="field"><span>メールアドレス<em class="opt">任意</em></span><input type="email" name="email" autocomplete="email"></label>
         <label class="field"><span>ご相談の内容<em class="opt">任意</em></span><textarea name="body" rows="5" placeholder="例）事務所の天井のエアコンが古く、入れ替えを考えています"></textarea></label>
         <label class="agree"><input type="checkbox" required> <a href="{r}privacy/" target="_blank">プライバシーポリシー</a>を読んで、同意します</label>
         <button class="btn btn--main btn--wide" type="submit">この内容で送る</button>

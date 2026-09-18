@@ -17,6 +17,8 @@ body{margin:0;font-family:var(--jp);color:var(--ink);background:#fff;line-height
 img{max-width:100%;height:auto;display:block}
 a{color:var(--accent)}
 h1,h2,h3{line-height:1.4;text-wrap:balance;margin:0}
+/* 見出しは文節で折り返す（「印刷代／から」のような泣き別れを出さない） */
+h1,h2,h3,.h3,.midcta__t,.needs b,.ans b,.lease3 b,.card__t{word-break:auto-phrase}
 p{margin:0 0 1em}
 ul,ol{margin:0;padding:0;list-style:none}
 .skip{position:absolute;left:-9999px}.skip:focus{left:8px;top:8px;z-index:99;background:#fff;padding:8px}
@@ -448,6 +450,95 @@ ul,ol{margin:0;padding:0;list-style:none}
   .how li{grid-template-columns:1fr;padding:18px}
   .how__q{grid-column:auto}
   .proof li{flex:1 1 40%}
+}
+
+
+/* ---------- 事業のページ（LP の型・2026-09-18） ---------- */
+.lph{background:var(--tint);padding:40px 0 44px}
+.lph__in{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center}
+.lph h1{font-size:clamp(26px,3.4vw,40px)}
+.lph__fig img{border-radius:var(--r);aspect-ratio:4/3;object-fit:cover;width:100%}
+.safe{font-size:14px;color:var(--ink-2);margin:14px 0 0;padding-left:1.4em;position:relative}
+.safe::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+.ans{background:var(--accent);padding:0}
+.ans ul{display:grid;grid-template-columns:repeat(3,1fr)}
+.ans a{display:flex;flex-direction:column;height:100%;padding:20px 22px;color:#fff;text-decoration:none;border-right:1px solid rgba(255,255,255,.2)}
+.ans li:last-child a{border-right:0}
+.ans a:hover{background:var(--accent-2)}
+.ans small{font-size:13px;color:#cfe6e6}
+.ans b{font-size:20px;line-height:1.4;margin:2px 0 4px}
+.ans span{font-size:13px;color:#e3f0f0}
+.ans span::after{content:" →"}
+.sec--tight{padding:56px 0}
+.needs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.needs a{display:flex;flex-direction:column;height:100%;padding:16px 18px;border:1px solid var(--line);border-radius:var(--r);text-decoration:none;color:var(--ink);background:#fff}
+.needs a:hover{border-color:var(--accent);background:var(--accent-soft)}
+.needs b{font-size:16px;line-height:1.5}
+.needs b::before{content:"「"}.needs b::after{content:"」"}
+.needs span{font-size:13px;color:var(--accent);margin-top:auto;padding-top:8px;font-weight:700}
+.needs span::after{content:" ↓"}
+.r22{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin:40px 0 0}
+.r22 .h3{margin-top:0}
+.cases{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cases a{display:block;position:relative;border-radius:8px;overflow:hidden;color:#fff;text-decoration:none}
+.cases img{aspect-ratio:1;object-fit:cover;width:100%;transition:transform .4s}
+.cases a:hover img{transform:scale(1.05)}
+.cases span{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.lease3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 8px}
+.lease3>div{background:var(--accent);color:#fff;border-radius:var(--r);padding:22px}
+.lease3 b{display:block;font-size:19px;line-height:1.5;margin:0 0 8px}
+.lease3 p{margin:0;font-size:14px;color:#e3f0f0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2>li{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.grid2 b{display:block;font-size:17px;margin:0 0 6px}
+.grid2 p{font-size:14px;margin:0;color:var(--ink-2)}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 28px}
+.thumbs img{border-radius:8px;aspect-ratio:276/200;object-fit:cover;width:100%}
+.bigq{margin:0 0 28px;background:#fff;border-left:4px solid var(--accent);border-radius:0 var(--r) var(--r) 0;padding:22px 26px}
+.bigq p{font-size:clamp(16px,1.8vw,19px);line-height:1.9;margin:0 0 8px}
+.bigq cite{font-style:normal;font-size:13px;color:var(--muted)}
+.bigq cite::before{content:"— "}
+.crew{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin:28px 0 0}
+.crew__t{font-weight:700;margin:0 0 12px}
+.crew ul{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.crew li{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}
+.crew img{border-radius:50%;aspect-ratio:1;object-fit:cover;background:var(--tint)}
+.crew small{font-size:12px;color:var(--muted)}
+.crew p{margin:0;font-size:14px;line-height:1.6}
+.after2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.after2 .grid2{grid-template-columns:1fr}
+.after2__fig{margin:0;display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:start;background:var(--tint);border-radius:var(--r);padding:16px}
+.after2__fig img{border-radius:8px;aspect-ratio:4/5;object-fit:cover}
+.after2__fig figcaption{font-size:14px;color:var(--ink-2)}
+.after2__fig b{display:block;font-size:17px;color:var(--ink);margin:0 0 6px}
+.camfeat{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:center;margin:28px 0 0}
+.camfeat__img{display:flex;gap:12px;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.camfeat__img img{max-height:110px;width:auto}
+.tag--on{background:var(--accent);color:#fff}
+.price-note{margin:8px 0 0}
+.copier{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:center}
+.field__why{font-size:12px;color:var(--muted)}
+@media(max-width:1020px){
+  .lph__in{grid-template-columns:1fr}
+  .lph__fig{order:-1}
+  .lph__fig img{aspect-ratio:16/9}
+  .needs{grid-template-columns:1fr 1fr}
+  .cases{grid-template-columns:repeat(4,1fr)}
+  .r22,.after2,.copier,.camfeat{grid-template-columns:1fr}
+  .crew ul{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .lph{padding:20px 0 32px}
+  .ans ul{grid-template-columns:1fr}
+  .ans a{border-right:0;border-bottom:1px solid rgba(255,255,255,.2);padding:14px 16px}
+  .ans b{font-size:18px}
+  .needs{grid-template-columns:1fr}
+  .cases{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .thumbs{grid-template-columns:1fr 1fr}
+  .lease3{grid-template-columns:1fr}
+  .after2__fig{grid-template-columns:110px 1fr}
+  .copier figure{max-width:220px;margin:0 auto}
 }
 
 /* ---------- 狭い画面 ---------- */

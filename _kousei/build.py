@@ -408,27 +408,95 @@ def build_top():
                 d, "top", body, band_topic="業務用エアコン", ld=jsonld())
 
 
+# ================================================================= 事業のページ（LP の型）
+# 2026-09-18、代表の指示「エアコンと通信機器の強みを最大限引き出す。優秀なLPのノウハウでコンバージョンを」。
+# 型は `NEXTRAY関連/調査_HPの成約構成_2026-09/` の結論に合わせた。訪問者の問いの順に節を置く。
+#   ① 自分に関係あるか … 何屋×誰向け×地域の一言、実物の写真、主の一歩と電話、事実だけの安心の1行
+#   ② すぐ知りたい3つ … 料金・誰がやるか・実例を最初の2画面に
+#   困りごとの入口 … 人は解決策ではなく困りごとで探す（NN/g 2014）
+#   ③ 強みごとに、確かめられる証拠（声の原文・写真・数字）を添える
+#   ④ 料金と条件は、強い言葉と同じ塊に置く（消費者庁 打消し表示の留意点 2018）
+#   ⑤ はじめ方は、誰が何をするかを書く。フォームは必須3つ
+# ⚠️ No.1 の表示は使わない。旧サイトの「J.D.パワー 9年連続1位」は、2023年の調査で2部門ともキヤノンが1位で、いまは言えない（2026-09-18 に原典で確かめた）。
+
+def lp_hero(depth, crumbs, label, h1, lead, proof, safe, img, alt, w, h, topic=None):
+    items = "".join(f"<li><b>{a}</b><span>{b}</span></li>" for a, b in proof)
+    return f"""{crumb(depth, crumbs)}
+<section class="lph" id="top">
+  <div class="wrap lph__in">
+    <div class="lph__t">
+      <p class="en">{label}</p>
+      <h1>{h1}</h1>
+      <p class="lead">{lead}</p>
+      <ul class="proof">{items}</ul>
+      <div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で相談する　{TEL}</a></div>
+      <p class="safe">{safe}</p>
+    </div>
+    <figure class="lph__fig"><img src="{R(depth)}assets/img/{img}" alt="{alt}" width="{w}" height="{h}" fetchpriority="high"></figure>
+  </div>
+</section>
+"""
+
+
+def answers(items):
+    """すぐ知りたい3つ … (問い, 答え, 補足, 飛び先)"""
+    return '<section class="ans" aria-label="すぐ知りたいこと"><div class="wrap"><ul>' + "".join(
+        f'<li><a href="#{a}"><small>{q}</small><b>{b}</b><span>{c}</span></a></li>' for q, b, c, a in items) + "</ul></div></section>"
+
+
+def needs(title, items):
+    """困りごとの入口 … (お客様の言葉, 答えの一言, 飛び先)"""
+    return f"""<section class="sec sec--tight" id="needs">
+  <div class="wrap">
+    {sec_head("", "こんなとき", title)}
+    <ul class="needs">{"".join(f'<li><a href="#{a}"><b>{t}</b><span>{x}</span></a></li>' for t, x, a in items)}</ul>
+  </div>
+</section>"""
+
+
+def staff_row(depth, ids, title):
+    r = R(depth)
+    pick = [s for s in STAFF if s[0] in ids]
+    return f"""<div class="crew">
+      <p class="crew__t">{title}</p>
+      <ul>{"".join(f'<li><img src="{r}assets/img/{f}.jpg" alt="{role}　{n}" width="320" height="320" loading="lazy"><div><small>{role}　{n}</small><p>「{m}」</p></div></li>' for f, role, n, m in pick)}</ul>
+    </div>"""
+
+
+VOICE_NOTE = "いただいた声を、手を加えずに載せています。"
+
+
 # ================================================================= 業務用エアコン
 def build_ac():
     d = 1
     r = R(d)
-    chips = [("reason", "替えどき"), ("sim", "電気代の比べ方"), ("types", "機種を選ぶ"), ("pay", "お支払い"), ("flow", "流れ"),
-             ("after", "付けたあと"), ("voice", "お客様の声"), ("works", "施工事例"), ("faq", "よくある質問"),
-             ("form", "お見積り")]
-    hero = page_hero(d, "AIR CONDITIONER", "業務用エアコンの販売・取り付け・リース",
-                     "替えると電気代がいくら下がるかを、このページで計算できます。機種は5社のメーカー・12種類から選べて、リースなら初期費用はかかりません。取り付けは自社の工事部、付けたあとは7年保証です。",
-                     [("業務用エアコン", None)],
-                     actions=f"""<ul class="badges"><li><b>5メーカー・12種類</b>から選べる</li><li><b>自社の工事部</b>が取り付け</li><li><b>7年保証</b>と年間メンテナンス</li><li>リースなら<b>初期費用0円</b></li></ul>
-    <div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で相談する　{TEL}</a></div>""",
-                     chips=chips)
+    hero = lp_hero(d, [("業務用エアコン", None)],
+                   "福島県郡山市　会社・お店・工場の業務用エアコン",
+                   '<span class="nw">業務用エアコンの入れ替えを、</span><span class="nw">初期費用0円のリースで。</span>',
+                   "15年前の機種から替えると、消費電力は65%下がります。機種はダイキン・三菱電機・日立・東芝・パナソニックの12種類から。取り付けは自社の工事部が行い、付けたあとは7年保証と年間メンテナンスがつきます。",
+                   [("初期費用0円", "リースの場合"), ("7年保証", "年間メンテナンスも"), ("自社の工事部", "電気工事もまとめて")],
+                   "お見積りは無料です。スタッフがうかがって、取り付ける場所を見てから機種を決めます。",
+                   "case-shop.jpg", "店舗の天井に取り付けた天井カセット形の業務用エアコン", 780, 611)
+    ans = answers([
+        ("いくらかかる？", "リースなら初期費用0円", "月々のリース料で入れられます。現金・分割払いも", "pay"),
+        ("誰が付ける？", "自社の工事部", "電気の工事や水回りの工事も同じ部署で", "work"),
+        ("実際は？", "工場を止めずに更新", "須賀川市内の工場で、停電の段取りまで", "voice"),
+    ])
+    nd = needs("気になっていることから、読んでください。", [
+        ("電気代が、年々高くなってきた", "替えるといくら下がるか、計算できます", "sim"),
+        ("古いエアコンで、壊れたら直せるか不安", "R22の機種は、修理のガスが手に入りにくくなっています", "r22"),
+        ("まとまったお金を出したくない", "リースなら初期費用はかかりません", "pay"),
+        ("お店や工場を止めずに替えたい", "工場を止めずに更新したお客様の声があります", "voice"),
+        ("厨房が暑い・部屋の形が変わっている", "12種類から、部屋に合う形を選べます", "types"),
+        ("効きが悪い・においが気になる", "入れ替えの前に、分解・洗浄で済むこともあります", "after"),
+    ])
     gen = "".join(f'<tr><th>{a}</th><td>{b}</td><td>{c}</td><td><span class="bar" style="--w:{p}%"></span>{p}%</td></tr>' for a, b, c, p in GEN)
     types = "".join(f"""<li class="type"><img src="{r}assets/img/ac-type{no}.jpg" alt="{name}（{kind}）" width="720" height="511" loading="lazy"><b>{name}</b><span>{kind}</span></li>""" for no, name, kind in TYPES)
-    cases = "".join(f"<li>{c}</li>" for c in CASES)
-    merits = "".join(f"<li><b>{t}</b><p>{x}</p></li>" for t, x in MERITS)
+    cases = "".join(f'<li><a href="{r}contact/{q("業務用エアコン")}"><img src="{r}assets/img/ac-case{i+1:02d}.jpg" alt="{c}の業務用エアコン" width="352" height="352" loading="lazy"><span>{c}</span></a></li>' for i, c in enumerate(CASES))
+    merits = "".join(f"<li><b>{t}</b><p>{x}</p></li>" for t, x in MERITS[:6])
     cautions = "".join(f"<li><b>{t}</b><p>{x}</p></li>" for t, x in CAUTIONS)
-    who = ["お客様", "パーソンライト", "パーソンライト", "お客様", "パーソンライト"]
-    flow = "".join(f"""<li><p class="flow__who flow__who--{'you' if w == 'お客様' else 'us'}">{w}</p><p class="flow__no">STEP {i+1}</p><b>{t}</b><p>{x}</p></li>""" for i, ((t, x), w) in enumerate(zip(FLOW, who)))
     swaps = [w for w in WORKS if w["kind"] == "swap"][:3]
+    v53 = next(v for v in VOICES if v["id"] == "53")
     faq_groups = [
         ("リースのこと", [AC_FAQ[0], AC_FAQ[1], AC_FAQ[3]]),
         ("修理と保証のこと", [AC_FAQ[2]]),
@@ -437,17 +505,24 @@ def build_ac():
     faq_html = "".join(f'<h3 class="qa-h">{g}</h3>{acc(ps)}' for g, ps in faq_groups)
 
     body = f"""{hero}
-<section class="sec" id="reason">
+{ans}
+{nd}
+
+<section class="sec sec--tint" id="reason">
   <div class="wrap">
-    {sec_head("REASON", "替えどき", "替えどきを決めるのは、電気代とガスです。", "2011年3月の東日本大震災のあと、電気代は上がり続けてきました。そのあいだに業務用エアコンの省エネは大きく進んでいます。")}
+    {sec_head("", "強み 1　電気代", "替えるだけで、エアコンの電気は大きく減ります。", "2011年3月の東日本大震災のあと、電気代は上がり続けてきました。そのあいだに、業務用エアコンの省エネは大きく進んでいます。")}
     <div class="nums">
       <div><small>最新の省エネ機種に替えると</small><b>最大70<span>%</span></b><p>消費電力が減ります</p></div>
       <div><small>15年前の機種と比べると</small><b>65<span>%</span></b><p>消費電力が減ります</p></div>
       <div><small>18年前の機種と比べると</small><b>80<span>%</span></b><p>消費電力が減ります</p></div>
     </div>
-    <h3 class="h3">R22の機種は、ガスがあるうちに入れ替えを。</h3>
-    <p>2001年より前の機種に使われているR22（指定フロン）は、もう生産も輸入もされていません。壊れたときに修理用のガスが手に入らない、ということになる前に、早めの入れ替えをおすすめします。</p>
-    <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody>{gen}</tbody></table>
+    <div class="r22" id="r22">
+      <div>
+        <h3 class="h3">R22の機種は、壊れたら直せないことがあります。</h3>
+        <p>2001年より前の機種に使われているR22（指定フロン）は、もう生産も輸入もされていません。修理に使うガスが手に入らないことがあります。室外機の銘板に「R22」と書いてあれば、この時期の機種です。夏の盛りに止まる前に、入れ替えを考えてみてください。</p>
+      </div>
+      <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody>{gen}</tbody></table>
+    </div>
   </div>
 </section>
 
@@ -457,86 +532,101 @@ def build_ac():
 
 <section class="sec sec--tint" id="types">
   <div class="wrap">
-    {sec_head("LINEUP", "機種を選ぶ", "12種類の中から、部屋に合う形を選びます。", "天井に埋め込む形、吊るす形、壁掛け、床置き、厨房用まであります。置く場所や広さ、天井のつくりを見てお選びします。")}
+    {sec_head("", "強み 2　選べる", "5社のメーカー・12種類から、部屋に合う形を選びます。", "天井に埋め込む形、吊るす形、壁掛け、床置き、ダクトで送る形、熱と油に強い厨房用まであります。置く場所や広さ、天井のつくりを見てお選びします。")}
     <p class="makers"><b>取り扱いメーカー</b>ダイキン／三菱電機／日立／東芝／パナソニック</p>
     <ul class="types">{types}</ul>
-    <h3 class="h3">お店や会社によって、合う形は変わります。</h3>
-    <ul class="taglist taglist--lg">{cases}</ul>
+    <h3 class="h3">お店や会社の種類から、相談できます。</h3>
+    <ul class="cases">{cases}</ul>
   </div>
 </section>
 
 <section class="sec" id="pay">
   <div class="wrap">
-    {sec_head("PAYMENT", "お支払い", "リースなら、初期費用はかかりません。", "毎月のリース料で、いまの省エネ機種を入れられます。現金での購入や、クレジットの分割払いもできます。")}
-    <p class="callout"><b>「安心保証リース」</b>でご契約いただくと、リース期間中の突然の故障も修理費がかかりません。</p>
-    {tbd("機種ごと・部屋の広さごとの金額の目安（リースの月額と、買う場合の総額）。手本はここに料金表を置いている。金額の目安が見えると、見積りの前に離れる人が減る")}
+    {sec_head("", "強み 3　払い方", "リースなら、初期費用はかかりません。", "毎月のリース料で、いまの省エネ機種を入れられます。審査に出す書類は当社で用意して、リース会社へ出すところまで行います。現金での購入や、クレジットの分割払いもできます。")}
+    <div class="lease3">
+      <div><b>故障しても、修理費がかからない</b><p>「安心保証リース」でご契約いただくと、リース期間中の突然の故障の修理費がかかりません。</p></div>
+      <div><b>火事や雪の被害も、保険で</b><p>リースで入れたエアコンには動産総合保険がつきます。火事・水害・雪害・落雷・盗難などの損害を補償します。</p></div>
+      <div><b>期間が終わったら、新しい機種へ</b><p>「レベルアップ更新」で、それまでとあまり変わらないリース料のまま、最新の機種に入れ替えられます。</p></div>
+    </div>
     <h3 class="h3">リースの良いところ</h3>
-    <ul class="grid4">{merits}</ul>
+    <ul class="grid3">{merits}</ul>
     <h3 class="h3">ご契約の前に、ここは必ず確かめてください</h3>
     <ul class="grid3 grid3--warn">{cautions}</ul>
-    {tbd("再リースの料金が2か所で合わない（上の注意「年間リース額の10分の1」／よくある質問「月額リース料の2倍」＝年額の6分の1）。旧サイトの数字のまま")}
+    {tbd("機種ごと・部屋の広さごとのリース月額の目安（例：事務所30坪・天井カセット形2台で月◯円）。典型例の料金が一つあると、見積りの前に離れる人が減る。再リースの料金が2か所で合わない（注意「年間リース額の10分の1」／よくある質問「月額リース料の2倍」）")}
   </div>
 </section>
 
-<section class="sec sec--tint" id="flow">
+<section class="sec sec--tint" id="work">
   <div class="wrap">
-    {sec_head("PROCESS", "流れ", "ご相談から取り付けまで、5つの手順です。", "リースの審査や契約の手続きも、当社とリース会社でお手伝いします。現金で購入する場合は、STEP 3・4 はありません。")}
-    <ol class="flow">{flow}</ol>
-    {tbd("ご相談から取り付けまでの日数の目安")}
+    {sec_head("", "強み 4　工事", "取り付けは、自社の工事部が行います。", "エアコンの取り付けのほか、電気の工事も水回りの工事も、同じ工事部でお受けします。電気の容量が足りない建物でも、話が一度で済みます。")}
+    <ul class="thumbs">
+      <li><img src="{r}assets/img/work-ceiling.jpg" alt="天井カセット形を取り付ける工事スタッフ" width="276" height="200" loading="lazy"></li>
+      <li><img src="{r}assets/img/work-attic.jpg" alt="天井の中で配管を確かめる工事スタッフ" width="276" height="200" loading="lazy"></li>
+      <li><img src="{r}assets/img/work-outdoor.jpg" alt="建物の外で室外機まわりを作業する工事スタッフ" width="276" height="200" loading="lazy"></li>
+      <li><img src="{r}assets/img/work-filter.jpg" alt="天井のエアコンのパネルを外す工事スタッフ" width="276" height="200" loading="lazy"></li>
+    </ul>
+    <blockquote class="bigq"><p>{v53['body'][0]}</p><cite><a href="{r}reviews/53/">{v53['who']}</a>（工場の空調更新・リース）</cite></blockquote>
+    {staff_row(d, ["staff10", "staff11", "staff16"], "うかがうのは、この工事部です")}
   </div>
 </section>
 
 <section class="sec" id="after">
   <div class="wrap">
-    {sec_head("AFTER", "付けたあと", "工事が終わってからが、<br>本当のお付き合いの始まりです。")}
-    <ul class="grid3">
-      <li><b>7年保証</b><p>引き渡しのあとから、7年間の保証が始まります。</p></li>
-      <li><b>年間メンテナンス</b><p>付けたあとの点検のために、年間メンテナンスをご用意しています。</p></li>
-      <li><b>分解・洗浄クリーニング</b><p>部品を外して、水の勢いで奥まで洗い流します。効きが悪いときは、入れ替えの前に一度ご相談ください。 <a href="{r}works/#wash">洗浄の現場を見る</a></p></li>
-    </ul>
-    {tbd("年間メンテナンスの中身と料金、保証の範囲")}
+    {sec_head("", "強み 5　付けたあと", "工事が終わってからが、<br>本当のお付き合いの始まりです。")}
+    <div class="after2">
+      <ul class="grid2">
+        <li><b>7年保証</b><p>引き渡しのあとから、7年間の保証が始まります。</p></li>
+        <li><b>年間メンテナンス</b><p>付けたあとの点検のために、年間メンテナンスをご用意しています。</p></li>
+      </ul>
+      <figure class="after2__fig"><img src="{r}assets/img/works-20251203.jpg" alt="分解して洗ったあと、カップにたまった茶色い水" width="640" height="800" loading="lazy"><figcaption><b>分解・洗浄クリーニング</b>部品を外して、水の勢いで奥まで洗い流します。カップの水の色が、中にたまっていた汚れです。効きが悪いときは、入れ替えの前に一度ご相談ください。 <a href="{r}works/#wash">洗浄の現場を見る</a></figcaption></figure>
+    </div>
+    {tbd("年間メンテナンスの中身と料金、7年保証の範囲（何が無料で、何が有料か）")}
   </div>
 </section>
 
 <section class="sec sec--tint" id="voice">
   <div class="wrap">
-    {sec_head("VOICE", "お客様の声", "工事のあとに、いただいた声です。")}
-    {voice_cards(d, ids=["98", "96", "53"])}
-    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む</a></p>
+    {sec_head("", "お客様の声", "工事のあとに、いただいた声です。", VOICE_NOTE)}
+    {voice_cards(d, ids=["98", "96", "56"])}
+    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
   </div>
 </section>
 
 <section class="sec" id="works">
   <div class="wrap">
-    {sec_head("WORKS", "施工事例", "入れ替え工事の現場です。")}
+    {sec_head("", "施工事例", "入れ替え工事の現場です。")}
     {work_cards(d, swaps)}
     <p class="more-line"><a class="more" href="{r}works/">施工実績をすべて見る</a></p>
   </div>
 </section>
 
-<section class="sec sec--tint" id="options">
+<section class="sec sec--tint" id="flow">
   <div class="wrap">
-    {sec_head("OPTIONS", "一緒に頼めること", "エアコンと一緒に、まとめてご相談ください。")}
-    <ul class="grid4 grid4--link">
-      <li><a href="{r}contact/{q('クリーニング')}"><b>分解・洗浄クリーニング</b><p>効きが悪い・においが気になるとき</p></a></li>
-      <li><a href="{r}contact/{q('工事')}"><b>電気工事・水回り工事</b><p>自社の工事部でお受けします</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>LED照明・換気設備</b><p>高機能換気設備も扱っています</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>業務用冷蔵庫・厨房機器</b><p>冷凍庫・各種厨房機器も</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>家庭用エアコン・エコキュート</b><p>ご自宅のことも</p></a></li>
-      <li><a href="{r}office-tech/"><b>防犯カメラ・複合機・電話</b><p>通信機器のページへ</p></a></li>
-    </ul>
+    {sec_head("", "はじめ方", "お客様にしていただくのは、最初の連絡と、中身の確認だけです。", "リースの審査や契約の書類は、当社とリース会社でお手伝いします。現金で購入する場合は、3と4はありません。")}
+    <ol class="flow">{"".join(f'<li><p class="flow__who flow__who--{"you" if w == "お客様" else "us"}">{w}</p><p class="flow__no">{i+1}</p><b>{t}</b><p>{x}</p></li>' for i, ((t, x), w) in enumerate(zip(FLOW, ["お客様", "パーソンライト", "パーソンライト", "お客様", "パーソンライト"])))}</ol>
+    {tbd("ご相談から取り付けまでの日数の目安、工事にかかる時間（1台あたり）。見積りのあとお断りいただいても費用はかからない、と書けるなら、フォームの横にも置く")}
   </div>
 </section>
 
 <section class="sec" id="faq">
   <div class="wrap narrow">
-    {sec_head("FAQ", "よくある質問", "業務用エアコンの、よくいただく質問です。")}
+    {sec_head("", "よくある質問", "業務用エアコンの、よくいただく質問です。")}
     {faq_html}
     <p class="more-line"><a class="more" href="{r}faq/">ほかの質問を見る</a></p>
   </div>
 </section>
 
-{company_mini(d)}
+<section class="sec sec--tint" id="options">
+  <div class="wrap">
+    {sec_head("", "一緒に頼めること", "エアコンと一緒に、まとめてご相談ください。")}
+    <ul class="grid4 grid4--link">
+      <li><a href="{r}contact/{q('クリーニング')}"><b>分解・洗浄クリーニング</b><p>効きが悪い・においが気になるとき</p></a></li>
+      <li><a href="{r}contact/{q('工事')}"><b>電気工事・水回り工事</b><p>自社の工事部でお受けします</p></a></li>
+      <li><a href="{r}contact/{q('その他')}"><b>LED照明・換気設備</b><p>全熱交換器・除湿器も</p></a></li>
+      <li><a href="{r}office-tech/"><b>防犯カメラ・複合機・電話</b><p>通信機器のページへ</p></a></li>
+    </ul>
+  </div>
+</section>
 
 <section class="sec" id="form">
   <div class="wrap">
@@ -544,84 +634,101 @@ def build_ac():
   </div>
 </section>
 """
-    return page("業務用エアコンの販売・取り付け・リース｜株式会社パーソンライト",
-                p_ac.DESC, d, "ac", body, band=False, ld=jsonld([faq_ld(AC_FAQ)]))
+    return page("業務用エアコンの入れ替え・リース（初期費用0円）｜福島県郡山市｜株式会社パーソンライト",
+                "郡山市の業務用エアコンの入れ替え・リース。初期費用0円、15年前の機種から替えると消費電力65%減。5メーカー・12種類から選び、自社の工事部が取り付け、7年保証。お見積りは無料です。",
+                d, "ac", body, band=False, ld=jsonld([faq_ld(AC_FAQ)]))
 
 
 # ================================================================= 通信機器
 def build_office():
     d = 1
     r = R(d)
-    chips = [("items", "取り扱い機器"), ("camera", "防犯カメラ"), ("copier", "複合機"), ("sim", "印刷代の比べ方"), ("flow", "流れ"),
-             ("options", "一緒に頼めること"), ("form", "お見積り")]
-    hero = page_hero(d, "OFFICE TECH", "防犯カメラ・複合機・ビジネスフォン",
-                     "夜でも色まで写る防犯カメラと、富士フイルムの複合機を中心に、ビジネスフォン・UTM・サーバーまで扱っています。いま払っている印刷代と比べられる計算も、このページにあります。",
-                     [("通信機器", None)],
-                     actions=f"""<div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で相談する　{TEL}</a></div>""",
-                     chips=chips)
-    cams = "".join(f"""<li class="card"><img src="{r}assets/img/{f}" alt="{t}で夜に撮った映像" width="{w}" height="{h}" loading="lazy"><div class="card__b"><p class="tag">{'当社で扱っているカメラ' if i == 2 else '比べる物'}</p><p class="card__t">{t}</p><p>{x}</p></div></li>""" for i, (f, w, h, t, x) in enumerate(CAM))
+    hero = lp_hero(d, [("通信機器", None)],
+                   "福島県郡山市　会社・お店の防犯カメラ・複合機・ビジネスフォン",
+                   '<span class="nw">防犯カメラは、夜も色まで。</span><span class="nw">複合機は、印刷代から見直します。</span>',
+                   "夜でもカラーで撮れる防犯カメラと、富士フイルムの複合機を中心に、ビジネスフォン・UTM・サーバーまで扱っています。エアコンと同じ会社なので、電気の工事が要るときも、自社の工事部でお受けします。",
+                   [("夜もカラー", "防犯カメラ"), ("富士フイルム", "複合機"), ("自社の工事部", "電気工事も")],
+                   "お見積りは無料です。取り付ける場所と、何のために付けたいかをうかがってからご提案します。",
+                   "cam-hero.jpg", "建物の外壁に取り付けた防犯カメラ", 1600, 587)
+    ans = answers([
+        ("夜は写る？", "色まで残ります", "暗い中でも、服や車の色が見分けられます", "camera"),
+        ("印刷代は？", "いまの単価と比べられます", "枚数と単価を入れると、差額が出ます", "sim"),
+        ("誰に頼む？", "エアコンと同じ会社", "電気の工事も自社の工事部で", "flow"),
+    ])
+    nd = needs("気になっていることから、読んでください。", [
+        ("夜の駐車場や倉庫が、映像で真っ暗", "夜もカラーで撮れるカメラがあります", "camera"),
+        ("前に見積りを取って、高くて見送った", "もう一度、当社の条件と比べてみてください", "price"),
+        ("印刷代が高い気がする", "いまの単価で、差額を計算できます", "sim"),
+        ("電話機やネットの機器が古い", "ビジネスフォン・UTM・サーバーも扱っています", "items"),
+    ])
+    cams = "".join(f"""<li class="card"><img src="{r}assets/img/{f}" alt="{t}で夜に撮った映像" width="{w}" height="{h}" loading="lazy"><div class="card__b"><p class="tag{' tag--on' if i == 2 else ''}">{'当社で扱っているカメラ' if i == 2 else '比べる物'}</p><p class="card__t">{t}</p><p>{x}</p></div></li>""" for i, (f, w, h, t, x) in enumerate(CAM))
     fuji = "".join(f"<li><b>{t}</b><p>{x}</p></li>" for t, x in FUJI)
     body = f"""{hero}
-<section class="sec" id="items">
-  <div class="wrap">
-    {sec_head("LINEUP", "取り扱い機器", "エアコンの会社ですが、事務所の機器も扱っています。")}
-    <ul class="grid4 grid4--link">
-      <li><a href="#camera"><b>防犯カメラ</b><p>夜もカラーで撮れるカメラ</p></a></li>
-      <li><a href="#copier"><b>複合機</b><p>富士フイルム。印刷代の比べ方も</p></a></li>
-      <li><a href="{r}contact/{q('ビジネスフォン')}"><b>ビジネスフォン</b><p>相談する</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>セキュリティ商材・UTM</b><p>相談する</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>PC周辺設備・サーバー</b><p>相談する</p></a></li>
-    </ul>
-    {tbd("ビジネスフォン・UTM・サーバーの扱いメーカーと中身（旧サイトは名前だけ）。中身があれば、防犯カメラ・複合機と同じ形で節を足す")}
-  </div>
-</section>
+{ans}
+{nd}
 
 <section class="sec sec--tint" id="camera">
   <div class="wrap">
-    {sec_head("SECURITY CAMERA", "防犯カメラ", "夜の映像で、比べてみてください。", "同じ場所を、夜に3種類のカメラで撮った映像です。当社で扱っているのは、夜でもカラーで撮れるカメラです。")}
+    {sec_head("", "強み 1　防犯カメラ", "夜の映像で、比べてみてください。", "同じ場所を、夜に3種類のカメラで撮った映像です。当社で扱っているのは、3つ目の、夜でもカラーで撮れるカメラです。")}
     <ul class="cards cards--3">{cams}</ul>
-    <h3 class="h3">値段であきらめた方にも、もう一度見てほしい。</h3>
-    <p>以前に防犯カメラを考えたものの、値段を見て見送った方もいらっしゃると思います。一度、当社の条件と比べてみてください。夜のカラー撮影のほか、動くものを見つけて知らせる機能や、離れた場所からの操作にも対応しています。</p>
-    {tbd("台数ごとの金額の目安")}
+    <div class="camfeat">
+      <ul class="camfeat__img">
+        <li><img src="{r}assets/img/cam-01.png" alt="壁に取り付ける筒形の防犯カメラ" width="252" height="138" loading="lazy"></li>
+        <li><img src="{r}assets/img/cam-02.png" alt="天井に取り付けるドーム形の防犯カメラ" width="175" height="159" loading="lazy"></li>
+      </ul>
+      <ul class="grid3">
+        <li><b>夜もカラーで撮れる</b><p>服や車の色まで残るので、いざというときの手がかりになります。</p></li>
+        <li><b>動くものを見つけて知らせる</b><p>動くものを見つけると、知らせてくれます。</p></li>
+        <li><b>離れた場所から操作できる</b><p>その場にいなくても、カメラを操作できます。</p></li>
+      </ul>
+    </div>
+    <div class="price-note" id="price">
+      <h3 class="h3">値段で見送った方にも、もう一度見てほしい。</h3>
+      <p>以前に防犯カメラを考えたものの、値段を見て見送った方もいらっしゃると思います。一度、当社の条件と比べてみてください。お仕事の内容や取り付ける場所、何のために付けたいのかをうかがってから、台数と付け方をご提案します。</p>
+    </div>
+    {tbd("台数ごとの金額の目安（例：カメラ4台・録画機1台で◯円〜、リースなら月◯円）。スマホで映像を見る仕組みの名前")}
   </div>
 </section>
 
-{mid_cta(d, "付けたい場所と、困っていることを聞かせてください。", "お仕事の内容や取り付ける場所をうかがってから、機種と取り付け方をご提案します。", "防犯カメラ")}
+{mid_cta(d, "付けたい場所と、困っていることを聞かせてください。", "お見積りは無料です。現地を見てから、台数と付け方をご提案します。", "防犯カメラ")}
 
 <section class="sec" id="copier">
   <div class="wrap">
-    {sec_head("COPIER", "複合機", "複合機は、富士フイルムを扱っています。", "J.D.パワーの顧客満足度調査で、9年連続1位になった複合機です。")}
-    {tbd("「9年連続1位」の調査名と年（年が変わると書き換えが要る）")}
-    <ul class="grid4">{fuji}</ul>
+    {sec_head("", "強み 2　複合機", "複合機は、富士フイルムを扱っています。", "入れるときの費用も印刷の費用も、地域でいちばん安くすることを目指しています。")}
+    <div class="copier">
+      <figure><img src="{r}assets/img/printer.png" alt="富士フイルムの複合機" width="491" height="397" loading="lazy"></figure>
+      <ul class="grid2">{fuji}</ul>
+    </div>
   </div>
 </section>
 
 {sim_copier(d)}
 
-<section class="sec sec--tint" id="flow">
+<section class="sec sec--tint" id="items">
   <div class="wrap">
-    {sec_head("PROCESS", "流れ", "ご相談から取り付けまでの流れです。")}
-    <ol class="flow">
-      <li><p class="flow__who flow__who--you">お客様</p><p class="flow__no">STEP 1</p><b>ご相談</b><p>お電話かフォームでご連絡ください。お見積りは無料です。</p></li>
-      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 2</p><b>お話をうかがう</b><p>お仕事の内容や取り付ける場所、何のために付けたいのかをうかがいます。</p></li>
-      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 3</p><b>ご提案</b><p>機種と取り付け方をご提案します。</p></li>
-      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 4</p><b>取り付け</b><p>ご提案した機種を取り付けます。</p></li>
-    </ol>
-  </div>
-</section>
-
-<section class="sec" id="options">
-  <div class="wrap">
-    {sec_head("OPTIONS", "一緒に頼めること", "事務所のことは、まとめてご相談ください。")}
+    {sec_head("", "そのほかの機器", "電話やネットの機器も、まとめて見直せます。")}
     <ul class="grid4 grid4--link">
-      <li><a href="{r}ac/"><b>業務用エアコン</b><p>5メーカー・12種類から</p></a></li>
-      <li><a href="{r}contact/{q('工事')}"><b>電気工事</b><p>自社の工事部で</p></a></li>
-      <li><a href="{r}contact/{q('その他')}"><b>LED照明</b><p>省エネの相談も</p></a></li>
+      <li><a href="{r}contact/{q('ビジネスフォン')}"><b>ビジネスフォン</b><p>事務所の電話機</p></a></li>
+      <li><a href="{r}contact/{q('その他')}"><b>UTM・セキュリティ商材</b><p>社内のネットを外から守る機器</p></a></li>
+      <li><a href="{r}contact/{q('その他')}"><b>サーバー・PC周辺設備</b><p>社内のデータの置き場など</p></a></li>
+      <li><a href="{r}ac/"><b>業務用エアコン</b><p>同じ会社で、空調のことも</p></a></li>
     </ul>
+    {tbd("ビジネスフォン・UTM・サーバーの扱いメーカーと中身（旧サイトは名前だけ）。中身があれば、防犯カメラ・複合機と同じ形で節を足す")}
   </div>
 </section>
 
-{company_mini(d)}
+<section class="sec" id="flow">
+  <div class="wrap">
+    {sec_head("", "はじめ方", "お客様にしていただくのは、最初の連絡と、中身の確認だけです。")}
+    <ol class="flow">
+      <li><p class="flow__who flow__who--you">お客様</p><p class="flow__no">1</p><b>ご連絡</b><p>お電話かフォームでご連絡ください。お見積りは無料です。</p></li>
+      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">2</p><b>お話をうかがう</b><p>お仕事の内容や取り付ける場所、何のために付けたいのかをうかがいます。</p></li>
+      <li><p class="flow__who flow__who--you">お客様</p><p class="flow__no">3</p><b>ご提案の確認</b><p>機種と取り付け方、金額をご確認ください。</p></li>
+      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">4</p><b>取り付け</b><p>ご提案した機種を取り付けます。電気の工事が要るときは、自社の工事部がお受けします。</p></li>
+    </ol>
+    {staff_row(d, ["staff14", "staff15", "staff19"], "ご相談を受けるのは、通信機器部です")}
+  </div>
+</section>
 
 <section class="sec" id="form">
   <div class="wrap">
@@ -629,8 +736,9 @@ def build_office():
   </div>
 </section>
 """
-    return page("防犯カメラ・複合機・ビジネスフォン｜株式会社パーソンライト", p_office.DESC, d, "office-tech", body,
-                band=False, ld=jsonld())
+    return page("防犯カメラ・複合機・ビジネスフォン（福島県郡山市）｜株式会社パーソンライト",
+                "郡山市の防犯カメラ・複合機・ビジネスフォン。夜もカラーで撮れる防犯カメラ、富士フイルムの複合機（いまの印刷代と比べられます）、UTM・サーバーまで。配線や電気の工事も自社の工事部で。お見積りは無料です。",
+                d, "office-tech", body, band=False, ld=jsonld())
 
 
 # ================================================================= 施工実績
