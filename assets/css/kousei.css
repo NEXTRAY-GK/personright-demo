@@ -395,6 +395,61 @@ ul,ol{margin:0;padding:0;list-style:none}
   .seg span{flex-direction:row;justify-content:space-between;align-items:baseline;text-align:left}
 }
 
+
+/* ---------- 価値を先に見せる節（2026-09-18） ---------- */
+.proof{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.proof li{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:8px 14px;line-height:1.35}
+.proof b{font-size:18px}
+.proof span{font-size:12px;color:var(--muted)}
+.cost{display:grid;grid-template-columns:1.2fr 1fr;gap:18px 40px;align-items:center;background:var(--tint);border-radius:var(--r);padding:32px}
+.cost__bars{display:grid;gap:18px}
+.cost__bar{display:grid;grid-template-columns:130px 1fr;align-items:center;column-gap:14px}
+.cost__bar span{font-weight:700;font-size:14px;line-height:1.35}
+.cost__bar span small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.cost__bar i{display:block;height:22px;width:var(--w);background:#9aa6a8;border-radius:4px}
+.cost__bar--after i{background:var(--accent)}
+.cost__bar b{grid-column:2;font-size:20px;font-variant-numeric:tabular-nums}
+.cost__bar b small{font-size:13px;font-weight:400}
+.cost__sum{margin:0;display:grid;gap:8px}
+.cost__sum>div{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding:6px 0}
+.cost__sum dt{font-size:14px;color:var(--ink-2)}
+.cost__sum dd{margin:0;font-weight:700;font-size:22px;font-variant-numeric:tabular-nums;color:var(--accent)}
+.cost__sum dd::before{content:"−"}
+.cost__big dd{font-size:32px}
+.cost__note{grid-column:1/-1;font-size:12px;color:var(--muted);margin:0}
+.cost__go{grid-column:1/-1;margin:0}
+.why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0 0}
+.why3 li{border-top:3px solid var(--accent);padding:16px 2px 0}
+.why3 b{display:block;font-size:18px;line-height:1.5;margin:0 0 8px}
+.why3 p{font-size:14px;color:var(--ink-2);margin:0}
+.how{display:grid;gap:16px;margin:0 0 8px}
+.how li{display:grid;grid-template-columns:44px 1fr 1fr;gap:20px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.how__no{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:18px;margin:0}
+.how__t b{display:block;font-size:20px;line-height:1.5;margin:0 0 8px}
+.how__t p{margin:0;color:var(--ink-2);font-size:15px}
+.how__q{margin:0;background:var(--tint);border-radius:8px;padding:16px 18px;position:relative}
+.how__q::before{content:"“";position:absolute;left:10px;top:-8px;font-size:44px;line-height:1;color:var(--accent);font-family:Georgia,serif}
+.how__q p{margin:0 0 8px;font-size:15px;line-height:1.8}
+.how__q cite{font-style:normal;font-size:13px;color:var(--muted)}
+.how__q cite::before{content:"— "}
+.how__q--us{background:var(--accent-soft)}
+.callout{background:var(--accent-soft);border-radius:var(--r);padding:14px 18px;margin:0 0 8px}
+.card__who .tag{margin:0 0 0 8px;vertical-align:1px}
+@media(max-width:1020px){
+  .how li{grid-template-columns:44px 1fr}
+  .how__q{grid-column:2}
+}
+@media(max-width:760px){
+  .cost{grid-template-columns:1fr;padding:20px 16px}
+  .cost__bar{grid-template-columns:1fr}
+  .cost__bar b{grid-column:1}
+  .cost__big dd{font-size:26px}
+  .why3{grid-template-columns:1fr}
+  .how li{grid-template-columns:1fr;padding:18px}
+  .how__q{grid-column:auto}
+  .proof li{flex:1 1 40%}
+}
+
 /* ---------- 狭い画面 ---------- */
 @media(max-width:1020px){
   .quick ul{grid-template-columns:repeat(2,1fr)}

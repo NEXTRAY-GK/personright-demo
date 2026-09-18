@@ -30,14 +30,18 @@ CAM, FUJI, ITEMS = p_office.CAM, p_office.FUJI, p_office.ITEMS
 OUTLINE_HIST, STAFF = p_company.HIST, p_company.STAFF
 JOBS, VOICES, WORKS, KIND, PARTS = p_recruit.JOBS, p_reviews.VOICES, p_works.WORKS, p_works.KIND, p_works.PARTS
 
-ENV = ["業務用エアコン", "家庭用エアコン", "空気清浄機", "LED照明", "分解・洗浄クリーニング", "エコキュート",
-       "高機能換気設備", "業務用冷蔵庫・冷凍庫", "各種厨房機器"]
+ENV = ["業務用エアコン", "家庭用エアコン", "ビル用マルチエアコン", "空気清浄機", "LED照明", "分解・洗浄クリーニング", "エコキュート",
+       "高機能換気設備", "全熱交換器", "除湿器", "暖房機", "業務用冷蔵庫・冷凍庫", "各種厨房機器"]
 TEL_BIZ = ["ビジネスフォン", "複合機", "セキュリティ商材", "PC周辺設備", "防犯カメラ", "UTM", "サーバー"]
 KOJI = ["各種工事", "電気工事", "水回り工事"]
 
 
 def fmt(d):
     return f"{d[:4]}.{d[4:6]}.{d[6:]}"
+
+
+# 声ごとに「何を頼んだか」。本文に書いてあることだけから付けた
+WHAT = {"98": "会社のエアコン設置", "96": "オフィスのエアコン設置", "53": "工場の空調更新・リース", "56": "エアコンの工事"}
 
 
 def voice_cards(depth, ids=None, n=None):
@@ -50,7 +54,7 @@ def voice_cards(depth, ids=None, n=None):
         <a href="{r}reviews/{v['id']}/">
           <img src="{r}assets/img/{v['img']}" alt="{v['alt']}" width="{v['w']}" height="{v['h']}" loading="lazy">
           <div class="card__b">
-            <p class="card__who">{v['who']}</p>
+            <p class="card__who">{v['who']}<span class="tag">{WHAT[v['id']]}</span></p>
             <p class="card__t">「{v['title']}」</p>
             <span class="more">お客様の声を読む</span>
           </div>
@@ -135,7 +139,7 @@ def sim_ac(depth):
                    for i, (a, b, c, p) in enumerate(GEN))
     return f"""<section class="sec sim-sec" id="sim">
   <div class="wrap">
-    {sec_head("SIMULATION", "電気代の比べ方", "替えると、電気代はいくら変わるか。", "いまのエアコンの時期と、毎月の電気代を動かしてみてください。結果はその場で変わります。")}
+    {sec_head("SIMULATION", "電気代の比べ方", "替えると、電気代はいくら下がるか。", "いまのエアコンの時期と、毎月の電気代を動かしてみてください。結果はその場で変わります。")}
     <div class="sim" data-sim="ac">
       <div class="sim__in">
         <fieldset class="sim__row">
@@ -160,7 +164,7 @@ def sim_ac(depth):
         </dl>
         <p class="sim__msg" data-o="msg">電気代が、これだけ下がる目安です。</p>
         <a class="btn btn--main btn--wide" href="#form" data-type="業務用エアコン">この条件で見積りを頼む</a>
-        <p class="sim__note">旧サイトの「冷媒ごとの消費電力（R22を100%としたとき、R407・R410は60%、R32は20%）」から出した目安です。電気の単価や使い方の違い、本体・工事・リースの費用は入っていません。</p>
+        <p class="sim__note">冷媒ごとの消費電力の比（R22を100%としたとき、R407・R410は60%、R32は20%）から出した目安です。電気の単価や使い方の違い、本体・工事・リースの費用は入っていません。</p>
       </div>
     </div>
     {tbd("機種ごとのリース月額が分かれば、「電気代の差額 − リース月額」まで出せる。冷媒の比率の出どころ（メーカー資料か自社の実測か）も確かめる")}
@@ -227,8 +231,13 @@ def build_top():
   <div class="wrap hero__in">
     <div class="hero__t">
       <p class="en">福島県郡山市　業務用エアコンの販売・取り付け・リース</p>
-      <h1><span class="nw">業務用エアコンの入れ替えを、</span><span class="nw">選ぶところから、</span><span class="nw">付けたあとまで。</span></h1>
-      <p class="lead">5社のメーカー・12種類から部屋に合う一台を選び、自社の工事部が取り付けます。付けたあとは7年保証と年間メンテナンス。リースなら初期費用はかかりません。</p>
+      <h1><span class="nw">古いエアコンは、</span><span class="nw">電気代で高くついています。</span></h1>
+      <p class="lead">15年前の業務用エアコンを今の機種に替えると、消費電力は65%下がります。リースなら初期費用はかかりません。取り付けは自社の工事部が行い、付けたあとは7年間の保証がつきます。</p>
+      <ul class="proof">
+        <li><b>初期費用0円</b><span>リースの場合</span></li>
+        <li><b>7年保証</b><span>年間メンテナンスも</span></li>
+        <li><b>5社・12種類</b><span>メーカーと形から選べます</span></li>
+      </ul>
       {cta_pair(d, "業務用エアコン")}
     </div>
     <figure class="hero__fig"><img src="{r}assets/img/hero.jpg" alt="業務用エアコンを取り付けた部屋" width="1600" height="771" fetchpriority="high"></figure>
@@ -244,11 +253,61 @@ def build_top():
   </nav>
 </section>
 
-<section class="sec" id="mission">
-  <div class="wrap narrow">
-    {sec_head("PHILOSOPHY", "企業理念", "サービス＆貢献", center=True)}
-    <p class="big-text">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
-    <p class="more-line center"><a class="more" href="{r}company/#philosophy">会社案内で読む</a></p>
+<section class="sec" id="cost">
+  <div class="wrap">
+    {sec_head("", "替えどき", "エアコンの電気代が月3万円なら、<br>年に約29万円下がる計算です。", "2001年より前の機種（冷媒R22）を、いまの機種（冷媒R32）に替えた場合です。")}
+    <div class="cost">
+      <div class="cost__bars" aria-label="月の電気代の比べ">
+        <div class="cost__bar"><span>いまの機種<small>R22・2001年より前</small></span><i style="--w:100%"></i><b>30,000円<small>/月</small></b></div>
+        <div class="cost__bar cost__bar--after"><span>替えたあと<small>R32・2014年以降</small></span><i style="--w:20%"></i><b>6,000円<small>/月</small></b></div>
+      </div>
+      <dl class="cost__sum">
+        <div><dt>1か月で</dt><dd>24,000円</dd></div>
+        <div><dt>1年で</dt><dd>288,000円</dd></div>
+        <div class="cost__big"><dt>保証の7年間で</dt><dd>2,016,000円</dd></div>
+      </dl>
+      <p class="cost__note">冷媒ごとの消費電力の比（R22を100としたとき、R32は20）から出した目安です。電気の単価や使い方で変わります。本体・工事・リースの費用は入っていません。</p>
+      <p class="cost__go"><a class="btn btn--line" href="{r}ac/#sim">自分の電気代で計算してみる</a></p>
+    </div>
+    <ul class="why3">
+      <li><b>電気代が下がります</b><p>15年前の機種と比べると、消費電力は65%少なくなります。18年前の機種なら80%です。</p></li>
+      <li><b>R22の機種は、壊れたら直せないことがあります</b><p>R22はもう生産も輸入もされていません。修理に使うガスが手に入らないことがあります。室外機の銘板に「R22」と書いてあれば、この時期の機種です。</p></li>
+      <li><b>まとまったお金はいりません</b><p>リースなら初期費用はかかりません。銀行から借りられる枠も減らさず、税務上認められた期間なら、支払いを全額経費にできます。 <a href="{r}ac/#pay">リースについて読む</a></p></li>
+    </ul>
+    {tbd("冷媒ごとの消費電力の比と「65%」「80%」の出どころ（メーカー資料か、自社の実測か）。この節の数字はすべてここから出している")}
+  </div>
+</section>
+
+<section class="sec sec--tint" id="how">
+  <div class="wrap">
+    {sec_head("", "頼んだあと", "現地を見てから決めて、<br>自社の工事部が取り付けます。")}
+    <ol class="how">
+      <li>
+        <p class="how__no">1</p>
+        <div class="how__t"><b>現地を見てから、機種を決めます</b><p>スタッフがうかがって、取り付ける場所を見てから、機種と工事のやり方をご提案します。お見積りは無料です。</p></div>
+        <blockquote class="how__q"><p>こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。</p><cite><a href="{r}reviews/98/">田村市　N様</a></cite></blockquote>
+      </li>
+      <li>
+        <p class="how__no">2</p>
+        <div class="how__t"><b>取り付けは、自社の工事部が行います</b><p>エアコンの取り付けのほか、電気工事や水回りの工事も、同じ工事部でお受けします。</p></div>
+        <blockquote class="how__q"><p>変電設備を増やす工事に伴っては、工場内を計画的に停電させる必要がありましたが、こちらもスケジュール通り安全に進めていただき、業務もストップすることなく完了しました。</p><cite><a href="{r}reviews/53/">須賀川市内　某社 様</a></cite></blockquote>
+      </li>
+      <li>
+        <p class="how__no">3</p>
+        <div class="how__t"><b>付けたあとは、7年間保証します</b><p>引き渡しのあとは、7年保証と年間メンテナンスが始まります。「安心保証リース」でご契約いただくと、リース期間中の突然の故障も修理費がかかりません。</p></div>
+        <blockquote class="how__q how__q--us"><p>設備機器の工事を終えた後からが、本当のお付き合いの始まりであると考えております。</p><cite>パーソンライト</cite></blockquote>
+      </li>
+    </ol>
+    {cta_pair(d, "業務用エアコン")}
+  </div>
+</section>
+
+<section class="sec" id="voice">
+  <div class="wrap">
+    {sec_head("", "お客様の声", "工事のあとに、いただいた声です。")}
+    {voice_cards(d, ids=["96", "56", "98"])}
+    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
+    {tbd("施工件数・年間の施工本数・お取引先の名前（載せてよい物）。数字があれば、この節の頭に置く。いちばん効く場所")}
   </div>
 </section>
 
@@ -256,14 +315,14 @@ def build_top():
 
 <section class="sec sec--tint" id="service">
   <div class="wrap">
-    {sec_head("SERVICE", "事業紹介", "4つの事業を、1つの会社でやっています。", "エアコンの相談のついでに、電話機や複合機、電気や水回りの工事のことを聞いていただいても構いません。")}
+    {sec_head("", "事業紹介", "エアコンを頼んだ会社に、<br>電話や複合機のことも頼めます。", "空調のほかに、ビジネスフォン・複合機・防犯カメラ、電気工事と水回りの工事も受けています。")}
     <div class="svc">
       <div class="svc__group">
         <p class="svc__label"><b>01</b>環境事業</p>
         <a class="svc__main" href="{r}ac/">
           <img src="{r}assets/img/case-shop.jpg" alt="店舗の天井に設置した業務用エアコン" width="780" height="611" loading="lazy">
           <div>
-            <small>5メーカー・12種類から選べる</small>
+            <small>5メーカー・12種類から選べます</small>
             <b>業務用エアコン</b>
             <p>機種選びから取り付け、リース、7年保証と年間メンテナンスまで。</p>
             <span class="more">詳しく見る</span>
@@ -277,9 +336,9 @@ def build_top():
         <a class="svc__main" href="{r}office-tech/">
           <img src="{r}assets/img/cam-hero.jpg" alt="防犯カメラ" width="1600" height="587" loading="lazy">
           <div>
-            <small>事務所の機器をまとめて</small>
+            <small>いまの印刷代と比べられます</small>
             <b>通信機器</b>
-            <p>夜もカラーで撮れる防犯カメラ、富士フイルムの複合機、ビジネスフォン。</p>
+            <p>夜でも色まで写る防犯カメラ、富士フイルムの複合機、ビジネスフォン。</p>
             <span class="more">詳しく見る</span>
           </div>
         </a>
@@ -289,7 +348,7 @@ def build_top():
         <p class="svc__label"><b>03</b>工事部</p>
         <div class="svc__sub">
           <b>各種工事・電気工事・水回り工事</b>
-          <p>エアコンの取り付けも、電気や水回りの工事も、自社の工事部でお受けします。</p>
+          <p>エアコンを付けるときの電気の工事も、水回りの工事も、自社の工事部でお受けします。</p>
           <a class="more" href="{r}contact/{q('工事')}">工事の相談をする</a>
         </div>
       </div>
@@ -304,65 +363,48 @@ def build_top():
   </div>
 </section>
 
-<section class="sec" id="support">
-  <div class="wrap">
-    {sec_head("SUPPORT", "パーソンライトの体制", "選ぶ・付ける・見守るを、自社で。")}
-    <ol class="points">
-      <li><p class="points__no">POINT 01</p><b>現地を見てから<br>無料でお見積り</b><p>スタッフがうかがって取り付ける場所を見てから、機種と工事のやり方を決めます。</p></li>
-      <li><p class="points__no">POINT 02</p><b>取り付けは<br>自社の工事部</b><p>ダイキンをはじめ5社のメーカーの機種を、自社の工事部が取り付けます。</p></li>
-      <li><p class="points__no">POINT 03</p><b>付けたあとも<br>7年保証</b><p>引き渡しのあとは、7年保証と年間メンテナンスが始まります。</p></li>
-    </ol>
+<section class="sec" id="mission">
+  <div class="wrap narrow">
+    {sec_head("", "企業理念", "サービス＆貢献", center=True)}
+    <p class="big-text">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
+    <p class="more-line center"><a class="more" href="{r}company/#philosophy">会社案内で読む</a></p>
   </div>
 </section>
 
-<section class="sec sec--tint" id="voice">
+<section class="sec sec--tint" id="about">
   <div class="wrap">
-    {sec_head("VOICE", "お客様の声", "工事のあとに、いただいた声です。")}
-    {voice_cards(d, n=3)}
-    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
-    <div class="nums">
-      <div><small>取り扱いメーカー</small><b>5<span>社</span></b><p>ダイキン・三菱電機・日立・東芝・パナソニック</p></div>
-      <div><small>選べる機種の形</small><b>12<span>種類</span></b><p>天井カセット形から厨房用まで</p></div>
-      <div><small>保証</small><b>7<span>年</span></b><p>年間メンテナンスもご用意</p></div>
-    </div>
-    {tbd("施工件数・年間の施工本数・お取引先の名前（載せてよい物）。手本はここに累計の件数と取引先の一覧を置いている。数字が一番効く場所")}
-  </div>
-</section>
-
-<section class="sec" id="about">
-  <div class="wrap">
-    {sec_head("ABOUT", "パーソンライトについて", "会社を知る。一緒に働く人を知る。")}
+    {sec_head("", "パーソンライトについて", "どんな会社から、どんな人がうかがうのか。")}
     <ul class="cards cards--2">
       <li class="card card--big"><a href="{r}company/">
         <img src="{r}assets/img/office-front.jpg" alt="本社の外観" width="810" height="555" loading="lazy">
-        <div class="card__b"><p class="en">COMPANY</p><p class="card__t">会社案内</p><p>会社概要・沿革・企業理念・代表あいさつ・スタッフ・アクセス。</p><span class="more">詳しく見る</span></div>
+        <div class="card__b"><p class="card__t">会社案内</p><p>2020年に須賀川市で、業務用エアコンの取り付けと保守の会社として始まりました。いまは郡山市に本社があります。スタッフの顔と、ひとことも載せています。</p><span class="more">会社案内を見る</span></div>
       </a></li>
       <li class="card card--big"><a href="{r}recruit/">
         <img src="{r}assets/img/recruit03.jpg" alt="天井のエアコンを点検する工事スタッフ" width="720" height="516" loading="lazy">
-        <div class="card__b"><p class="en">RECRUIT</p><p class="card__t">採用情報</p><p>工事スタッフ・営業職・テレフォンアポインター・管理職責任者の4職種を募集しています。</p><span class="more">詳しく見る</span></div>
+        <div class="card__b"><p class="card__t">採用情報</p><p>工事スタッフ・営業職・テレフォンアポインター・管理職責任者の4職種を募集しています。</p><span class="more">採用情報を見る</span></div>
       </a></li>
     </ul>
   </div>
 </section>
 
-<section class="sec sec--tint" id="media">
+<section class="sec" id="media">
   <div class="wrap">
-    {sec_head("MEDIA", "現場の記録", "どんな現場を、どう仕上げているか。")}
+    {sec_head("", "現場の記録", "工事の現場を、写真で見ていただけます。")}
     <ul class="cards cards--2">
       <li class="card card--row"><a href="{r}works/">
         <img src="{r}assets/img/works-20251204.jpg" alt="入れ替えた天井吊形エアコン" width="640" height="800" loading="lazy">
-        <div class="card__b"><p class="card__t">施工実績</p><p>入れ替え工事と高圧分解洗浄の現場を、写真で紹介しています。</p><span class="more">施工実績を見る</span></div>
+        <div class="card__b"><p class="card__t">施工実績</p><p>入れ替え工事と高圧分解洗浄の現場です。分解して洗ったときの、にごった水の写真もあります。</p><span class="more">施工実績を見る</span></div>
       </a></li>
       <li class="card card--row"><a href="{INSTA}" target="_blank" rel="noopener">
         <img src="{r}assets/img/works-20251211.jpg" alt="分解して洗った天井カセット形エアコン" width="640" height="800" loading="lazy">
-        <div class="card__b"><p class="card__t">Instagram</p><p>新しい現場は @personright501 で載せています。</p><span class="more">Instagram を開く</span></div>
+        <div class="card__b"><p class="card__t">Instagram</p><p>新しい現場は @personright501 に載せています。</p><span class="more">Instagram を開く</span></div>
       </a></li>
     </ul>
   </div>
 </section>
 """
-    return page("株式会社パーソンライト｜業務用エアコンの販売・取り付け・リース（福島県郡山市）",
-                "福島県郡山市の株式会社パーソンライト。5社のメーカー・12種類から業務用エアコンを選び、自社の工事部が取り付けます。7年保証と年間メンテナンス、リースなら初期費用0円。防犯カメラ・複合機・ビジネスフォンも。",
+    return page("株式会社パーソンライト｜業務用エアコンの入れ替え・リース（福島県郡山市）",
+                "古い業務用エアコンを今の機種に替えると、消費電力は15年前の機種より65%下がります。リースなら初期費用0円、取り付けは自社の工事部、付けたあとは7年保証。福島県郡山市の株式会社パーソンライト。",
                 d, "top", body, band_topic="業務用エアコン", ld=jsonld())
 
 
@@ -374,7 +416,7 @@ def build_ac():
              ("after", "付けたあと"), ("voice", "お客様の声"), ("works", "施工事例"), ("faq", "よくある質問"),
              ("form", "お見積り")]
     hero = page_hero(d, "AIR CONDITIONER", "業務用エアコンの販売・取り付け・リース",
-                     "機種を選ぶところから、支払い方、取り付け、付けたあとのことまで、まとめてお任せください。",
+                     "替えると電気代がいくら下がるかを、このページで計算できます。機種は5社のメーカー・12種類から選べて、リースなら初期費用はかかりません。取り付けは自社の工事部、付けたあとは7年保証です。",
                      [("業務用エアコン", None)],
                      actions=f"""<ul class="badges"><li><b>5メーカー・12種類</b>から選べる</li><li><b>自社の工事部</b>が取り付け</li><li><b>7年保証</b>と年間メンテナンス</li><li>リースなら<b>初期費用0円</b></li></ul>
     <div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で相談する　{TEL}</a></div>""",
@@ -415,7 +457,7 @@ def build_ac():
 
 <section class="sec sec--tint" id="types">
   <div class="wrap">
-    {sec_head("LINEUP", "機種を選ぶ", "12種類の中から、部屋に合う一台を。", "天井に埋め込む形、吊るす形、壁掛け、床置き、厨房用まであります。置く場所や広さ、天井のつくりを見てお選びします。")}
+    {sec_head("LINEUP", "機種を選ぶ", "12種類の中から、部屋に合う形を選びます。", "天井に埋め込む形、吊るす形、壁掛け、床置き、厨房用まであります。置く場所や広さ、天井のつくりを見てお選びします。")}
     <p class="makers"><b>取り扱いメーカー</b>ダイキン／三菱電機／日立／東芝／パナソニック</p>
     <ul class="types">{types}</ul>
     <h3 class="h3">お店や会社によって、合う形は変わります。</h3>
@@ -425,7 +467,8 @@ def build_ac():
 
 <section class="sec" id="pay">
   <div class="wrap">
-    {sec_head("PAYMENT", "お支払い", "リースなら、初期費用はかかりません。", "現金での購入や、クレジットの分割払いもできます。")}
+    {sec_head("PAYMENT", "お支払い", "リースなら、初期費用はかかりません。", "毎月のリース料で、いまの省エネ機種を入れられます。現金での購入や、クレジットの分割払いもできます。")}
+    <p class="callout"><b>「安心保証リース」</b>でご契約いただくと、リース期間中の突然の故障も修理費がかかりません。</p>
     {tbd("機種ごと・部屋の広さごとの金額の目安（リースの月額と、買う場合の総額）。手本はここに料金表を置いている。金額の目安が見えると、見積りの前に離れる人が減る")}
     <h3 class="h3">リースの良いところ</h3>
     <ul class="grid4">{merits}</ul>
@@ -445,7 +488,7 @@ def build_ac():
 
 <section class="sec" id="after">
   <div class="wrap">
-    {sec_head("AFTER", "付けたあと", "付けて終わりにしません。")}
+    {sec_head("AFTER", "付けたあと", "工事が終わってからが、<br>本当のお付き合いの始まりです。")}
     <ul class="grid3">
       <li><b>7年保証</b><p>引き渡しのあとから、7年間の保証が始まります。</p></li>
       <li><b>年間メンテナンス</b><p>付けたあとの点検のために、年間メンテナンスをご用意しています。</p></li>
@@ -512,7 +555,7 @@ def build_office():
     chips = [("items", "取り扱い機器"), ("camera", "防犯カメラ"), ("copier", "複合機"), ("sim", "印刷代の比べ方"), ("flow", "流れ"),
              ("options", "一緒に頼めること"), ("form", "お見積り")]
     hero = page_hero(d, "OFFICE TECH", "防犯カメラ・複合機・ビジネスフォン",
-                     "電話機や複合機、防犯カメラ、UTM、サーバーも扱っています。どれを選べばいいかの相談から取り付けまで、まとめてお任せください。",
+                     "夜でも色まで写る防犯カメラと、富士フイルムの複合機を中心に、ビジネスフォン・UTM・サーバーまで扱っています。いま払っている印刷代と比べられる計算も、このページにあります。",
                      [("通信機器", None)],
                      actions=f"""<div class="cta-pair"><a class="btn btn--main" href="#form">無料で見積りを頼む</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で相談する　{TEL}</a></div>""",
                      chips=chips)
@@ -521,7 +564,7 @@ def build_office():
     body = f"""{hero}
 <section class="sec" id="items">
   <div class="wrap">
-    {sec_head("LINEUP", "取り扱い機器", "事務所の機器のことも、まとめてご相談ください。")}
+    {sec_head("LINEUP", "取り扱い機器", "エアコンの会社ですが、事務所の機器も扱っています。")}
     <ul class="grid4 grid4--link">
       <li><a href="#camera"><b>防犯カメラ</b><p>夜もカラーで撮れるカメラ</p></a></li>
       <li><a href="#copier"><b>複合機</b><p>富士フイルム。印刷代の比べ方も</p></a></li>
@@ -557,12 +600,12 @@ def build_office():
 
 <section class="sec sec--tint" id="flow">
   <div class="wrap">
-    {sec_head("PROCESS", "流れ", "ご相談から取り付けまで。")}
+    {sec_head("PROCESS", "流れ", "ご相談から取り付けまでの流れです。")}
     <ol class="flow">
-      <li><p class="flow__who flow__who--you">お客様</p><p class="flow__no">STEP 1</p><b>ご相談</b><p>お電話かフォームで、気軽にご連絡ください。お見積りは無料です。</p></li>
+      <li><p class="flow__who flow__who--you">お客様</p><p class="flow__no">STEP 1</p><b>ご相談</b><p>お電話かフォームでご連絡ください。お見積りは無料です。</p></li>
       <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 2</p><b>お話をうかがう</b><p>お仕事の内容や取り付ける場所、何のために付けたいのかをうかがいます。</p></li>
       <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 3</p><b>ご提案</b><p>機種と取り付け方をご提案します。</p></li>
-      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 4</p><b>取り付け</b><p>取り付けまで、まとめてお任せください。</p></li>
+      <li><p class="flow__who flow__who--us">パーソンライト</p><p class="flow__no">STEP 4</p><b>取り付け</b><p>ご提案した機種を取り付けます。</p></li>
     </ol>
   </div>
 </section>
@@ -604,7 +647,7 @@ def build_works():
     {work_cards(d, swap)}
   </div>
 </section>
-{mid_cta(d, "同じような入れ替えを考えている方へ。", "現地を見てからお見積りします。無料です。", "業務用エアコン")}
+{mid_cta(d, "同じような入れ替えを考えていたら、一度見に伺います。", "現地を見てからお見積りします。お見積りは無料です。", "業務用エアコン")}
 <section class="sec sec--tint" id="wash">
   <div class="wrap">
     {sec_head("CLEANING", "高圧分解洗浄", f"高圧分解洗浄　{len(wash)}件", "エアコンは使っているうちに、中のフィンやファンにほこりや汚れがたまっていきます。部品を外して、水の勢いで奥まで洗い流します。")}
@@ -614,7 +657,7 @@ def build_works():
 </section>
 <section class="sec" id="insta">
   <div class="wrap narrow center">
-    {sec_head("INSTAGRAM", "新しい現場", "このほかの現場は、Instagramで。", center=True)}
+    {sec_head("INSTAGRAM", "新しい現場", "このほかの現場は、Instagramに載せています。", center=True)}
     <p><a class="btn btn--line" href="{INSTA}" target="_blank" rel="noopener">Instagram を開く（@personright501）</a></p>
     {tbd("業種・地域・工事の中身が分かる事例を、写真と一緒に数件（手本は業種ごとに事例を並べている）")}
   </div>
@@ -626,14 +669,14 @@ def build_works():
 # ================================================================= お客様の声
 def build_reviews():
     d = 1
-    body = f"""{page_hero(d, "VOICE", "お客様の声", f"工事のあとに、お客様からいただいた声です（{len(VOICES)}件）。", [("お客様の声", None)])}
+    body = f"""{page_hero(d, "VOICE", "お客様の声", f"設備の工事を終えたあとからが、本当のお付き合いの始まりだと考えています。いただいた声（{len(VOICES)}件）は、そのあとのフォローに活かしています。", [("お客様の声", None)])}
 <section class="sec">
   <div class="wrap">
     {voice_cards(d)}
     {tbd("新しい声と、写真付きの声。業種と、何を頼んだか（入れ替え・リース・クリーニングなど）が分かると、読む人が自分と重ねやすい")}
   </div>
 </section>
-{mid_cta(d, "同じように相談してみませんか。", "お見積りは無料です。", "業務用エアコン")}
+{mid_cta(d, "まずは、いまお使いのエアコンを見せてください。", "現地を見てからお見積りします。お見積りは無料です。", "業務用エアコン")}
 """
     return page("お客様の声｜株式会社パーソンライト",
                 "株式会社パーソンライトで業務用エアコンの設置・入れ替えをされたお客様の声です。福島県郡山市・田村市・須賀川市。",
@@ -678,7 +721,7 @@ def build_company():
     body = f"""{page_hero(d, "COMPANY", "会社案内", "2020年に須賀川市で、業務用エアコンの取り付けと保守の会社として始まりました。いまは郡山市に本社があります。", [("会社案内", None)], chips=COMPANY_SUB)}
 <section class="sec" id="company-info">
   <div class="wrap">
-    {sec_head("PROFILE", "会社概要", "会社のこと")}
+    {sec_head("PROFILE", "会社概要", "会社の概要です。")}
     <dl class="dl">
       <div><dt>社名</dt><dd>株式会社パーソンライト</dd></div>
       <div><dt>代表者</dt><dd>代表取締役社長　増子 佑</dd></div>
@@ -845,7 +888,7 @@ def build_job(j):
 </section>
 <section class="sec" id="detail">
   <div class="wrap narrow">
-    {sec_head("REQUIREMENTS", "募集要項", "募集要項")}
+    {sec_head("REQUIREMENTS", "募集要項", f"{j['name']}の募集要項です。")}
     <dl class="dl dl--job">{dl}</dl>
     {tbd("勤務地は本社として仮に置いた（旧サイトに記載なし）。郡山営業所の勤務もあるか")}
   </div>
@@ -873,7 +916,7 @@ def build_job(j):
 </section>
 <section class="sec" id="others">
   <div class="wrap">
-    {sec_head("OTHER POSITIONS", "ほかの募集", "ほかの職種も見てみる")}
+    {sec_head("OTHER POSITIONS", "ほかの募集", "ほかの職種も募集しています。")}
     {job_cards(d, exclude=j["id"])}
     <p class="more-line"><a class="more" href="{r}recruit/">採用情報のトップへ</a></p>
   </div>
@@ -935,7 +978,7 @@ def build_faq():
 """
     return page("よくある質問｜株式会社パーソンライト",
                 "株式会社パーソンライトへのよくある質問。見積りの費用、相談できること、リースの途中解約と期間終了後、保証と修理、採用の応募について。",
-                d, "faq", body, band_title="解決しない場合は、お気軽にご相談ください。", ld=jsonld([faq_ld(all_pairs)]))
+                d, "faq", body, band_title="ここに無いことは、電話で聞いてください。", ld=jsonld([faq_ld(all_pairs)]))
 
 
 # ================================================================= お問い合わせ

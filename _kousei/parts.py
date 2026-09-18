@@ -191,7 +191,6 @@ def page_hero(depth, en, ja, lead, crumbs, actions="", chips=None):
     return f"""{crumb(depth, crumbs)}
 <section class="phero" id="top">
   <div class="wrap">
-    <p class="en">{en}</p>
     <h1>{ja}</h1>
     {f'<p class="lead">{lead}</p>' if lead else ''}
     {actions}
@@ -204,7 +203,7 @@ def page_hero(depth, en, ja, lead, crumbs, actions="", chips=None):
 def sec_head(en, label, title, lead="", center=False):
     c = " sh--center" if center else ""
     return f"""<header class="sh{c}">
-      <p class="sh__label"><span>{label}</span><i>{en}</i></p>
+      <p class="sh__label"><span>{label}</span></p>
       <h2>{title}</h2>
       {f'<p class="sh__lead">{lead}</p>' if lead else ''}
     </header>"""
@@ -243,7 +242,7 @@ def contact_band(depth, title="まずは一度、その部屋を見せてくだ�
     href = f"{r}contact/" + (q(topic) if topic else "")
     return f"""<section class="cband" id="contact-band">
   <div class="wrap">
-    {sec_head("CONTACT", "お見積り・ご相談", title, "お見積りは無料です。スタッフがうかがって実際の場所を見てから、機種と工事のやり方を決めます。", center=True)}
+    {sec_head("CONTACT", "お見積り・ご相談", title, "スタッフがうかがって、取り付ける場所を実際に見てから、機種と工事のやり方を決めます。お見積りは無料です。", center=True)}
     <div class="cband__ways">
       <a class="cband__way" href="tel:{TEL_RAW}"><small>お電話で</small><b>{TEL}</b><span>FAX {FAX}</span></a>
       <a class="cband__way cband__way--main" href="{href}"><small>フォームで（24時間受付）</small><b>無料で見積りを頼む</b><span>入れていただくのは、お名前・電話・メールの3つです</span></a>
