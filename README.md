@@ -1,6 +1,6 @@
 # パーソンライト デモサイト
 
-**株式会社パーソンライト（福島県郡山市）の現行サイト <https://personright.com/> を、NextRay がデザイン案として組み直したもの。**
+**株式会社パーソンライト（福島県郡山市）の現行サイト <https://personright.com/> を、NEXTRAY合同会社がデザイン案として組み直したもの。**
 内容・構成・画像は現行サイトから引き継いでいる。**発注を受けたものではない。**
 
 - 公開先 … <https://nextray-gk.github.io/personright-demo/>
