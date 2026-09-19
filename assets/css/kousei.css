@@ -577,3 +577,9 @@ ul,ol{margin:0;padding:0;list-style:none}
   .spbar__main{background:var(--accent);color:#fff!important}
   .p-contact .spbar{display:none}
 }
+.svc__hook{margin:10px 0 6px;padding:10px 12px;background:var(--tint);border-radius:6px;font-size:14px;line-height:1.6}
+.svc__hook b{display:inline;font-size:inherit;color:var(--accent)}
+.phero__split{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center}
+.phero__fig{margin:0}
+.phero__fig img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
+@media (max-width:760px){.phero__split{grid-template-columns:1fr}}

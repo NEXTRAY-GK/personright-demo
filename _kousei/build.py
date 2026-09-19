@@ -230,15 +230,15 @@ def build_top():
 <section class="hero" id="top">
   <div class="wrap hero__in">
     <div class="hero__t">
-      <p class="en">福島県郡山市　業務用エアコンの販売・取り付け・リース</p>
-      <h1><span class="nw">古いエアコンは、</span><span class="nw">電気代で高くついています。</span></h1>
-      <p class="lead">15年前の業務用エアコンを今の機種に替えると、消費電力は65%下がります。リースなら初期費用はかかりません。取り付けは自社の工事部が行い、付けたあとは7年間の保証がつきます。</p>
+      <p class="en">福島県郡山市　会社・お店・工場の設備</p>
+      <h1><span class="nw">業務用エアコンも、</span><span class="nw">防犯カメラも複合機も。</span><span class="nw">付けるのは自社の工事部です。</span></h1>
+      <p class="lead">会社・お店・工場の業務用エアコンの入れ替えとリース、防犯カメラ・複合機・ビジネスフォン、電気と水回りの工事をお受けしています。エアコンは、付けたあと7年間保証します。</p>
       <ul class="proof">
-        <li><b>初期費用0円</b><span>リースの場合</span></li>
-        <li><b>7年保証</b><span>年間メンテナンスも</span></li>
-        <li><b>5社・12種類</b><span>メーカーと形から選べます</span></li>
+        <li><b>初期費用0円</b><span>エアコンをリースで入れる場合</span></li>
+        <li><b>自社の工事部</b><span>電気・水回りの工事も</span></li>
+        <li><b>7年保証</b><span>エアコンの年間メンテナンスも</span></li>
       </ul>
-      {cta_pair(d, "業務用エアコン")}
+      {cta_pair(d)}
     </div>
     <figure class="hero__fig"><img src="{r}assets/img/hero.jpg" alt="業務用エアコンを取り付けた部屋" width="1600" height="771" fetchpriority="high"></figure>
   </div>
@@ -253,69 +253,23 @@ def build_top():
   </nav>
 </section>
 
-<section class="sec" id="cost">
-  <div class="wrap">
-    {sec_head("", "替えどき", "エアコンの電気代が月3万円なら、<br>年に約29万円下がる計算です。", "2001年より前の機種（冷媒R22）を、いまの機種（冷媒R32）に替えた場合です。")}
-    <div class="cost">
-      <div class="cost__bars" aria-label="月の電気代の比べ">
-        <div class="cost__bar"><span>いまの機種<small>R22・2001年より前</small></span><i style="--w:100%"></i><b>30,000円<small>/月</small></b></div>
-        <div class="cost__bar cost__bar--after"><span>替えたあと<small>R32・2014年以降</small></span><i style="--w:20%"></i><b>6,000円<small>/月</small></b></div>
-      </div>
-      <dl class="cost__sum">
-        <div><dt>1か月で</dt><dd>24,000円</dd></div>
-        <div><dt>1年で</dt><dd>288,000円</dd></div>
-        <div class="cost__big"><dt>保証の7年間で</dt><dd>2,016,000円</dd></div>
-      </dl>
-      <p class="cost__note">冷媒ごとの消費電力の比（R22を100としたとき、R32は20）から出した目安です。電気の単価や使い方で変わります。本体・工事・リースの費用は入っていません。</p>
-      <p class="cost__go"><a class="btn btn--line" href="{r}ac/#sim">自分の電気代で計算してみる</a></p>
-    </div>
-    <ul class="why3">
-      <li><b>電気代が下がります</b><p>15年前の機種と比べると、消費電力は65%少なくなります。18年前の機種なら80%です。</p></li>
-      <li><b>R22の機種は、壊れたら直せないことがあります</b><p>R22はもう生産も輸入もされていません。修理に使うガスが手に入らないことがあります。室外機の銘板に「R22」と書いてあれば、この時期の機種です。</p></li>
-      <li><b>まとまったお金はいりません</b><p>リースなら初期費用はかかりません。銀行から借りられる枠も減らさず、税務上認められた期間なら、支払いを全額経費にできます。 <a href="{r}ac/#pay">リースについて読む</a></p></li>
-    </ul>
-    {tbd("冷媒ごとの消費電力の比と「65%」「80%」の出どころ（メーカー資料か、自社の実測か）。この節の数字はすべてここから出している")}
+
+
+
+
+
+
+<section class="sec" id="why">
+  <div class="wrap narrow">
+    {sec_head("", "パーソンライトの考え", "工事を終えたあとからが、<br>本当のお付き合いの始まりです。")}
+    <p class="big-text">2020年に須賀川市で、業務用エアコンの取り付けと保守の会社として始まりました。取り付けは自社の工事部が行い、付けたあとは7年保証と年間メンテナンスがつきます。</p>
+    <p class="note">企業理念は「サービス＆貢献」。「パーソンライトに相談して良かった！」と心の底からお喜び頂けることを目指しています。 <a class="more" href="{r}company/#philosophy">会社案内で読む</a></p>
   </div>
 </section>
-
-<section class="sec sec--tint" id="how">
-  <div class="wrap">
-    {sec_head("", "頼んだあと", "現地を見てから決めて、<br>自社の工事部が取り付けます。")}
-    <ol class="how">
-      <li>
-        <p class="how__no">1</p>
-        <div class="how__t"><b>現地を見てから、機種を決めます</b><p>スタッフがうかがって、取り付ける場所を見てから、機種と工事のやり方をご提案します。お見積りは無料です。</p></div>
-        <blockquote class="how__q"><p>こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。</p><cite><a href="{r}reviews/98/">田村市　N様</a></cite></blockquote>
-      </li>
-      <li>
-        <p class="how__no">2</p>
-        <div class="how__t"><b>取り付けは、自社の工事部が行います</b><p>エアコンの取り付けのほか、電気工事や水回りの工事も、同じ工事部でお受けします。</p></div>
-        <blockquote class="how__q"><p>変電設備を増やす工事に伴っては、工場内を計画的に停電させる必要がありましたが、こちらもスケジュール通り安全に進めていただき、業務もストップすることなく完了しました。</p><cite><a href="{r}reviews/53/">須賀川市内　某社 様</a></cite></blockquote>
-      </li>
-      <li>
-        <p class="how__no">3</p>
-        <div class="how__t"><b>付けたあとは、7年間保証します</b><p>引き渡しのあとは、7年保証と年間メンテナンスが始まります。「安心保証リース」でご契約いただくと、リース期間中の突然の故障も修理費がかかりません。</p></div>
-        <blockquote class="how__q how__q--us"><p>設備機器の工事を終えた後からが、本当のお付き合いの始まりであると考えております。</p><cite>パーソンライト</cite></blockquote>
-      </li>
-    </ol>
-    {cta_pair(d, "業務用エアコン")}
-  </div>
-</section>
-
-<section class="sec" id="voice">
-  <div class="wrap">
-    {sec_head("", "お客様の声", "工事のあとに、いただいた声です。")}
-    {voice_cards(d, ids=["96", "56", "98"])}
-    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
-    {tbd("施工件数・年間の施工本数・お取引先の名前（載せてよい物）。数字があれば、この節の頭に置く。いちばん効く場所")}
-  </div>
-</section>
-
-<section class="photostrip" aria-label="現場の写真"><ul>{strip}</ul></section>
 
 <section class="sec sec--tint" id="service">
   <div class="wrap">
-    {sec_head("", "事業紹介", "エアコンを頼んだ会社に、<br>電話や複合機のことも頼めます。", "空調のほかに、ビジネスフォン・複合機・防犯カメラ、電気工事と水回りの工事も受けています。")}
+    {sec_head("", "事業紹介", "ご用件に合わせて、<br>それぞれのページで詳しくご案内しています。", "空調と通信の機器を売るところから、取り付けの工事まで。4つの事業があります。")}
     <div class="svc">
       <div class="svc__group">
         <p class="svc__label"><b>01</b>環境事業</p>
@@ -325,11 +279,13 @@ def build_top():
             <small>5メーカー・12種類から選べます</small>
             <b>業務用エアコン</b>
             <p>機種選びから取り付け、リース、7年保証と年間メンテナンスまで。</p>
-            <span class="more">詳しく見る</span>
+            <p class="svc__hook">電気代が月3万円なら、2001年より前の機種（R22）からいまの機種（R32）に替えると、<b>年に約29万円</b>下がる計算です。</p>
+            <span class="more">詳しく見る・自分の電気代で計算する</span>
           </div>
         </a>
         <p class="svc__also">ほかに扱っている物</p>
         <ul class="taglist">{"".join(f"<li>{x}</li>" for x in ENV[1:])}</ul>
+        {tbd("「年に約29万円」は、旧サイトの冷媒ごとの消費電力の比（R22を100としたとき、R32は20）から出した計算。比の出どころ（メーカー資料か、自社の実測か）")}
       </div>
       <div class="svc__group">
         <p class="svc__label"><b>02</b>通信事業</p>
@@ -339,7 +295,8 @@ def build_top():
             <small>いまの印刷代と比べられます</small>
             <b>通信機器</b>
             <p>夜でも色まで写る防犯カメラ、富士フイルムの複合機、ビジネスフォン。</p>
-            <span class="more">詳しく見る</span>
+            <p class="svc__hook">複合機は、いまの請求書の単価を入れると、印刷代の差額をその場で比べられます。</p>
+            <span class="more">詳しく見る・印刷代を比べる</span>
           </div>
         </a>
         <ul class="taglist">{"".join(f"<li>{x}</li>" for x in TEL_BIZ)}</ul>
@@ -363,15 +320,42 @@ def build_top():
   </div>
 </section>
 
-<section class="sec" id="mission">
-  <div class="wrap narrow">
-    {sec_head("", "企業理念", "サービス＆貢献", center=True)}
-    <p class="big-text">「パーソンライトに相談して良かった！」と心の底からお喜び頂けるよう、お客様が求めているサービスを展開し、笑顔や喜びにあふれた社会づくりを目指しています。</p>
-    <p class="more-line center"><a class="more" href="{r}company/#philosophy">会社案内で読む</a></p>
+<section class="sec" id="how">
+  <div class="wrap">
+    {sec_head("", "頼んだあと", "現地を見てから決めて、<br>自社の工事部が取り付けます。")}
+    <ol class="how">
+      <li>
+        <p class="how__no">1</p>
+        <div class="how__t"><b>現地を見てから、機種を決めます</b><p>スタッフがうかがって、取り付ける場所を見てから、機種と工事のやり方をご提案します。お見積りは無料です。</p></div>
+        <blockquote class="how__q"><p>こちらの要望をしっかりヒアリングしていただき、最適な機種や設置方法を提案してもらえました。</p><cite><a href="{r}reviews/98/">田村市　N様</a></cite></blockquote>
+      </li>
+      <li>
+        <p class="how__no">2</p>
+        <div class="how__t"><b>取り付けは、自社の工事部が行います</b><p>エアコンの取り付けのほか、電気工事や水回りの工事も、同じ工事部でお受けします。</p></div>
+        <blockquote class="how__q"><p>変電設備を増やす工事に伴っては、工場内を計画的に停電させる必要がありましたが、こちらもスケジュール通り安全に進めていただき、業務もストップすることなく完了しました。</p><cite><a href="{r}reviews/53/">須賀川市内　某社 様</a></cite></blockquote>
+      </li>
+      <li>
+        <p class="how__no">3</p>
+        <div class="how__t"><b>付けたあとは、7年間保証します</b><p>引き渡しのあとは、7年保証と年間メンテナンスが始まります。「安心保証リース」でご契約いただくと、リース期間中の突然の故障も修理費がかかりません。</p></div>
+        <blockquote class="how__q how__q--us"><p>設備機器の工事を終えた後からが、本当のお付き合いの始まりであると考えております。</p><cite>パーソンライト</cite></blockquote>
+      </li>
+    </ol>
+    {cta_pair(d, "業務用エアコン")}
   </div>
 </section>
 
-<section class="sec sec--tint" id="about">
+<section class="sec sec--tint" id="voice">
+  <div class="wrap">
+    {sec_head("", "お客様の声", "工事のあとに、いただいた声です。")}
+    {voice_cards(d, ids=["96", "56", "98"])}
+    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
+    {tbd("施工件数・年間の施工本数・お取引先の名前（載せてよい物）。数字があれば、この節の頭に置く。いちばん効く場所")}
+  </div>
+</section>
+
+<section class="photostrip" aria-label="現場の写真"><ul>{strip}</ul></section>
+
+<section class="sec" id="about">
   <div class="wrap">
     {sec_head("", "パーソンライトについて", "どんな会社から、どんな人がうかがうのか。")}
     <ul class="cards cards--2">
@@ -387,7 +371,7 @@ def build_top():
   </div>
 </section>
 
-<section class="sec" id="media">
+<section class="sec sec--tint" id="media">
   <div class="wrap">
     {sec_head("", "現場の記録", "工事の現場を、写真で見ていただけます。")}
     <ul class="cards cards--2">
@@ -508,6 +492,15 @@ def build_ac():
 {ans}
 {nd}
 
+
+<section class="sec" id="voice">
+  <div class="wrap">
+    {sec_head("", "お客様の声", "頼んだ会社の方が、工事のあとに書いてくださった声です。", VOICE_NOTE)}
+    {voice_cards(d, ids=["98", "96", "56"])}
+    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
+  </div>
+</section>
+
 <section class="sec sec--tint" id="reason">
   <div class="wrap">
     {sec_head("", "強み 1　電気代", "替えるだけで、エアコンの電気は大きく減ります。", "2011年3月の東日本大震災のあと、電気代は上がり続けてきました。そのあいだに、業務用エアコンの省エネは大きく進んでいます。")}
@@ -516,13 +509,7 @@ def build_ac():
       <div><small>15年前の機種と比べると</small><b>65<span>%</span></b><p>消費電力が減ります</p></div>
       <div><small>18年前の機種と比べると</small><b>80<span>%</span></b><p>消費電力が減ります</p></div>
     </div>
-    <div class="r22" id="r22">
-      <div>
-        <h3 class="h3">R22の機種は、壊れたら直せないことがあります。</h3>
-        <p>2001年より前の機種に使われているR22（指定フロン）は、もう生産も輸入もされていません。修理に使うガスが手に入らないことがあります。室外機の銘板に「R22」と書いてあれば、この時期の機種です。夏の盛りに止まる前に、入れ替えを考えてみてください。</p>
-      </div>
-      <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody>{gen}</tbody></table>
-    </div>
+    <table class="tbl"><caption>冷媒ごとの消費電力（R22を100%としたとき）</caption><thead><tr><th>冷媒</th><th>種類</th><th>使われた時期</th><th>消費電力</th></tr></thead><tbody>{gen}</tbody></table>
   </div>
 </section>
 
@@ -530,7 +517,7 @@ def build_ac():
 
 {mid_cta(d, "いまお使いの一台を、見せてください。", "入れ替えか、クリーニングで済むか。現地を見てからお答えします。お見積りは無料です。", "業務用エアコン")}
 
-<section class="sec sec--tint" id="types">
+<section class="sec" id="types">
   <div class="wrap">
     {sec_head("", "強み 2　選べる", "5社のメーカー・12種類から、部屋に合う形を選びます。", "天井に埋め込む形、吊るす形、壁掛け、床置き、ダクトで送る形、熱と油に強い厨房用まであります。置く場所や広さ、天井のつくりを見てお選びします。")}
     <p class="makers"><b>取り扱いメーカー</b>ダイキン／三菱電機／日立／東芝／パナソニック</p>
@@ -540,25 +527,9 @@ def build_ac():
   </div>
 </section>
 
-<section class="sec" id="pay">
-  <div class="wrap">
-    {sec_head("", "強み 3　払い方", "リースなら、初期費用はかかりません。", "毎月のリース料で、いまの省エネ機種を入れられます。審査に出す書類は当社で用意して、リース会社へ出すところまで行います。現金での購入や、クレジットの分割払いもできます。")}
-    <div class="lease3">
-      <div><b>故障しても、修理費がかからない</b><p>「安心保証リース」でご契約いただくと、リース期間中の突然の故障の修理費がかかりません。</p></div>
-      <div><b>火事や雪の被害も、保険で</b><p>リースで入れたエアコンには動産総合保険がつきます。火事・水害・雪害・落雷・盗難などの損害を補償します。</p></div>
-      <div><b>期間が終わったら、新しい機種へ</b><p>「レベルアップ更新」で、それまでとあまり変わらないリース料のまま、最新の機種に入れ替えられます。</p></div>
-    </div>
-    <h3 class="h3">リースの良いところ</h3>
-    <ul class="grid3">{merits}</ul>
-    <h3 class="h3">ご契約の前に、ここは必ず確かめてください</h3>
-    <ul class="grid3 grid3--warn">{cautions}</ul>
-    {tbd("機種ごと・部屋の広さごとのリース月額の目安（例：事務所30坪・天井カセット形2台で月◯円）。典型例の料金が一つあると、見積りの前に離れる人が減る。再リースの料金が2か所で合わない（注意「年間リース額の10分の1」／よくある質問「月額リース料の2倍」）")}
-  </div>
-</section>
-
 <section class="sec sec--tint" id="work">
   <div class="wrap">
-    {sec_head("", "強み 4　工事", "取り付けは、自社の工事部が行います。", "エアコンの取り付けのほか、電気の工事も水回りの工事も、同じ工事部でお受けします。電気の容量が足りない建物でも、話が一度で済みます。")}
+    {sec_head("", "強み 3　工事", "取り付けは、自社の工事部が行います。", "エアコンの取り付けのほか、電気の工事も水回りの工事も、同じ工事部でお受けします。電気の容量が足りない建物でも、話が一度で済みます。")}
     <ul class="thumbs">
       <li><img src="{r}assets/img/work-ceiling.jpg" alt="天井カセット形を取り付ける工事スタッフ" width="276" height="200" loading="lazy"></li>
       <li><img src="{r}assets/img/work-attic.jpg" alt="天井の中で配管を確かめる工事スタッフ" width="276" height="200" loading="lazy"></li>
@@ -572,7 +543,7 @@ def build_ac():
 
 <section class="sec" id="after">
   <div class="wrap">
-    {sec_head("", "強み 5　付けたあと", "工事が終わってからが、<br>本当のお付き合いの始まりです。")}
+    {sec_head("", "強み 4　付けたあと", "工事が終わってからが、<br>本当のお付き合いの始まりです。")}
     <div class="after2">
       <ul class="grid2">
         <li><b>7年保証</b><p>引き渡しのあとから、7年間の保証が始まります。</p></li>
@@ -584,15 +555,7 @@ def build_ac():
   </div>
 </section>
 
-<section class="sec sec--tint" id="voice">
-  <div class="wrap">
-    {sec_head("", "お客様の声", "工事のあとに、いただいた声です。", VOICE_NOTE)}
-    {voice_cards(d, ids=["98", "96", "56"])}
-    <p class="more-line"><a class="more" href="{r}reviews/">お客様の声をすべて読む（{len(VOICES)}件）</a></p>
-  </div>
-</section>
-
-<section class="sec" id="works">
+<section class="sec sec--tint" id="works">
   <div class="wrap">
     {sec_head("", "施工事例", "入れ替え工事の現場です。")}
     {work_cards(d, swaps)}
@@ -600,7 +563,31 @@ def build_ac():
   </div>
 </section>
 
-<section class="sec sec--tint" id="flow">
+<section class="sec" id="pay">
+  <div class="wrap">
+    {sec_head("", "払い方", "リースなら、初期費用はかかりません。", "毎月のリース料で、いまの省エネ機種を入れられます。審査に出す書類は当社で用意して、リース会社へ出すところまで行います。現金での購入や、クレジットの分割払いもできます。")}
+    <div class="lease3">
+      <div><b>故障しても、修理費がかからない</b><p>「安心保証リース」でご契約いただくと、リース期間中の突然の故障の修理費がかかりません。</p></div>
+      <div><b>火事や雪の被害も、保険で</b><p>リースで入れたエアコンには動産総合保険がつきます。火事・水害・雪害・落雷・盗難などの損害を補償します。</p></div>
+      <div><b>期間が終わったら、新しい機種へ</b><p>「レベルアップ更新」で、それまでとあまり変わらないリース料のまま、最新の機種に入れ替えられます。</p></div>
+    </div>
+    <h3 class="h3">リースの良いところ</h3>
+    <ul class="grid3">{merits}</ul>
+    <h3 class="h3">ご契約の前に、ここは必ず確かめてください</h3>
+    <ul class="grid3 grid3--warn">{cautions}</ul>
+    {tbd("機種ごと・部屋の広さごとのリース月額の目安（例：事務所30坪・天井カセット形2台で月◯円）。典型例の料金が一つあると、見積りの前に離れる人が減る。再リースの料金が2か所で合わない（注意「年間リース額の10分の1」／よくある質問「月額リース料の2倍」）")}
+  </div>
+</section>
+
+<section class="sec sec--tint" id="r22">
+  <div class="wrap narrow">
+    {sec_head("", "いま替える理由", "R22の機種は、壊れたら直せないことがあります。")}
+    <p>2001年より前の機種に使われているR22（指定フロン）は、もう生産も輸入もされていません。修理に使うガスが手に入らないことがあります。室外機の銘板に「R22」と書いてあれば、この時期の機種です。夏の盛りに止まる前に、入れ替えを考えてみてください。</p>
+    <p class="more-line"><a class="btn btn--main" href="#form">銘板を見に来てもらう（無料）</a></p>
+  </div>
+</section>
+
+<section class="sec" id="flow">
   <div class="wrap">
     {sec_head("", "はじめ方", "お客様にしていただくのは、最初の連絡と、中身の確認だけです。", "リースの審査や契約の書類は、当社とリース会社でお手伝いします。現金で購入する場合は、3と4はありません。")}
     <ol class="flow">{"".join(f'<li><p class="flow__who flow__who--{"you" if w == "お客様" else "us"}">{w}</p><p class="flow__no">{i+1}</p><b>{t}</b><p>{x}</p></li>' for i, ((t, x), w) in enumerate(zip(FLOW, ["お客様", "パーソンライト", "パーソンライト", "お客様", "パーソンライト"])))}</ol>
@@ -608,7 +595,7 @@ def build_ac():
   </div>
 </section>
 
-<section class="sec" id="faq">
+<section class="sec sec--tint" id="faq">
   <div class="wrap narrow">
     {sec_head("", "よくある質問", "業務用エアコンの、よくいただく質問です。")}
     {faq_html}
@@ -616,7 +603,13 @@ def build_ac():
   </div>
 </section>
 
-<section class="sec sec--tint" id="options">
+<section class="sec" id="form">
+  <div class="wrap">
+    {inquiry_form(d, "業務用エアコン")}
+  </div>
+</section>
+
+<section class="sec" id="options">
   <div class="wrap">
     {sec_head("", "一緒に頼めること", "エアコンと一緒に、まとめてご相談ください。")}
     <ul class="grid4 grid4--link">
@@ -625,12 +618,6 @@ def build_ac():
       <li><a href="{r}contact/{q('その他')}"><b>LED照明・換気設備</b><p>全熱交換器・除湿器も</p></a></li>
       <li><a href="{r}office-tech/"><b>防犯カメラ・複合機・電話</b><p>通信機器のページへ</p></a></li>
     </ul>
-  </div>
-</section>
-
-<section class="sec" id="form">
-  <div class="wrap">
-    {inquiry_form(d, "業務用エアコン")}
   </div>
 </section>
 """
@@ -879,8 +866,24 @@ def build_company():
     <p class="more-line"><a class="btn btn--line" href="{MAP}" target="_blank" rel="noopener">Google マップで見る</a></p>
   </div>
 </section>
+<section class="sec" id="next">
+  <div class="wrap">
+    {sec_head("", "ここまで読んでくださった方へ", "頼みたい方も、働きたい方も、ここから。")}
+    <ul class="cards cards--2">
+      <li class="card card--big"><a href="{r}contact/">
+        <img src="{r}assets/img/case-shop.jpg" alt="店舗の天井に設置した業務用エアコン" width="780" height="611" loading="lazy">
+        <div class="card__b"><p class="card__t">お見積り・ご相談</p><p>エアコン・防犯カメラ・複合機・工事のご相談。現地を見てからお見積りします。お見積りは無料です。</p><span class="more">無料で見積りを頼む</span></div>
+      </a></li>
+      <li class="card card--big"><a href="{r}recruit/">
+        <img src="{r}assets/img/recruit03.jpg" alt="天井のエアコンを点検する工事スタッフ" width="720" height="516" loading="lazy">
+        <div class="card__b"><p class="card__t">採用情報</p><p>工事スタッフ・営業職・テレフォンアポインター・管理職責任者の4職種を募集しています。</p><span class="more">募集中の仕事を見る</span></div>
+      </a></li>
+    </ul>
+    <p class="more-line center">お電話でも受け付けています　<a href="tel:{TEL_RAW}">{TEL}</a>（FAX {FAX}）</p>
+  </div>
+</section>
 """
-    return page("会社案内｜株式会社パーソンライト", p_company.DESC, d, "company", body, ld=jsonld())
+    return page("会社案内｜株式会社パーソンライト", p_company.DESC, d, "company", body, band=False, ld=jsonld())
 
 
 # ================================================================= 採用
@@ -900,14 +903,19 @@ def build_recruit():
     people = "".join(f"""<li><img src="{r}assets/img/{f}.jpg" alt="{role}　{n}" width="320" height="320" loading="lazy"><small>{role}</small><b>{n}</b><p>{m}</p></li>""" for f, role, n, m in STAFF[:12:2])
     body = f"""{crumb(d, [("採用情報", None)])}
 <section class="phero phero--recruit" id="top">
+  <div class="wrap phero__split">
+    <div>
+      <p class="en">RECRUIT</p>
+      <h1>天井に上がる人も、電話をかける人も、募集しています。</h1>
+      <p class="lead">自分から動ける人、新しいことに挑戦したい人を探しています。正社員は土日祝休み、年間休日120日です。</p>
+      <div class="cta-pair"><a class="btn btn--main" href="#jobs">募集中の仕事を見る</a><a class="btn btn--line" href="tel:{TEL_RAW}">電話で応募する　{TEL}</a></div>
+    </div>
+    <figure class="phero__fig"><img src="{r}assets/img/recruit03.jpg" alt="天井のエアコンを点検する工事スタッフ" width="720" height="516" fetchpriority="high"></figure>
+  </div>
   <div class="wrap">
-    <p class="en">RECRUIT</p>
-    <h1>天井に上がる人も、電話をかける人も、募集しています。</h1>
-    <p class="lead">自分から動ける人、新しいことに挑戦したい人を探しています。</p>
-    <div class="cta-pair"><a class="btn btn--main" href="#jobs">募集中の仕事を見る</a><a class="btn btn--line" href="#people">一緒に働く人を見る</a></div>
     <nav class="chips" aria-label="このページの目次"><ul>
-      <li><a href="#philosophy">理念</a></li><li><a href="#numbers">数字で見る</a></li><li><a href="#work">仕事を知る</a></li>
-      <li><a href="#people">人を知る</a></li><li><a href="#jobs">募集職種</a></li><li><a href="#faq">応募について</a></li>
+      <li><a href="#philosophy">理念</a></li><li><a href="#work">仕事を知る</a></li><li><a href="#people">人を知る</a></li>
+      <li><a href="#fit">来てほしい人</a></li><li><a href="#numbers">数字で見る</a></li><li><a href="#jobs">募集職種</a></li><li><a href="#faq">応募について</a></li>
     </ul></nav>
   </div>
 </section>
@@ -918,7 +926,39 @@ def build_recruit():
     <p class="sign">代表取締役社長　増子 佑</p>
   </div>
 </section>
-<section class="sec sec--tint" id="numbers">
+<section class="sec sec--tint" id="work">
+  <div class="wrap">
+    {sec_head("OUR WORK", "仕事を知る", "4つの部署で、仕事を分けています。")}
+    <ul class="grid4">
+      <li><b>環境部</b><p>空調設備やLED照明など、省エネにつながる商品を提案して販売します。</p></li>
+      <li><b>通信機器部</b><p>—</p></li>
+      <li><b>工事部</b><p>お店や会社、ご家庭のエアコンを取り付けます。電気工事・水回り工事も自社で行います。</p></li>
+      <li><b>総務</b><p>—</p></li>
+    </ul>
+    {tbd("通信機器部と総務の仕事の中身、テレフォンアポインターがどの部署か（旧サイトは部署名だけ）")}
+  </div>
+</section>
+<section class="sec" id="people">
+  <div class="wrap">
+    {sec_head("PEOPLE", "人を知る", "一緒に働いている人の、ひとことです。")}
+    <ul class="staff">{people}</ul>
+    <p class="more-line"><a class="more" href="{r}company/#members">スタッフ全員を見る</a></p>
+    {tbd("社員インタビュー（入った理由・一日の流れ）。手本はここを一番厚くしている")}
+  </div>
+</section>
+<section class="sec sec--tint" id="fit">
+  <div class="wrap">
+    {sec_head("", "来てほしい人", "経験より、自分から動けるかを見ています。")}
+    <ul class="grid2">
+      <li><b>自分から動ける人</b><p>言われるのを待たずに、現場やお客様のために次の手を考えられる人。</p></li>
+      <li><b>新しいことに挑戦したい人</b><p>空調から通信機器まで、扱う物が広い会社です。知らない仕事を覚えていくのを楽しめる人。</p></li>
+    </ul>
+    <h3 class="h3">職種ごとに要ること</h3>
+    <dl class="dl">{"".join(f"<div><dt>{j['name']}</dt><dd>{j['req']}</dd></div>" for j in JOBS)}</dl>
+    {tbd("合わない人（例：決まった作業だけをしたい人）を会社として言えるか。手本は「合わない人」まで書いて、応募の質と定着を上げている。上の2つの説明文も、代表の言葉で確かめる")}
+  </div>
+</section>
+<section class="sec" id="numbers">
   <div class="wrap">
     {sec_head("NUMBERS", "数字で見る", "パーソンライトを数字で見る")}
     <div class="nums nums--4">
@@ -931,33 +971,13 @@ def build_recruit():
     {tbd("平均年齢・男女の割合・未経験から入った人の数など、手本が「数字で見る」に置いている物で出せる数")}
   </div>
 </section>
-<section class="sec" id="work">
-  <div class="wrap">
-    {sec_head("OUR WORK", "仕事を知る", "4つの部署で、仕事を分けています。")}
-    <ul class="grid4">
-      <li><b>環境部</b><p>空調設備やLED照明など、省エネにつながる商品を提案して販売します。</p></li>
-      <li><b>通信機器部</b><p>—</p></li>
-      <li><b>工事部</b><p>お店や会社、ご家庭のエアコンを取り付けます。電気工事・水回り工事も自社で行います。</p></li>
-      <li><b>総務</b><p>—</p></li>
-    </ul>
-    {tbd("通信機器部と総務の仕事の中身、テレフォンアポインターがどの部署か（旧サイトは部署名だけ）")}
-  </div>
-</section>
-<section class="sec sec--tint" id="people">
-  <div class="wrap">
-    {sec_head("PEOPLE", "人を知る", "一緒に働いている人の、ひとことです。")}
-    <ul class="staff">{people}</ul>
-    <p class="more-line"><a class="more" href="{r}company/#members">スタッフ全員を見る</a></p>
-    {tbd("社員インタビュー（入った理由・一日の流れ）。手本はここを一番厚くしている")}
-  </div>
-</section>
-<section class="sec" id="jobs">
+<section class="sec sec--tint" id="jobs">
   <div class="wrap">
     {sec_head("POSITIONS", "募集職種", f"いま、{len(JOBS)}つの職種で募集しています。")}
     {job_cards(d)}
   </div>
 </section>
-<section class="sec sec--tint" id="faq">
+<section class="sec" id="faq">
   <div class="wrap narrow">
     {sec_head("FAQ", "応募について", "応募の前に、よくいただく質問です。")}
     {acc(RECRUIT_FAQ)}
